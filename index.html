@@ -104,7 +104,9 @@
         body, html { margin: 0; padding: 0; width: 100vw; height: 100vh; background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow: hidden; display: flex; }
         
         #editor-panel { width: 520px; height: 100vh; background: var(--panel-bg); display: flex; flex-direction: column; z-index: 50; border-right: 1px solid #2a2b3d; box-shadow: 2px 0 15px rgba(0,0,0,0.5); }
-        .header { text-align:center; padding:15px 12px 14px; border-bottom:1px solid #2a2b3d; line-height:1.08; }
+        .header { position:relative; min-height:88px; text-align:center; padding:18px 82px 14px 86px; border-bottom:1px solid #2a2b3d; line-height:1.08; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+        .editor-logo { position:absolute; left:15px; top:50%; width:60px; height:60px; object-fit:contain; transform:translateY(-50%); filter:drop-shadow(0 0 5px #00f0ff) drop-shadow(0 0 13px rgba(0,240,255,.92)); transition:filter .25s ease, transform .25s ease; }
+        .editor-logo:hover { transform:translateY(-50%) scale(1.06); filter:drop-shadow(0 0 7px #00f0ff) drop-shadow(0 0 20px rgba(0,240,255,1)); }
         .editor-title-main { display:block; font-size:21px; font-weight:800; letter-spacing:.3px; }
         .editor-title-white { color:#fff; text-shadow:0 0 7px rgba(255,255,255,.75), 0 0 16px rgba(255,255,255,.28); }
         .editor-title-accent, .editor-brand-accent { color:var(--active-tab-color); text-shadow:0 0 7px var(--active-tab-color), 0 0 18px var(--active-tab-color); transition:color .25s ease,text-shadow .25s ease; }
@@ -380,7 +382,9 @@
         .code-privacy-note { margin:5px 0 12px; color:#9da0b3; font-size:11px; line-height:1.4; }
         body.game-export #editor-panel,
         body.game-export .screen-tabs { display:none !important; }
-        body.game-export #main-area { width:100vw !important; height:100vh !important; flex:1 1 auto; }
+        html:has(body.game-export), body.game-export { width:100% !important; height:100% !important; overflow:hidden !important; }
+        body.game-export { display:block !important; position:relative !important; background:#05070d center/cover no-repeat !important; }
+        body.game-export #main-area { position:absolute !important; left:50% !important; top:50% !important; flex:none !important; transform-origin:center center !important; overflow:hidden !important; }
         body.game-export .screen-container { top:0 !important; height:100% !important; }
         body.game-export #scr-game { cursor:default; }
 
@@ -390,6 +394,7 @@
 
     <div id="editor-panel">
         <div class="header">
+            <img class="editor-logo" src="https://img.genially.com/67961b32a116fb001568a75e/673752a5-8d4d-40d1-9b5f-f04ebd91a27c.png" alt="English Bootcamp">
             <span class="editor-title-main"><span class="editor-title-accent">Destroy the Wall Editor</span></span>
             <span class="editor-title-by editor-title-white">By English Bootcamp</span>
         </div>
@@ -724,7 +729,6 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             </div>
 
             <div class="group-title">ЭКСПОРТ ГОТОВОЙ ИГРЫ</div>
-            <p style="font-size:12px; line-height:1.45; color:#b9bbca;">Кнопка создаёт два варианта: защищённый iframe-код для вставки в Genially и самостоятельный HTML-код игры. Полный код скрыт в невысоких полях и раскрывается только при прокрутке.</p>
             <button class="code-action-btn" style="background:#00bfd2;color:#061316;" onclick="generateStandaloneCode()">🚀 СГЕНЕРИРОВАТЬ КОД ИГРЫ</button>
             <div id="code-status" style="min-height:22px;color:#76ff9b;font-size:12px;margin:6px 0;"></div>
 
@@ -740,7 +744,6 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                 <button class="copy-mini-btn" onclick="copyCodeOutput('generated-html-code','HTML-код скопирован')">КОПИРОВАТЬ</button>
             </div>
             <button class="code-action-btn" style="background:#ffb02e;color:#171006;" onclick="downloadGeneratedGame()">⬇ СКАЧАТЬ HTML-ФАЙЛ</button>
-            <div class="code-privacy-note">Защищённый вариант содержит игру внутри iframe и не показывает адрес площадки, на которой расположен редактор.</div>
         </div>
        
 
@@ -1337,11 +1340,28 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             });
         }
 
+        function getExportDesignSize() {
+            const main = document.getElementById('main-area');
+            const tabs = document.querySelector('.screen-tabs');
+            const mainRect = main?.getBoundingClientRect();
+            const tabsHeight = tabs?.getBoundingClientRect().height || 45;
+            return {
+                width: Math.max(640, Math.round(mainRect?.width || 1280)),
+                height: Math.max(360, Math.round((mainRect?.height || 765) - tabsHeight))
+            };
+        }
+
         function buildStandaloneGameHtml() {
             parseAutoQuestions();
+            const designSize = getExportDesignSize();
             const clone = document.documentElement.cloneNode(true);
             syncFormStateIntoClone(clone);
-            clone.querySelector('body')?.classList.add('game-export');
+            const cloneBody = clone.querySelector('body');
+            cloneBody?.classList.add('game-export');
+            if (cloneBody) {
+                cloneBody.dataset.exportDesignWidth = String(designSize.width);
+                cloneBody.dataset.exportDesignHeight = String(designSize.height);
+            }
             ['generated-iframe-code','generated-html-code','code-status','save-status','save-status-bottom'].forEach(id => {
                 const node = clone.querySelector('#' + id);
                 if (node) {
@@ -1363,11 +1383,11 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             }
 
             const exportStyle = document.createElement('style');
-            exportStyle.textContent = `body.game-export #editor-panel,body.game-export .screen-tabs{display:none!important}body.game-export #main-area{width:100vw!important;height:100vh!important}body.game-export .screen-container{top:0!important;height:100%!important}`;
+            exportStyle.textContent = `html,body{width:100%;height:100%;margin:0;overflow:hidden}body.game-export{display:block!important;position:relative!important;background:#05070d center/cover no-repeat!important}body.game-export #editor-panel,body.game-export .screen-tabs{display:none!important}body.game-export #main-area{position:absolute!important;left:50%!important;top:50%!important;width:${designSize.width}px!important;height:${designSize.height}px!important;flex:none!important;transform-origin:center center!important;overflow:hidden!important}body.game-export .screen-container{top:0!important;height:100%!important}`;
             clone.querySelector('head').appendChild(exportStyle);
 
             const boot = document.createElement('script');
-            boot.textContent = `window.addEventListener('load',()=>{document.body.classList.add('game-export');try{stopTestSession({restore:false,rebuild:false})}catch(e){};try{switchScreen('scr-start')}catch(e){};document.getElementById('scr-game')?.classList.remove('editor-mode');if(document.getElementById('math-enabled')?.checked){setTimeout(()=>typesetMath([document.getElementById('preview-q-box')]),100)}});`;
+            boot.textContent = `(function(){function fitDestroyWallGame(){var body=document.body,main=document.getElementById('main-area');if(!main)return;var dw=Number(body.dataset.exportDesignWidth)||${designSize.width},dh=Number(body.dataset.exportDesignHeight)||${designSize.height};var scale=Math.min(window.innerWidth/dw,window.innerHeight/dh);if(!Number.isFinite(scale)||scale<=0)scale=1;window.__destroyWallExportScale=scale;main.style.width=dw+'px';main.style.height=dh+'px';main.style.transform='translate(-50%,-50%) scale('+scale+')';var computed=getComputedStyle(main);body.style.backgroundImage=computed.backgroundImage;body.style.backgroundPosition='center';body.style.backgroundSize='cover';body.style.backgroundRepeat='no-repeat'}window.fitDestroyWallGame=fitDestroyWallGame;window.addEventListener('resize',fitDestroyWallGame);window.addEventListener('load',function(){document.body.classList.add('game-export');try{stopTestSession({restore:false,rebuild:false})}catch(e){}try{switchScreen('scr-start')}catch(e){}document.getElementById('scr-game')?.classList.remove('editor-mode');fitDestroyWallGame();setTimeout(fitDestroyWallGame,120);if(document.getElementById('math-enabled')?.checked){setTimeout(function(){typesetMath([document.getElementById('preview-q-box')])},100)}})})();`;
             clone.querySelector('body').appendChild(boot);
             return '<!DOCTYPE html>\n' + clone.outerHTML;
         }
@@ -1386,7 +1406,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             const payload = stringToBase64Utf8(gameHtml);
             const boxId = 'destroy-wall-game-' + Date.now().toString(36);
             // Самостоятельный srcdoc/Blob-вариант: адрес хостинга редактора в код не выводится.
-            return `<div id="${boxId}" style="width:100%;height:100%;min-height:520px;overflow:hidden;"></div>\n<script>(function(){var p='${payload}',b=Uint8Array.from(atob(p),function(c){return c.charCodeAt(0)}),h=new TextDecoder().decode(b),f=document.createElement('iframe');f.title='Destroy the Wall';f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.style.cssText='width:100%;height:100%;min-height:520px;border:0;display:block;overflow:hidden';f.src=URL.createObjectURL(new Blob([h],{type:'text/html;charset=utf-8'}));document.getElementById('${boxId}').appendChild(f)})();<\/script>`;
+            return `<div id="${boxId}" style="position:relative;width:100%;height:100%;overflow:hidden;background:#05070d;"></div>\n<script>(function(){var p='${payload}',b=Uint8Array.from(atob(p),function(c){return c.charCodeAt(0)}),h=new TextDecoder().decode(b),f=document.createElement('iframe'),box=document.getElementById('${boxId}');f.title='Destroy the Wall';f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.setAttribute('scrolling','no');f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;display:block;overflow:hidden;background:#05070d';f.src=URL.createObjectURL(new Blob([h],{type:'text/html;charset=utf-8'}));box.appendChild(f)})();<\/script>`;
         }
 
         function generateStandaloneCode() {
@@ -1737,10 +1757,13 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         }
 
         window.onload = () => {
+            const isExportedGame = document.body.classList.contains('game-export');
             let opts = fonts.map(f => `<option value="${f.v}" style="font-family: ${f.v}">${f.n}</option>`).join('');
             document.querySelectorAll('.font-select').forEach(sel => sel.innerHTML = opts);
             for (let k in presets) { const c = document.getElementById(`card-${k}`); if (c) c.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.6)), url('${URL_BASE + presets[k].preview}')`; }
-            applyPreset('normal');
+            // В экспортированной игре CSS-переменные уже содержат выбранный пользователем набор кирпичей.
+            // Не применяем normal повторно, иначе пресет сбрасывается внутри iframe.
+            if (!isExportedGame) applyPreset('normal');
             syncTexts();
             buildWall();
             initDragDrop();
@@ -1750,14 +1773,17 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             updateFireworksVolumeLabel();
             activateEditorTab(document.querySelector('.tab-btn.active'));
 
-            const restored = restoreAutosavedProject();
+            const restored = isExportedGame ? false : restoreAutosavedProject();
             if (!restored && document.getElementById('questions-list').children.length === 0) {
                 parseAutoQuestions({ preserveImages: false });
             }
             checkQuestionCount();
             toggleMathSupport();
-            setTimeout(updateRubberBands, 200);
-            startAutosave();
+            setTimeout(() => {
+                updateRubberBands();
+                if (isExportedGame && typeof window.fitDestroyWallGame === 'function') window.fitDestroyWallGame();
+            }, 200);
+            if (!isExportedGame) startAutosave();
         };
 
         function applyPreset(key) {
@@ -2066,7 +2092,12 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         
         window.addEventListener('mousemove', e => {
             if(!isAiming) return;
-            let rect = document.getElementById('scr-game').getBoundingClientRect(); let mx = e.clientX - rect.left; let my = e.clientY - rect.top;
+            const gameScreen = document.getElementById('scr-game');
+            const rect = gameScreen.getBoundingClientRect();
+            const scaleX = rect.width > 0 ? gameScreen.offsetWidth / rect.width : 1;
+            const scaleY = rect.height > 0 ? gameScreen.offsetHeight / rect.height : 1;
+            let mx = (e.clientX - rect.left) * scaleX;
+            let my = (e.clientY - rect.top) * scaleY;
             let dx = mx - ox; let dy = my - oy; let dist = Math.sqrt(dx*dx + dy*dy);
             if(dist > 250) { mx = ox + (dx/dist)*250; my = oy + (dy/dist)*250; } 
             anchor.style.left = (mx - anchor.offsetWidth/2) + 'px'; anchor.style.top = (my - anchor.offsetHeight/2) + 'px';
@@ -2753,6 +2784,25 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             if(canvas){ const c=canvas.getContext('2d'); c.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
         }
 
+    </script>
+    <script>
+        // Базовая защита от случайного просмотра кода. Она затрудняет обычный правый клик
+        // и популярные горячие клавиши, но не заменяет серверную защиту исходников.
+        document.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+            return false;
+        });
+        document.addEventListener('keydown', function (event) {
+            const key = String(event.key || '').toLowerCase();
+            const blocked = key === 'f12' ||
+                (event.ctrlKey && event.shiftKey && (key === 'i' || key === 'j')) ||
+                (event.ctrlKey && key === 'u');
+            if (blocked) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        }, true);
     </script>
 </body>
 </html>
