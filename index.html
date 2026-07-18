@@ -109,6 +109,7 @@
         .editor-title-white { color:#fff; text-shadow:0 0 7px rgba(255,255,255,.75), 0 0 16px rgba(255,255,255,.28); }
         .editor-title-accent, .editor-brand-accent { color:var(--active-tab-color); text-shadow:0 0 7px var(--active-tab-color), 0 0 18px var(--active-tab-color); transition:color .25s ease,text-shadow .25s ease; }
         .editor-title-by { display:block; margin-top:5px; color:#d5d6e3; font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; }
+        .editor-title-by.editor-title-white { color:#fff; text-shadow:0 0 7px rgba(255,255,255,.85), 0 0 16px rgba(255,255,255,.38); }
 
         .tabs-header { display:flex; flex-wrap:wrap; background:#151623; border-bottom:2px solid #2a2b3d; font-size:11px; text-transform:uppercase; font-weight:700; }
         .tab-btn { --tab-color:var(--neon-cyan); flex:1 1 30%; padding:12px 5px; text-align:center; cursor:pointer; color:#7d7f99; transition:.22s ease; border-bottom:2px solid transparent; }
@@ -361,9 +362,22 @@
         .latex-copy-status { min-height:22px; margin-top:10px; color:#76ff9b; font-size:14px; font-weight:600; }
         .math-preview-note { color:#9da0b3; font-size:14px; line-height:1.45; }
 
-        /* ===== ГЕНЕРАТОР ИТОГОВОЙ ИГРЫ ===== */
-        .code-action-btn { width:100%; padding:13px; margin:6px 0; border:0; border-radius:7px; cursor:pointer; font-weight:800; }
-        #generated-code { width:100%; min-height:260px; resize:vertical; padding:10px; background:#0b0c12; color:#d8faff; border:1px solid #3a3b50; border-radius:7px; font:12px/1.45 monospace; }
+        /* ===== УПРАВЛЕНИЕ ПРОЕКТОМ И ЭКСПОРТ ===== */
+        .project-manager {
+            margin-bottom:18px; padding:14px; border:1px solid color-mix(in srgb, var(--tab-code-color) 72%, #fff 8%);
+            border-radius:10px; background:rgba(255,255,255,.025); box-shadow:inset 0 0 18px rgba(255,79,216,.045);
+        }
+        .project-manager-title { margin:0 0 10px; font-size:16px; font-weight:800; color:var(--tab-code-color); text-shadow:0 0 8px var(--tab-code-color); }
+        .autosave-note { margin:0 0 12px; padding:10px 12px; border-left:3px solid #39ff14; border-radius:6px; background:rgba(57,255,20,.09); color:#d9ffe0; font-size:12px; line-height:1.45; }
+        .project-action-btn, .code-action-btn { width:100%; padding:12px; margin:5px 0; border:0; border-radius:7px; cursor:pointer; font-weight:800; transition:.2s ease; }
+        .project-action-btn:hover, .code-action-btn:hover { transform:translateY(-1px); filter:brightness(1.08); box-shadow:0 0 12px rgba(255,255,255,.16); }
+        #save-status { display:block; min-height:21px; margin-top:7px; color:#76ff9b; font-size:13px; font-weight:800; text-align:center; text-shadow:0 0 8px rgba(57,255,20,.55); }
+        .export-section-title { margin:18px 0 8px; font-size:15px; font-weight:800; color:var(--tab-code-color); text-shadow:0 0 8px var(--tab-code-color); }
+        .code-output-row { display:grid; grid-template-columns:minmax(0,1fr) 108px; gap:10px; align-items:stretch; margin:8px 0 14px; }
+        .code-mini-output { width:100%; height:78px; min-height:78px; max-height:78px; resize:none; overflow:auto; padding:8px 9px; background:#0b0c12; color:#d8faff; border:1px solid #3a3b50; border-radius:7px; font:10px/1.3 monospace; scrollbar-width:thin; }
+        .copy-mini-btn { border:0; border-radius:7px; background:#2fc15f; color:#fff; font-size:12px; font-weight:800; cursor:pointer; }
+        .copy-mini-btn:hover { filter:brightness(1.08); box-shadow:0 0 11px rgba(47,193,95,.42); }
+        .code-privacy-note { margin:5px 0 12px; color:#9da0b3; font-size:11px; line-height:1.4; }
         body.game-export #editor-panel,
         body.game-export .screen-tabs { display:none !important; }
         body.game-export #main-area { width:100vw !important; height:100vh !important; flex:1 1 auto; }
@@ -376,8 +390,8 @@
 
     <div id="editor-panel">
         <div class="header">
-            <span class="editor-title-main"><span class="editor-title-white">Destroy the Wall</span> <span class="editor-title-accent">Editor</span></span>
-            <span class="editor-title-by">By <span class="editor-brand-accent">English Bootcamp</span></span>
+            <span class="editor-title-main"><span class="editor-title-accent">Destroy the Wall Editor</span></span>
+            <span class="editor-title-by editor-title-white">By English Bootcamp</span>
         </div>
         
         <div class="tabs-header">
@@ -698,15 +712,36 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         </div>
 
         <div id="tab-code" class="tab-content">
-            <div class="group-title" style="color:var(--neon-cyan);">ИТОГОВАЯ ИГРА</div>
-            <p style="font-size:14px; line-height:1.5; color:#b9bbca;">Сформируйте самостоятельный HTML-файл игры. Если математические формулы включены, в его &lt;head&gt; автоматически добавится MathJax; если выключены — библиотека не добавляется.</p>
-            <button class="code-action-btn" style="background:var(--neon-green); color:#071006;" onclick="generateStandaloneCode()">СФОРМИРОВАТЬ HTML-КОД</button>
-            <button class="code-action-btn" style="background:#00b8d4; color:#071014;" onclick="copyGeneratedCode()">КОПИРОВАТЬ КОД</button>
-            <button class="code-action-btn" style="background:#ffb02e; color:#171006;" onclick="downloadGeneratedGame()">СКАЧАТЬ HTML-ФАЙЛ</button>
-            <div id="code-status" style="min-height:22px; color:#76ff9b; font-size:13px; margin:5px 0;"></div>
-            <textarea id="generated-code" readonly placeholder="Здесь появится полный HTML-код итоговой игры..."></textarea>
-        </div>
+            <div class="project-manager">
+                <div class="project-manager-title">УПРАВЛЕНИЕ ПРОЕКТОМ</div>
+                <div class="autosave-note"><b>Автосохранение:</b> изменения автоматически сохраняются в этом браузере каждые 3 секунды. Для надёжного переноса проекта на другой компьютер скачивайте резервный JSON-файл.</div>
+                <button class="project-action-btn" style="background:#27ae60;color:#fff;" onclick="downloadProjectFile()">💾 СКАЧАТЬ ПРОЕКТ (.JSON)</button>
+                <label class="project-action-btn" style="display:block;text-align:center;background:#ff9f0a;color:#fff;">📂 ЗАГРУЗИТЬ ПРОЕКТ
+                    <input id="project-file-input" type="file" accept="application/json,.json" onchange="loadProjectFromFile(this)" style="display:none;">
+                </label>
+                <button class="project-action-btn" style="background:#ff3b30;color:#fff;" onclick="resetProject()">🗑 СБРОСИТЬ ВСЁ</button>
+                <span id="save-status" aria-live="polite"></span>
+            </div>
 
+            <div class="group-title">ЭКСПОРТ ГОТОВОЙ ИГРЫ</div>
+            <p style="font-size:12px; line-height:1.45; color:#b9bbca;">Кнопка создаёт два варианта: защищённый iframe-код для вставки в Genially и самостоятельный HTML-код игры. Полный код скрыт в невысоких полях и раскрывается только при прокрутке.</p>
+            <button class="code-action-btn" style="background:#00bfd2;color:#061316;" onclick="generateStandaloneCode()">🚀 СГЕНЕРИРОВАТЬ КОД ИГРЫ</button>
+            <div id="code-status" style="min-height:22px;color:#76ff9b;font-size:12px;margin:6px 0;"></div>
+
+            <div class="export-section-title">1. Защищённый iframe-код для Genially</div>
+            <div class="code-output-row">
+                <textarea id="generated-iframe-code" class="code-mini-output" readonly placeholder="После генерации здесь появится iframe-код..."></textarea>
+                <button class="copy-mini-btn" onclick="copyCodeOutput('generated-iframe-code','iframe-код скопирован')">КОПИРОВАТЬ</button>
+            </div>
+
+            <div class="export-section-title">2. Чистый HTML-код</div>
+            <div class="code-output-row">
+                <textarea id="generated-html-code" class="code-mini-output" readonly placeholder="После генерации здесь появится HTML-код..."></textarea>
+                <button class="copy-mini-btn" onclick="copyCodeOutput('generated-html-code','HTML-код скопирован')">КОПИРОВАТЬ</button>
+            </div>
+            <button class="code-action-btn" style="background:#ffb02e;color:#171006;" onclick="downloadGeneratedGame()">⬇ СКАЧАТЬ HTML-ФАЙЛ</button>
+            <div class="code-privacy-note">Защищённый вариант содержит игру внутри iframe и не показывает адрес площадки, на которой расположен редактор.</div>
+        </div>
        
 
         <div id="tab-sounds" class="tab-content">
@@ -829,7 +864,8 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         </div>
 
         <button id="test-btn" onclick="toggleTestMode()">▶ ТЕСТИРОВАТЬ ИГРУ</button>
-        <div style="font-size: 9px; color: #666; text-align: center; margin-top: auto; padding: 10px;">© Все права принадлежат Башлыковой Оксане Михайловне</div>
+        <div id="save-status-bottom" style="min-height:18px;font-size:11px;color:#76ff9b;text-align:center;padding-top:5px;font-weight:700;"></div>
+        <div style="font-size: 9px; color: #666; text-align: center; margin-top: auto; padding: 8px 10px 10px;">© Все права принадлежат Башлыковой Оксане Михайловне</div>
     </div>
 
     <div id="main-area">
@@ -966,6 +1002,203 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         let latexCopyStatusTimer = null;
         let winFallbackTimer = null;
         let happyCharactersTimer = null;
+
+        const PROJECT_STORAGE_KEY = 'destroyTheWallEditorProjectV5';
+        const PROJECT_VERSION = 5;
+        let projectDirty = true;
+        let autosaveTimer = null;
+        let saveStatusTimer = null;
+        let restoringProject = false;
+
+        function markProjectDirty() {
+            if (!restoringProject && !document.body.classList.contains('game-export')) projectDirty = true;
+        }
+
+        function assignAutosaveKeys() {
+            let anonymousIndex = 0;
+            document.querySelectorAll('#editor-panel input, #editor-panel select, #editor-panel textarea').forEach(control => {
+                if (control.type === 'file' || control.closest('#questions-list') || ['generated-iframe-code','generated-html-code'].includes(control.id)) return;
+                control.dataset.autosaveKey = control.id ? 'id:' + control.id : 'auto:' + anonymousIndex++;
+            });
+        }
+
+        function serializeProjectState() {
+            assignAutosaveKeys();
+            const controls = {};
+            document.querySelectorAll('#editor-panel [data-autosave-key]').forEach(control => {
+                const key = control.dataset.autosaveKey;
+                controls[key] = (control.type === 'checkbox' || control.type === 'radio') ? !!control.checked : control.value;
+            });
+            const questions = Array.from(document.querySelectorAll('#questions-list .question-card')).map(card => ({
+                text: card.querySelector('.q-text-area')?.value || '',
+                image: card.querySelector('.q-url-input')?.value || ''
+            }));
+            const layout = {};
+            document.querySelectorAll('.editable[id], .sling-anchor-point[id]').forEach(el => { layout[el.id] = el.getAttribute('style') || ''; });
+            return {
+                app: 'Destroy the Wall Editor',
+                version: PROJECT_VERSION,
+                savedAt: new Date().toISOString(),
+                controls,
+                questions,
+                rootStyle: document.documentElement.getAttribute('style') || '',
+                layout,
+                activeEditorTab: document.querySelector('.tab-btn.active')?.dataset.tab || 'tab-screens',
+                activeScreen: document.querySelector('.screen-container.active')?.id || 'scr-start'
+            };
+        }
+
+        function showSaveStatus(message = '✅ Сохранено', isError = false) {
+            clearTimeout(saveStatusTimer);
+            ['save-status','save-status-bottom'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = message;
+                el.style.color = isError ? '#ff4b55' : '#76ff9b';
+                el.style.textShadow = isError ? '0 0 8px rgba(255,45,65,.75)' : '0 0 8px rgba(57,255,20,.55)';
+            });
+            saveStatusTimer = setTimeout(() => {
+                ['save-status','save-status-bottom'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = ''; });
+            }, 2000);
+        }
+
+        function saveProjectToLocalStorage(force = false) {
+            if (document.body.classList.contains('game-export') || restoringProject || (!projectDirty && !force)) return false;
+            try {
+                localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(serializeProjectState()));
+                projectDirty = false;
+                showSaveStatus('✅ Сохранено');
+                return true;
+            } catch (error) {
+                console.warn('Autosave error:', error);
+                showSaveStatus('⚠️ Автосохранение не выполнено: хранилище переполнено', true);
+                return false;
+            }
+        }
+
+        function applyControlValue(control, value) {
+            if (!control) return;
+            if (control.type === 'checkbox' || control.type === 'radio') control.checked = !!value;
+            else control.value = value ?? '';
+        }
+
+        function restoreProjectState(state) {
+            if (!state || state.app !== 'Destroy the Wall Editor' || !state.controls) return false;
+            restoringProject = true;
+            try {
+                assignAutosaveKeys();
+                Object.entries(state.controls).forEach(([key, value]) => {
+                    const control = key.startsWith('id:')
+                        ? document.getElementById(key.slice(3))
+                        : document.querySelector(`[data-autosave-key="${CSS.escape(key)}"]`);
+                    applyControlValue(control, value);
+                });
+                if (typeof state.rootStyle === 'string') document.documentElement.setAttribute('style', state.rootStyle);
+                if (Array.isArray(state.questions) && state.questions.length) {
+                    document.getElementById('questions-list').innerHTML = '';
+                    state.questions.forEach(item => addQuestionUI(detectQuestionType(item.text), item.text, item.image || ''));
+                }
+                if (state.layout) {
+                    Object.entries(state.layout).forEach(([id, style]) => {
+                        const el = document.getElementById(id);
+                        if (el && typeof style === 'string') el.setAttribute('style', style);
+                    });
+                }
+
+                syncTexts();
+                updateBackground();
+                updateSlingStyle();
+                updateAmmoUI();
+                buildWall();
+                toggleFireworkColorRow();
+                updateFireworksVolumeLabel();
+                toggleMathSupport();
+                refreshQuestionPreview();
+                checkQuestionCount();
+                const tab = document.querySelector(`.tab-btn[data-tab="${state.activeEditorTab || 'tab-screens'}"]`);
+                activateEditorTab(tab || document.querySelector('.tab-btn'));
+                const screen = document.getElementById(state.activeScreen || 'scr-start');
+                if (screen) switchScreen(screen.id);
+                setTimeout(updateRubberBands, 80);
+                projectDirty = false;
+                return true;
+            } finally {
+                restoringProject = false;
+            }
+        }
+
+        function restoreAutosavedProject() {
+            if (document.body.classList.contains('game-export')) return false;
+            try {
+                const raw = localStorage.getItem(PROJECT_STORAGE_KEY);
+                if (!raw) return false;
+                return restoreProjectState(JSON.parse(raw));
+            } catch (error) {
+                console.warn('Project restore error:', error);
+                return false;
+            }
+        }
+
+        function startAutosave() {
+            if (document.body.classList.contains('game-export')) return;
+            clearInterval(autosaveTimer);
+            document.getElementById('editor-panel')?.addEventListener('input', markProjectDirty, true);
+            document.getElementById('editor-panel')?.addEventListener('change', markProjectDirty, true);
+            document.getElementById('editor-panel')?.addEventListener('click', event => {
+                if (event.target.closest('button,.preset-card,.file-btn,.latex-btn')) markProjectDirty();
+            }, true);
+            window.addEventListener('mouseup', markProjectDirty, true);
+            autosaveTimer = setInterval(() => saveProjectToLocalStorage(false), 3000);
+        }
+
+        function downloadProjectFile() {
+            const state = serializeProjectState();
+            try { localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(state)); projectDirty = false; } catch (e) {}
+            const blob = new Blob([JSON.stringify(state, null, 2)], { type:'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'destroy-the-wall-project.json';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1200);
+            showSaveStatus('✅ Проект скачан');
+        }
+
+        function loadProjectFromFile(input) {
+            const file = input?.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const state = JSON.parse(String(reader.result || ''));
+                    if (state.app !== 'Destroy the Wall Editor' || !state.controls) throw new Error('Неверный формат проекта');
+                    localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(state));
+                    location.reload();
+                } catch (error) {
+                    alert('Не удалось загрузить проект. Проверьте, что выбран корректный JSON-файл редактора.');
+                    input.value = '';
+                }
+            };
+            reader.onerror = () => alert('Не удалось прочитать файл проекта.');
+            reader.readAsText(file, 'utf-8');
+        }
+
+        function resetProject() {
+            if (!confirm('Сбросить весь проект? Все несохранённые настройки и вопросы будут удалены.')) return;
+            localStorage.removeItem(PROJECT_STORAGE_KEY);
+            location.reload();
+        }
+
+        function readFileAsDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result || ''));
+                reader.onerror = () => reject(reader.error || new Error('FileReader error'));
+                reader.readAsDataURL(file);
+            });
+        }
 
         function audioCtx() {
             if (!sharedAudioCtx && AudioContextClass) sharedAudioCtx = new AudioContextClass();
@@ -1109,14 +1342,19 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             const clone = document.documentElement.cloneNode(true);
             syncFormStateIntoClone(clone);
             clone.querySelector('body')?.classList.add('game-export');
-            clone.querySelector('#generated-code') && (clone.querySelector('#generated-code').textContent = '');
-            clone.querySelector('#code-status') && (clone.querySelector('#code-status').textContent = '');
+            ['generated-iframe-code','generated-html-code','code-status','save-status','save-status-bottom'].forEach(id => {
+                const node = clone.querySelector('#' + id);
+                if (node) {
+                    if ('value' in node) node.value = '';
+                    node.textContent = '';
+                }
+            });
             clone.querySelectorAll('#mathjax-runtime-script, #MathJax-script, #MathJax-config').forEach(node => node.remove());
 
             if (formulasEnabled()) {
                 const config = document.createElement('script');
                 config.id = 'MathJax-config';
-                config.textContent = `window.MathJax={tex:{inlineMath:[['$','$'],['\\\\(','\\\\)']],displayMath:[['$$','$$'],['\\\\[','\\\\]']],processEscapes:true},startup:{typeset:false}};`;
+                config.textContent = `window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true},startup:{typeset:false}};`;
                 const script = document.createElement('script');
                 script.id = 'MathJax-script';
                 script.setAttribute('defer', '');
@@ -1134,32 +1372,59 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             return '<!DOCTYPE html>\n' + clone.outerHTML;
         }
 
+        function stringToBase64Utf8(value) {
+            const bytes = new TextEncoder().encode(value);
+            let binary = '';
+            const chunk = 0x8000;
+            for (let i = 0; i < bytes.length; i += chunk) {
+                binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+            }
+            return btoa(binary);
+        }
+
+        function buildProtectedIframeCode(gameHtml) {
+            const payload = stringToBase64Utf8(gameHtml);
+            const boxId = 'destroy-wall-game-' + Date.now().toString(36);
+            // Самостоятельный srcdoc/Blob-вариант: адрес хостинга редактора в код не выводится.
+            return `<div id="${boxId}" style="width:100%;height:100%;min-height:520px;overflow:hidden;"></div>\n<script>(function(){var p='${payload}',b=Uint8Array.from(atob(p),function(c){return c.charCodeAt(0)}),h=new TextDecoder().decode(b),f=document.createElement('iframe');f.title='Destroy the Wall';f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.style.cssText='width:100%;height:100%;min-height:520px;border:0;display:block;overflow:hidden';f.src=URL.createObjectURL(new Blob([h],{type:'text/html;charset=utf-8'}));document.getElementById('${boxId}').appendChild(f)})();<\/script>`;
+        }
+
         function generateStandaloneCode() {
-            const code = buildStandaloneGameHtml();
-            const output = document.getElementById('generated-code');
-            if (output) output.value = code;
+            const html = buildStandaloneGameHtml();
+            const iframeCode = buildProtectedIframeCode(html);
+            const htmlOutput = document.getElementById('generated-html-code');
+            const iframeOutput = document.getElementById('generated-iframe-code');
+            if (htmlOutput) htmlOutput.value = html;
+            if (iframeOutput) iframeOutput.value = iframeCode;
             const status = document.getElementById('code-status');
             if (status) status.textContent = formulasEnabled()
-                ? 'HTML сформирован. MathJax добавлен в <head>.'
-                : 'HTML сформирован без MathJax.';
-            return code;
+                ? 'Коды сформированы. MathJax включён в итоговую игру.'
+                : 'Коды сформированы без MathJax.';
+            markProjectDirty();
+            return html;
+        }
+
+        async function copyCodeOutput(id, successText) {
+            const field = document.getElementById(id);
+            if (!field?.value) generateStandaloneCode();
+            const value = document.getElementById(id)?.value || '';
+            const ok = await copyTextToClipboard(value);
+            const status = document.getElementById('code-status');
+            if (status) status.textContent = ok ? '✅ ' + successText : 'Не удалось скопировать автоматически.';
         }
 
         async function copyGeneratedCode() {
-            const output = document.getElementById('generated-code');
-            const code = output?.value || generateStandaloneCode();
-            const ok = await copyTextToClipboard(code);
-            const status = document.getElementById('code-status');
-            if (status) status.textContent = ok ? 'Полный HTML-код скопирован.' : 'Не удалось скопировать автоматически.';
+            return copyCodeOutput('generated-html-code', 'HTML-код скопирован');
         }
 
         function downloadGeneratedGame() {
-            const code = document.getElementById('generated-code')?.value || generateStandaloneCode();
+            const field = document.getElementById('generated-html-code');
+            const code = field?.value || generateStandaloneCode();
             const blob = new Blob([code], { type:'text/html;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'wall-game.html';
+            link.download = 'destroy-the-wall-game.html';
             document.body.appendChild(link);
             link.click();
             link.remove();
@@ -1426,7 +1691,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             if (inputId) { const input = document.getElementById(inputId); if (input) input.value = url; }
         }
 
-        function handleCharacterFile(event, cssVar, inputId) {
+        async function handleCharacterFile(event, cssVar, inputId) {
             const file = event.target.files?.[0];
             if (!file) return;
             if (file.size > 2 * 1024 * 1024) {
@@ -1434,20 +1699,20 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                 event.target.value = '';
                 return;
             }
-            const url = URL.createObjectURL(file);
-            setCharacterPreset(cssVar, url, inputId);
+            try { setCharacterPreset(cssVar, await readFileAsDataUrl(file), inputId); markProjectDirty(); }
+            catch (e) { alert('Не удалось прочитать изображение.'); }
         }
 
-        function handleWeaponFile(e) {
-            const file = e.target.files[0]; 
-            if (!file) return; 
-            if (file.size > 2 * 1024 * 1024) { 
-                alert("Ошибка! Размер картинки превышает 2 МБ."); 
-                e.target.value = ""; 
-                return; 
-            } 
-            const url = URL.createObjectURL(file);
-            setWeapon(url, null);
+        async function handleWeaponFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) {
+                alert("Ошибка! Размер картинки превышает 2 МБ.");
+                e.target.value = "";
+                return;
+            }
+            try { setWeapon(await readFileAsDataUrl(file), null); markProjectDirty(); }
+            catch (error) { alert('Не удалось прочитать изображение.'); }
         }
 
         function updateBackground() {
@@ -1475,13 +1740,24 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             let opts = fonts.map(f => `<option value="${f.v}" style="font-family: ${f.v}">${f.n}</option>`).join('');
             document.querySelectorAll('.font-select').forEach(sel => sel.innerHTML = opts);
             for (let k in presets) { const c = document.getElementById(`card-${k}`); if (c) c.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.6)), url('${URL_BASE + presets[k].preview}')`; }
-            applyPreset('normal'); syncTexts(); buildWall(); initDragDrop(); setTimeout(updateRubberBands, 200); updateBackground(); updateSlingStyle(); toggleFireworkColorRow(); updateFireworksVolumeLabel(); activateEditorTab(document.querySelector('.tab-btn.active'));
-            
-            if(document.getElementById('questions-list').children.length === 0) {
+            applyPreset('normal');
+            syncTexts();
+            buildWall();
+            initDragDrop();
+            updateBackground();
+            updateSlingStyle();
+            toggleFireworkColorRow();
+            updateFireworksVolumeLabel();
+            activateEditorTab(document.querySelector('.tab-btn.active'));
+
+            const restored = restoreAutosavedProject();
+            if (!restored && document.getElementById('questions-list').children.length === 0) {
                 parseAutoQuestions({ preserveImages: false });
             }
             checkQuestionCount();
             toggleMathSupport();
+            setTimeout(updateRubberBands, 200);
+            startAutosave();
         };
 
         function applyPreset(key) {
@@ -1527,22 +1803,30 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             if (val.startsWith('http') || val.startsWith('data:image')) { proj.innerText = ''; proj.style.backgroundImage = `url('${val}')`; } else { proj.style.backgroundImage = 'none'; proj.innerText = val; }
         }
 
-        function handleFileVar(e, cssVar) { const file = e.target.files[0]; if (!file) return; if (file.size > 1024 * 1024) { alert("Файл слишком большой! До 1 МБ."); return; } updateCssVar(cssVar, `url('${URL.createObjectURL(file)}')`); }
+        async function handleFileVar(e, cssVar) {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.size > 1024 * 1024) { alert("Файл слишком большой! До 1 МБ."); return; }
+            try { updateCssVar(cssVar, `url('${await readFileAsDataUrl(file)}')`); markProjectDirty(); }
+            catch (error) { alert('Не удалось прочитать файл.'); }
+        }
 
-        function handleQuestionImgUpload(input) {
+        async function handleQuestionImgUpload(input) {
             const file = input.files[0];
             if(!file) return;
             if(file.size > 2 * 1024 * 1024) { alert("Ошибка! Размер картинки превышает 2 МБ."); input.value = ""; return; }
-            const url = URL.createObjectURL(file);
-            input.parentElement.previousElementSibling.value = url;
+            try {
+                input.parentElement.previousElementSibling.value = await readFileAsDataUrl(file);
+                markProjectDirty();
+            } catch (error) { alert('Не удалось прочитать изображение.'); }
         }
 
-        function handleAudioUpload(input, targetId) {
+        async function handleAudioUpload(input, targetId) {
             const file = input.files[0];
             if(!file) return;
             if(file.size > 5 * 1024 * 1024) { alert("Размер аудиофайла не должен превышать 5 МБ."); input.value = ""; return; }
-            const url = URL.createObjectURL(file);
-            document.getElementById(targetId).value = url;
+            try { document.getElementById(targetId).value = await readFileAsDataUrl(file); markProjectDirty(); }
+            catch (error) { alert('Не удалось прочитать аудиофайл.'); }
         }
 
         function checkQuestionCount() {
@@ -2386,15 +2670,35 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             const now = ctx.currentTime;
             const volume = Math.max(0, Math.min(1, (parseInt(document.getElementById('fireworks-volume')?.value, 10) || 0) / 100));
             if (volume <= 0) return;
-            const length = Math.floor(ctx.sampleRate * 0.28);
+            // Базовое усиление x3 по сравнению с предыдущей версией. Компрессор сохраняет звук мягким даже на 100%.
+            const loudness = volume * 3;
+            const compressor = ctx.createDynamicsCompressor();
+            compressor.threshold.setValueAtTime(-18, now);
+            compressor.knee.setValueAtTime(18, now);
+            compressor.ratio.setValueAtTime(5, now);
+            compressor.attack.setValueAtTime(0.003, now);
+            compressor.release.setValueAtTime(0.22, now);
+            compressor.connect(ctx.destination);
+
+            const length = Math.floor(ctx.sampleRate * 0.34);
             const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
             const data = buffer.getChannelData(0);
-            for (let i=0; i<length; i++) data[i] = (Math.random()*2-1) * Math.pow(1-i/length, 2);
+            for (let i=0; i<length; i++) data[i] = (Math.random()*2-1) * Math.pow(1-i/length, 1.75);
             const source = ctx.createBufferSource(); source.buffer = buffer;
-            const filter = ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=220;
-            const gain = ctx.createGain(); gain.gain.setValueAtTime(0.46 * volume, now); gain.gain.exponentialRampToValueAtTime(0.0001, now+0.28);
-            source.connect(filter); filter.connect(gain); gain.connect(ctx.destination); source.start(now); source.stop(now+0.29);
-            tone(ctx, 75 + Math.random()*20, now, 0.22, 0.18 * volume, 'sine', 40);
+            const filter = ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=290;
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(Math.min(1.38, 0.46 * loudness), now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now+0.34);
+            source.connect(filter); filter.connect(gain); gain.connect(compressor); source.start(now); source.stop(now+0.35);
+
+            const low = ctx.createOscillator();
+            const lowGain = ctx.createGain();
+            low.type = 'sine';
+            low.frequency.setValueAtTime(92 + Math.random()*18, now);
+            low.frequency.exponentialRampToValueAtTime(38, now+0.3);
+            lowGain.gain.setValueAtTime(Math.min(0.72, 0.18 * loudness), now);
+            lowGain.gain.exponentialRampToValueAtTime(0.0001, now+0.31);
+            low.connect(lowGain); lowGain.connect(compressor); low.start(now); low.stop(now+0.32);
         }
 
         function startFireworks() {
