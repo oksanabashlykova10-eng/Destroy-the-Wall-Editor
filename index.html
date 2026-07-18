@@ -1,0 +1,2454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destroy the Wall Editor By English Bootcamp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0f1015;
+            --panel-bg: #1a1b26;
+            --card-bg: #232433;
+            --neon-cyan: #00f0ff;
+            --neon-green: #39ff14;
+            --neon-orange: #ffaa00;
+            --text-grey: #a0a0b5;
+            --active-tab-color: #00f0ff;
+            --tab-screens-color: #00f0ff;
+            --tab-assets-color: #ff9f1c;
+            --tab-questions-color: #39ff14;
+            --tab-code-color: #ff4fd8;
+            --tab-sounds-color: #8f7dff;
+            
+            --game-font: 'Fredoka One', cursive;
+            
+            --splash-box-bg: rgba(26, 27, 38, 0.85);
+            --splash-box-border: #00f0ff;
+            --splash-overlay: rgba(0, 0, 0, 0.7);
+
+            --s-title-font: 'Fredoka One', cursive;
+            --s-title-size: 36px;
+            --s-title-color: #ffffff;
+            --s-title-neon: 0 0 10px #00f0ff;
+            --s-sub-font: 'Montserrat', sans-serif;
+            --s-sub-size: 16px;
+            --s-sub-color: #ffffff;
+            --s-sub-neon: 0 0 10px #00f0ff;
+            --s-btn-color: #cc0000;
+            --s-btn-neon: #00f0ff;
+
+            --w-title-font: 'Fredoka One', cursive;
+            --w-title-size: 48px;
+            --w-title-color: #39ff14;
+            --w-title-neon: 0 0 20px rgba(57,255,20,0.6);
+            --w-sub-font: 'Montserrat', sans-serif;
+            --w-sub-size: 16px;
+            --w-sub-color: #ffffff;
+            --w-sub-neon: none;
+            --w-btn-color: #cc0000;
+            --w-btn-neon: #39ff14;
+
+            --l-title-font: 'Fredoka One', cursive;
+            --l-title-size: 48px;
+            --l-title-color: #ff3333;
+            --l-title-neon: 0 0 20px rgba(255,0,0,0.6);
+            --l-sub-font: 'Montserrat', sans-serif;
+            --l-sub-size: 16px;
+            --l-sub-color: #ffffff;
+            --l-sub-neon: none;
+            --l-btn-color: #cc0000;
+            --l-btn-neon: #ff3333;
+            
+            --timer-font: 'Montserrat', sans-serif;
+            --timer-color: #39ff14;
+            --timer-size: 20px;
+            --timer-neon: 0 2px 5px #000;
+
+            --q-task-font: 'Montserrat', sans-serif;
+            --q-task-size: 24px;
+            --q-task-color: #39ff14;
+            --q-task-neon: none;
+            --q-font: 'Montserrat', sans-serif;
+            --q-size: 20px;
+            --q-color: #ffffff;
+            --a-font: 'Montserrat', sans-serif;
+            --a-size: 16px;
+            --a-color: #ffffff;
+
+            --sling-anchor-color: #ffaa00;
+            --rubber-color: #e67e22;
+            
+            --q-plaque-bg: rgba(42, 43, 61, 0.95);
+            --a-plaque-bg: rgba(26, 27, 38, 0.9);
+            --q-border-neon: #00f0ff;
+
+            --img-normal: url('https://img.genially.com/67961b32a116fb001568a75e/30306f30-008c-408e-8dba-168bfded88e1.png');
+            --img-question: url('https://img.genially.com/67961b32a116fb001568a75e/88e02548-b237-4ccd-8ed6-878fe796bff3.png');
+            --img-life: url('https://img.genially.com/67961b32a116fb001568a75e/3a3e38ac-6406-4a88-a90d-06cc0710a4f5.png');
+            --img-freeze: url('https://img.genially.com/67961b32a116fb001568a75e/a3752b56-6026-4857-8836-c3b208e971bb.png');
+            --img-bomb: url('https://img.genially.com/67961b32a116fb001568a75e/ea4e6207-e5af-4490-a453-b7b69abbb980.png');
+            --img-time: url('https://img.genially.com/67961b32a116fb001568a75e/3ab6a3c1-baca-4d94-9493-2d7483470a3b.png');
+            
+            --img-mom-angry: url('https://img.genially.com/67961b32a116fb001568a75e/98ea799e-dcbf-4e28-b0e0-0fa8d200ecc5.png');
+            --img-mom-happy: url('https://img.genially.com/67961b32a116fb001568a75e/dc68aff8-a1cf-44b6-ab8e-16e56d8e9a2d.png');
+            --img-baby-sad: url('https://img.genially.com/67961b32a116fb001568a75e/09a4d078-de3e-4083-8d3e-d681d1bcd51d.png');
+            --img-baby-happy: url('https://img.genially.com/67961b32a116fb001568a75e/4eafd765-25de-4fab-9eaf-bea99c04a7a8.png');
+            --img-mom-baby: url('https://img.genially.com/67961b32a116fb001568a75e/bd003827-2f03-4fcb-a038-7eba49b6f2ce.png');
+            --img-final: url('https://img.genially.com/67961b32a116fb001568a75e/bd003827-2f03-4fcb-a038-7eba49b6f2ce.png');
+            --img-slingshot: url('https://img.genially.com/67961b32a116fb001568a75e/4548f065-0eec-42c6-9154-b6fd2ece20a5.png');
+        }
+
+        * { box-sizing: border-box; }
+        body, html { margin: 0; padding: 0; width: 100vw; height: 100vh; background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow: hidden; display: flex; }
+        
+        #editor-panel { width: 520px; height: 100vh; background: var(--panel-bg); display: flex; flex-direction: column; z-index: 50; border-right: 1px solid #2a2b3d; box-shadow: 2px 0 15px rgba(0,0,0,0.5); }
+        .header { text-align:center; padding:15px 12px 14px; border-bottom:1px solid #2a2b3d; line-height:1.08; }
+        .editor-title-main { display:block; font-size:21px; font-weight:800; letter-spacing:.3px; }
+        .editor-title-white { color:#fff; text-shadow:0 0 7px rgba(255,255,255,.75), 0 0 16px rgba(255,255,255,.28); }
+        .editor-title-accent, .editor-brand-accent { color:var(--active-tab-color); text-shadow:0 0 7px var(--active-tab-color), 0 0 18px var(--active-tab-color); transition:color .25s ease,text-shadow .25s ease; }
+        .editor-title-by { display:block; margin-top:5px; color:#d5d6e3; font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; }
+
+        .tabs-header { display:flex; flex-wrap:wrap; background:#151623; border-bottom:2px solid #2a2b3d; font-size:11px; text-transform:uppercase; font-weight:700; }
+        .tab-btn { --tab-color:var(--neon-cyan); flex:1 1 30%; padding:12px 5px; text-align:center; cursor:pointer; color:#7d7f99; transition:.22s ease; border-bottom:2px solid transparent; }
+        .tab-btn[data-tab="tab-screens"] { --tab-color:var(--tab-screens-color); }
+        .tab-btn[data-tab="tab-assets"] { --tab-color:var(--tab-assets-color); }
+        .tab-btn[data-tab="tab-questions"] { --tab-color:var(--tab-questions-color); }
+        .tab-btn[data-tab="tab-code"] { --tab-color:var(--tab-code-color); }
+        .tab-btn[data-tab="tab-sounds"] { --tab-color:var(--tab-sounds-color); }
+        .tab-btn:hover { color:var(--tab-color); background:rgba(255,255,255,.04); text-shadow:0 0 8px var(--tab-color); }
+        .tab-btn.active { color:var(--tab-color); border-bottom-color:var(--tab-color); background:var(--panel-bg); text-shadow:0 0 8px var(--tab-color),0 0 15px var(--tab-color); box-shadow:inset 0 -1px 0 var(--tab-color); }
+
+        .tab-content { display: none; flex: 1; overflow-y: auto; padding: 15px; }
+        .tab-content.active { display: block; }
+        .tab-content::-webkit-scrollbar { width: 6px; }
+        .tab-content::-webkit-scrollbar-thumb { background: #3a3b50; border-radius: 4px; }
+
+        .group-title { font-size: 12px; color: var(--text-grey); text-transform: uppercase; margin: 15px 0 10px; font-weight: 800; letter-spacing: 1px; }
+        #tab-screens { --section-color:var(--tab-screens-color); }
+        #tab-assets { --section-color:var(--tab-assets-color); }
+        #tab-questions { --section-color:var(--tab-questions-color); }
+        #tab-code { --section-color:var(--tab-code-color); }
+        #tab-sounds { --section-color:var(--tab-sounds-color); }
+        #tab-screens .group-title, #tab-assets .group-title, #tab-questions .group-title, #tab-code .group-title, #tab-sounds .group-title { color:var(--section-color) !important; text-shadow:0 0 8px color-mix(in srgb, var(--section-color) 70%, transparent); }
+        .input-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
+        .input-row label { flex: 1; font-size: 11px; color: #ccc; font-weight: 600; }
+        .input-row input[type="text"], .input-row input[type="number"], .input-row select, .input-row textarea { flex: 2; padding: 8px; background: #13141c; border: 1px solid #2a2b3d; color: #fff; border-radius: 4px; font-family: 'Montserrat', sans-serif; font-size: 12px; outline: none; width: 100%; }
+        .input-row input[type="range"] { flex: 2; width: 100%; }
+        .input-row input[type="color"] { flex: 0.5; height: 30px; padding: 0; cursor: pointer; border: none; background: transparent; }
+        .input-row textarea { resize: vertical; min-height: 40px; }
+        .divider { width: 100%; height: 1px; background: #2a2b3d; margin: 15px 0; }
+
+        .file-btn { background: #2a2b3d; color: #fff; padding: 6px 10px; font-size: 10px; cursor: pointer; border-radius: 4px; border: 1px solid #444; text-align: center; }
+        .file-btn input[type="file"] { display: none; }
+        .file-btn:hover { background: var(--neon-cyan); color: #000; }
+
+        .preset-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .preset-card { height: 80px; background-color: var(--card-bg); border: 2px solid #3a3b50; color: #fff; font-size: 12px; font-weight: 800; padding: 8px; cursor: pointer; border-radius: 6px; display: flex; align-items: flex-end; background-size: cover; background-position: center; text-shadow: 1px 1px 3px #000; transition: 0.2s;}
+        .preset-card:hover { border-color: var(--neon-cyan); }
+        .preset-card.active { border-color: var(--neon-green); box-shadow: 0 0 10px rgba(57, 255, 20, 0.4); }
+        
+        .weapon-card { height: 60px; align-items: flex-start; justify-content: flex-end; font-size: 10px; background-size: contain; background-repeat: no-repeat;}
+        
+        .question-card { background: var(--card-bg); border: 1px dashed #3a3b50; border-radius: 8px; padding: 12px; margin-bottom: 15px; border-left: 3px solid var(--neon-green); position: relative;}
+        .q-card-header { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-grey); margin-bottom: 8px; font-weight: bold; }
+        .q-card-header .delete-btn { color: #ff4444; cursor: pointer; }
+        .media-btns { margin-top: 8px; }
+        
+        .add-q-btn { width: 100%; padding: 12px; background: var(--neon-green); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 13px; }
+
+        #test-btn { padding: 20px; background: #1ba33c; color: #fff; text-transform: uppercase; font-weight: 800; border: none; cursor: pointer; letter-spacing: 1px; font-size: 15px; transition: 0.3s; }
+        #test-btn.testing { background: #dc3545; }
+
+        #main-area { flex: 1; display: flex; flex-direction: column; background-color: #0d0e15; position: relative; font-family: var(--game-font); transition: background 0.3s; }
+        
+        .screen-tabs { display: flex; background: #0c0d14; border-bottom: 2px solid #2a2b3d; padding: 0 10px; z-index: 100;}
+        .screen-tab { padding: 15px 20px; font-size: 11px; text-transform: uppercase; font-weight: 800; color: #6a6b8c; cursor: pointer; border-bottom: 2px solid transparent; font-family: 'Montserrat', sans-serif; letter-spacing: 0.5px;}
+        .screen-tab.active { color: #fff; border-bottom: 2px solid var(--neon-orange); }
+
+        .screen-container { width: 100%; height: calc(100% - 45px); position: absolute; top: 45px; left: 0; display: none; align-items: center; justify-content: center; flex-direction: column; text-align: center; color: #fff; overflow: hidden; background: transparent; }
+        .screen-container.active { display: flex; }
+        
+        .splash-screen { background: var(--splash-overlay); backdrop-filter: blur(5px); z-index: 20; }
+        .splash-content-box { background: var(--splash-box-bg); border: 3px solid var(--splash-box-border); box-shadow: 0 0 20px var(--splash-box-border); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 90%; width: 600px; transition: all 0.3s ease; }
+
+        #scr-start .dyn-title { font-family: var(--s-title-font); font-size: var(--s-title-size); color: var(--s-title-color); text-shadow: var(--s-title-neon); margin-bottom: 10px; }
+        #scr-start .dyn-subtext { font-family: var(--s-sub-font); font-size: var(--s-sub-size); color: var(--s-sub-color); text-shadow: var(--s-sub-neon); max-width: 600px; line-height: 1.4; }
+        #scr-start .game-btn { background: var(--s-btn-color); }
+        #scr-start .game-btn:hover { border-color: var(--s-btn-neon); box-shadow: 0 0 20px var(--s-btn-neon); transform: scale(1.05); }
+
+        #scr-win .dyn-title { font-family: var(--w-title-font); font-size: var(--w-title-size); color: var(--w-title-color); text-shadow: var(--w-title-neon); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        #scr-win .dyn-subtext { font-family: var(--w-sub-font); font-size: var(--w-sub-size); color: var(--w-sub-color); text-shadow: var(--w-sub-neon); max-width: 600px; line-height: 1.4; }
+        #scr-win .game-btn { background: var(--w-btn-color); }
+        #scr-win .game-btn:hover { border-color: var(--w-btn-neon); box-shadow: 0 0 20px var(--w-btn-neon); transform: scale(1.05); }
+
+        #scr-lose .dyn-title { font-family: var(--l-title-font); font-size: var(--l-title-size); color: var(--l-title-color); text-shadow: var(--l-title-neon); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;}
+        #scr-lose .dyn-subtext { font-family: var(--l-sub-font); font-size: var(--l-sub-size); color: var(--l-sub-color); text-shadow: var(--l-sub-neon); max-width: 600px; line-height: 1.4; }
+        #scr-lose .game-btn { background: var(--l-btn-color); }
+        #scr-lose .game-btn:hover { border-color: var(--l-btn-neon); box-shadow: 0 0 20px var(--l-btn-neon); transform: scale(1.05); }
+
+        .game-btn { margin-top: 25px; padding: 15px 40px; border-radius: 30px; border: 2px solid transparent; color: #fff; font-family: var(--game-font); font-size: 20px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+
+        #top-ui { position: absolute; top: 20px; left: 0; width: 100%; display: flex; justify-content: space-around; align-items: center; z-index: 10; font-family: var(--timer-font); font-weight: 800; font-size: var(--timer-size); }
+        #timer-ui { color: var(--timer-color); text-shadow: var(--timer-neon); }
+        #timer-ui.frozen { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
+        
+        #inventory { display: flex; gap: 10px; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; border: 1px solid #3a3b50; }
+        .ammo-slot { display: flex; align-items: center; gap: 5px; font-size: 14px; padding: 4px 10px; border-radius: 15px; opacity: 0.5; transition: 0.2s; cursor: pointer; }
+        .ammo-slot.active { opacity: 1; background: rgba(0,255,255,0.1); border: 1px solid var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
+        .ammo-icon { width: 24px; height: 24px; background-size: contain; background-repeat: no-repeat; background-position: center; display: inline-block; font-size: 20px; text-align: center; line-height: 24px;}
+
+        .editable { position: absolute; z-index: 6; }
+        .editor-mode .editable { outline: 1px dashed rgba(255,255,255,0.3); cursor: move; }
+        .resize-handle { display: none; position: absolute; right: -8px; bottom: -8px; width: 16px; height: 16px; background: var(--neon-cyan); border-radius: 50%; cursor: se-resize; z-index: 10; }
+        .editor-mode .editable .resize-handle { display: block; }
+        
+        .sling-anchor-point { width: 14px; height: 14px; background: var(--neon-orange); border-radius: 50%; position: absolute; z-index: 15; cursor: move; box-shadow: 0 0 10px var(--neon-orange); border: 2px solid #fff; opacity: 0; pointer-events: none; }
+        .editor-mode .sling-anchor-point { opacity: 1; pointer-events: auto; }
+
+        #gorilla { width: 150px; height: 150px; background: var(--img-mom-angry) center/contain no-repeat; bottom: 8%; left: 8%; }
+        #slingshot { width: 75px; height: 150px; background: var(--img-slingshot) center/contain no-repeat; bottom: 8%; left: 22%; }
+        #sling-anchor { width: 30px; height: 30px; background: var(--sling-anchor-color); border-radius: 50%; border: 2px solid #fff; bottom: 18%; left: 23.5%; z-index: 8; cursor: grab; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px var(--sling-anchor-color); }
+        #sling-anchor:active { cursor: grabbing; }
+        #baby { width: 100px; height: 100px; background: var(--img-baby-sad) center/contain no-repeat; bottom: 8%; right: 8%; }
+
+        #wall-container { width: 350px; height: 300px; display: grid; gap: 4px; bottom: 8%; right: 25%; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; border: 1px dashed #3a3b50; }
+        .brick { width: 100%; height: 100%; background-size: cover; background-position: center; border-radius: 4px; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.3); position: relative; }
+        
+        .brick-normal { background-image: var(--img-normal); }
+        .brick-question { background-image: var(--img-question); box-shadow: inset 0 0 15px rgba(255,255,0,0.6); }
+        .brick-life { background-image: var(--img-life); }
+        .brick-freeze { background-image: var(--img-freeze); }
+        .brick-bomb { background-image: var(--img-bomb); }
+        .brick-time { background-image: var(--img-time); }
+        .brick-empty { background: transparent !important; box-shadow: none !important; pointer-events: none; }
+
+        #trajectory-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+        .rubber-line { stroke: var(--rubber-color); stroke-width: 5; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(255,255,255,0.25)); }
+        .rubber-line.rainbow-rubber { filter: drop-shadow(0 0 5px rgba(255,255,255,0.55)); }
+
+        #impact-particles { position: absolute; inset: 0; pointer-events: none; z-index: 14; overflow: hidden; }
+        .impact-particle { position: absolute; width: 6px; height: 6px; border-radius: 1px; pointer-events: none; will-change: transform, opacity; animation: impactSpark 0.5s ease-out forwards; }
+        @keyframes impactSpark {
+            from { transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+            to { transform: translate(-50%, -50%) translate(var(--spark-x), var(--spark-y)) rotate(var(--spark-r)) scale(0.25); opacity: 0; }
+        }
+
+        #fireworks-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 24; display: none; }
+        #scr-win .splash-content-box { position:relative; z-index:26; }
+        #gorilla.victory-happy { background-image:var(--img-mom-happy) !important; animation:victoryPop 1s ease-in-out infinite alternate; filter:drop-shadow(0 0 15px rgba(57,255,20,.9)); }
+        #baby.victory-happy { background-image:var(--img-baby-happy) !important; animation:victoryPop 1s .12s ease-in-out infinite alternate; filter:drop-shadow(0 0 15px rgba(57,255,20,.9)); }
+        @keyframes victoryPop { from{transform:translateY(0) scale(1)} to{transform:translateY(-10px) scale(1.06)} }
+        .character-preset-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-bottom:14px; }
+        .character-preset-card { min-height:135px; padding:8px; border:2px solid #3a3b50; border-radius:10px; background-color:#11121a; background-position:center 9px; background-size:contain; background-repeat:no-repeat; display:flex; align-items:flex-end; justify-content:center; color:#fff; font-size:11px; font-weight:800; text-align:center; cursor:pointer; text-shadow:0 1px 4px #000; transition:.22s ease; }
+        .character-preset-card:hover { border-color:var(--section-color); box-shadow:0 0 14px color-mix(in srgb,var(--section-color) 55%,transparent); transform:translateY(-2px); }
+        .character-preset-card.final-card { grid-column:1 / -1; min-height:155px; }
+        .character-setting { padding:10px; margin-bottom:10px; border:1px solid #34364a; border-radius:8px; background:rgba(0,0,0,.17); }
+        #final-win-image { width:200px; height:200px; background:var(--img-final) center/contain no-repeat; margin-bottom:20px; }
+
+        .question-type-badge { display:inline-block; padding:4px 8px; border-radius:12px; background:rgba(0,240,255,0.12); color:var(--neon-cyan); border:1px solid rgba(0,240,255,0.35); font-size:10px; font-weight:800; }
+        .manual-question-tools { display:grid; grid-template-columns:1fr; gap:8px; margin-bottom:14px; }
+        .manual-q-btn { width:100%; padding:10px; border-radius:6px; border:1px solid #3a3b50; background:#232433; color:#fff; cursor:pointer; font-weight:700; text-align:left; }
+        .manual-q-btn:hover { border-color:var(--neon-green); background:#2b2d3f; }
+        .answer-input { width:100%; padding:12px; border-radius:8px; border:2px solid rgba(255,255,255,0.2); background:var(--a-plaque-bg); color:var(--a-color); font-family:var(--a-font); font-size:var(--a-size); outline:none; }
+        .answer-input:focus { border-color:var(--q-border-neon); box-shadow:0 0 12px var(--q-border-neon); }
+        .answer-submit, .order-check, .order-reset { padding:10px 16px; border:0; border-radius:8px; cursor:pointer; font-family:var(--a-font); font-size:calc(var(--a-size) * 0.9); font-weight:800; }
+        .answer-submit, .order-check { background:var(--neon-green); color:#061006; }
+        .order-reset { background:#3a3b50; color:#fff; }
+        .order-word-bank, .order-answer-line { display:flex; flex-wrap:wrap; gap:8px; min-height:44px; padding:10px; border-radius:8px; margin-top:10px; }
+        .order-word-bank { background:rgba(0,0,0,0.22); }
+        .order-answer-line { border:2px dashed rgba(255,255,255,0.25); }
+        .order-word { padding:8px 11px; border-radius:7px; background:var(--a-plaque-bg); color:var(--a-color); font-family:var(--a-font); font-size:var(--a-size); cursor:pointer; border:1px solid rgba(255,255,255,.18); transition:.22s ease; }
+        .order-word:hover { border-color:var(--q-border-neon); box-shadow:0 0 12px var(--q-border-neon), inset 0 0 8px color-mix(in srgb, var(--q-border-neon) 18%, transparent); transform:translateY(-2px); }
+        .order-answer-line .order-word { background:var(--q-border-neon); color:#071014; border-color:var(--q-border-neon); box-shadow:0 0 13px var(--q-border-neon),0 0 23px color-mix(in srgb, var(--q-border-neon) 45%, transparent); font-weight:800; }
+        .order-answer-line .order-word:hover { filter:brightness(1.12); transform:translateY(-2px) scale(1.02); }
+        
+        #projectile { position: absolute; width: 35px; height: 35px; display: none; z-index: 10; font-size: 28px; text-align: center; line-height: 35px; transform: translate(-50%, -50%); pointer-events: none; background-size: contain; background-repeat: no-repeat; background-position: center; }
+
+        #q-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 150; display: none; align-items: center; justify-content: center; flex-direction: column; pointer-events: auto; backdrop-filter: blur(5px);}
+        .question-box { background: var(--q-plaque-bg); border: 3px solid var(--q-border-neon); box-shadow: 0 0 20px var(--q-border-neon); padding: 30px; border-radius: 16px; width: 600px; max-width: 90%; text-align: left; }
+        .q-task-title { font-family: var(--q-task-font); font-size: var(--q-task-size); color: var(--q-task-color); text-shadow: var(--q-task-neon); margin-top:0; text-align: center; }
+        .q-text { font-family: var(--q-font); font-size: var(--q-size); color: var(--q-color); text-align: center; margin: 15px 0;}
+        
+        .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        
+        .answer-card { background: var(--a-plaque-bg); padding: 15px; border-radius: 8px; cursor: pointer; border: 2px solid rgba(255,255,255,0.15); transition: all 0.3s ease-in-out; font-family: var(--a-font); font-size: var(--a-size); color: var(--a-color); font-weight: 600; text-align: center;}
+        .answer-card:hover { border-color: var(--q-border-neon); box-shadow: 0 0 15px var(--q-border-neon), inset 0 0 10px rgba(255,255,255,0.05); background: rgba(255,255,255,0.1); transform: translateY(-2px);}
+        .answer-card:active { transform: scale(0.95); }
+
+
+
+        /* ===== КРУПНЫЙ И ЧИТАЕМЫЙ БЛОК ВОПРОСОВ ===== */
+        #tab-questions .question-help,
+        #tab-questions .question-examples,
+        #tab-questions .question-list-note,
+        #tab-questions .card-format-hint,
+        #tab-questions .media-title {
+            font-size:14px !important;
+            line-height:1.48 !important;
+        }
+        #tab-questions .media-warning { font-size:14px !important; line-height:1.4 !important; color:#ff3155 !important; font-weight:800; text-shadow:0 0 5px #ff3155,0 0 11px rgba(255,49,85,.75); }
+        #tab-questions .question-help { color:#d7d8e5; margin:0 0 12px; }
+        #tab-questions .question-examples { padding:12px; margin-bottom:12px; }
+        #auto-q-text {
+            width:100%;
+            height:330px !important;
+            min-height:260px;
+            resize:vertical;
+            padding:14px !important;
+            font-family:monospace !important;
+            font-size:16px !important;
+            line-height:1.5;
+            border:1px solid #4a4c66;
+            border-radius:7px;
+        }
+        #process-questions-btn { padding:16px !important; font-size:16px; }
+        #q-warning { font-size:14px !important; line-height:1.45; }
+        #tab-questions .question-card { padding:15px; }
+        #tab-questions .q-card-header { font-size:14px; }
+        #tab-questions .q-text-area { min-height:110px !important; font-size:15px !important; line-height:1.5; padding:10px !important; }
+        #tab-questions .q-url-input { font-size:14px !important; padding:9px !important; }
+        #tab-questions .media-btns { padding:10px !important; }
+        #tab-questions .file-btn { font-size:14px; padding:8px 11px !important; }
+
+        /* ===== БЛОК LATEX / MATHJAX ===== */
+        .math-panel {
+            margin:18px 0;
+            padding:18px;
+            border:1px solid rgba(255,170,0,.65);
+            border-radius:14px;
+            background:linear-gradient(145deg, rgba(17,18,27,.98), rgba(11,12,18,.98));
+            box-shadow:0 0 18px rgba(255,170,0,.08);
+        }
+        .math-panel-title {
+            margin:0 0 14px;
+            color:var(--section-color, #ffb43b);
+            font-size:20px;
+            font-weight:800;
+            letter-spacing:.5px;
+            text-transform:uppercase;
+            text-shadow:0 0 10px color-mix(in srgb,var(--section-color,#ffb43b) 55%,transparent);
+        }
+        .math-toggle-row {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:13px;
+            border:1px solid rgba(255,170,0,.45);
+            border-radius:10px;
+            background:#0d0e14;
+            font-size:16px;
+            font-weight:600;
+        }
+        .math-toggle-row input { width:20px; height:20px; accent-color:#168cff; }
+        .math-help { margin:14px 0 10px; color:#d2d3df; font-size:15px; line-height:1.55; }
+        .math-help strong { color:#ffb43b; }
+        .latex-toolbar { display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:8px; margin-top:12px; }
+        .latex-btn {
+            min-height:42px;
+            padding:7px 5px;
+            border:1px solid #303242;
+            border-radius:8px;
+            background:#090a0f;
+            color:#fff;
+            font-size:16px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.18s ease;
+        }
+        .latex-btn:hover { border-color:#ffb43b; box-shadow:0 0 10px rgba(255,180,59,.25); transform:translateY(-1px); }
+        .latex-copy-status { min-height:22px; margin-top:10px; color:#76ff9b; font-size:14px; font-weight:600; }
+        .math-preview-note { color:#9da0b3; font-size:14px; line-height:1.45; }
+
+        /* ===== ГЕНЕРАТОР ИТОГОВОЙ ИГРЫ ===== */
+        .code-action-btn { width:100%; padding:13px; margin:6px 0; border:0; border-radius:7px; cursor:pointer; font-weight:800; }
+        #generated-code { width:100%; min-height:260px; resize:vertical; padding:10px; background:#0b0c12; color:#d8faff; border:1px solid #3a3b50; border-radius:7px; font:12px/1.45 monospace; }
+        body.game-export #editor-panel,
+        body.game-export .screen-tabs { display:none !important; }
+        body.game-export #main-area { width:100vw !important; height:100vh !important; flex:1 1 auto; }
+        body.game-export .screen-container { top:0 !important; height:100% !important; }
+        body.game-export #scr-game { cursor:default; }
+
+    </style>
+</head>
+<body>
+
+    <div id="editor-panel">
+        <div class="header">
+            <span class="editor-title-main"><span class="editor-title-white">Destroy the Wall</span> <span class="editor-title-accent">Editor</span></span>
+            <span class="editor-title-by">By <span class="editor-brand-accent">English Bootcamp</span></span>
+        </div>
+        
+        <div class="tabs-header">
+            <div class="tab-btn active" data-tab="tab-screens">Настройки экранов</div>
+            <div class="tab-btn" data-tab="tab-assets">Ассеты</div>
+            <div class="tab-btn" data-tab="tab-questions">Вопросы</div>
+        </div>
+        <div class="tabs-header">
+            <div class="tab-btn" data-tab="tab-code">Код</div>
+            <div class="tab-btn" data-tab="tab-sounds">Звуки</div>
+        </div>
+
+        <div id="tab-screens" class="tab-content active">
+            <div class="group-title" style="color:#00f0ff">ФОН</div>
+            <div class="preset-grid" id="bg-visual-presets">
+                <div class="preset-card active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('https://img.genially.com/67961b32a116fb001568a75e/5311af98-0903-417a-9c82-887283a16dd9.png')" onclick="setVisualBg('https://img.genially.com/67961b32a116fb001568a75e/5311af98-0903-417a-9c82-887283a16dd9.png', this)">Джунгли</div>
+                <div class="preset-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('https://img.genially.com/67961b32a116fb001568a75e/1f77359f-4530-4c6a-8df9-7e8e8465c715.png')" onclick="setVisualBg('https://img.genially.com/67961b32a116fb001568a75e/1f77359f-4530-4c6a-8df9-7e8e8465c715.png', this)">Река</div>
+                <div class="preset-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('https://img.genially.com/67961b32a116fb001568a75e/38b94044-659a-4cb0-84d4-0dfc577bf304.png')" onclick="setVisualBg('https://img.genially.com/67961b32a116fb001568a75e/38b94044-659a-4cb0-84d4-0dfc577bf304.png', this)">Зима</div>
+                <div class="preset-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('https://img.genially.com/67961b32a116fb001568a75e/e67900db-bc5c-4859-bc17-b4eb200605c2.png')" onclick="setVisualBg('https://img.genially.com/67961b32a116fb001568a75e/e67900db-bc5c-4859-bc17-b4eb200605c2.png', this)">Пряники</div>
+                <div class="preset-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('https://img.genially.com/67961b32a116fb001568a75e/1d214ca1-280e-47f3-9384-00d11fe9eb29.png')" onclick="setVisualBg('https://img.genially.com/67961b32a116fb001568a75e/1d214ca1-280e-47f3-9384-00d11fe9eb29.png', this)">Море</div>
+                <div class="preset-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('https://img.genially.com/67961b32a116fb001568a75e/e653dada-d5cc-4227-83ce-2fa4a594d3eb.png')" onclick="setVisualBg('https://img.genially.com/67961b32a116fb001568a75e/e653dada-d5cc-4227-83ce-2fa4a594d3eb.png', this)">Ночь</div>
+            </div>
+            <div class="input-row" style="display:none;"><input type="text" id="bg-preset" value="https://img.genially.com/67961b32a116fb001568a75e/5311af98-0903-417a-9c82-887283a16dd9.png"></div>
+            <div class="input-row">
+                <label><input type="checkbox" id="no-bg" onchange="updateBackground()"> Прозрачный фон (для встраивания)</label>
+            </div>
+            
+            <div class="group-title" style="color:#ffaa00">ОФОРМЛЕНИЕ ЗАСТАВОК</div>
+            <div class="input-row">
+                <label title="Настраивает прозрачность оверлея над игровым фоном">Затемнение фона:</label>
+                <input type="range" id="bg-opacity" min="0" max="1" step="0.1" value="0.7" onchange="updateBackground()">
+            </div>
+            <div class="input-row">
+                <label>Цвет подложки:</label>
+                <input type="color" value="#1a1b26" onchange="updateCssVar('--splash-box-bg', this.value + 'd9')">
+            </div>
+            <div class="input-row">
+                <label>Неон подложки:</label>
+                <input type="color" value="#00f0ff" onchange="updateCssVar('--splash-box-border', this.value)">
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="group-title" style="color:#00f0ff">I. НАЧАЛЬНЫЙ ЭКРАН</div>
+            <div class="input-row"><label>Шрифт заголовка:</label><select onchange="updateCssVar('--s-title-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер заголовка:</label><input type="number" value="36" onchange="updateCssVar('--s-title-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет заголовка:</label><input type="color" value="#ffffff" onchange="updateCssVar('--s-title-color', this.value)"></div>
+            <div class="input-row"><label>Неон:</label><input type="checkbox" checked onchange="updateCssVar('--s-title-neon', this.checked ? '0 0 10px #00f0ff' : 'none')"></div>
+            
+            <div class="input-row"><label>Шрифт подзаголовка:</label><select onchange="updateCssVar('--s-sub-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер подзаголовка:</label><input type="number" value="16" onchange="updateCssVar('--s-sub-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет подзаголовка:</label><input type="color" value="#ffffff" onchange="updateCssVar('--s-sub-color', this.value)"></div>
+            
+            <div class="input-row"><label>Цвет плашки:</label><input type="color" value="#cc0000" onchange="updateCssVar('--s-btn-color', this.value)"></div>
+            <div class="input-row"><label>Неон плашки:</label><input type="color" value="#00f0ff" onchange="updateCssVar('--s-btn-neon', this.value)"></div>
+            
+            <div class="divider"></div>
+
+            <div class="group-title" style="color:#39ff14">II. ЭКРАН ПОБЕДЫ</div>
+            <div class="input-row"><label>Шрифт заголовка:</label><select onchange="updateCssVar('--w-title-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер заголовка:</label><input type="number" value="48" onchange="updateCssVar('--w-title-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет заголовка:</label><input type="color" value="#39ff14" onchange="updateCssVar('--w-title-color', this.value)"></div>
+            <div class="input-row"><label>Неон:</label><input type="checkbox" checked onchange="updateCssVar('--w-title-neon', this.checked ? '0 0 20px rgba(57,255,20,0.6)' : 'none')"></div>
+            <div class="input-row"><label>Цвет плашки:</label><input type="color" value="#cc0000" onchange="updateCssVar('--w-btn-color', this.value)"></div>
+
+            <div class="divider"></div>
+
+            <div class="group-title" style="color:#ff3333">III. ЭКРАН ПОРАЖЕНИЯ</div>
+            <div class="input-row"><label>Шрифт заголовка:</label><select onchange="updateCssVar('--l-title-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Цвет заголовка:</label><input type="color" value="#ff3333" onchange="updateCssVar('--l-title-color', this.value)"></div>
+            <div class="input-row"><label>Цвет плашки:</label><input type="color" value="#cc0000" onchange="updateCssVar('--l-btn-color', this.value)"></div>
+
+            <div class="divider"></div>
+
+            <div class="group-title">ТАЙМЕР</div>
+            <div class="input-row"><label>Время (сек):</label><input type="number" id="ui-timer" value="120"></div>
+            <div class="input-row"><label>Шрифт таймера:</label><select onchange="updateCssVar('--timer-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Цвет таймера:</label><input type="color" value="#39ff14" onchange="updateCssVar('--timer-color', this.value)"></div>
+
+            <div class="divider"></div>
+            <div class="group-title">ЖИЗНИ (КОЛИЧЕСТВО СЕРДЕЧЕК)</div>
+            <div class="input-row"><label>Начальное количество ❤️:</label><input type="number" id="cnt-life" value="2" onchange="buildWall()"></div>
+
+            <div class="divider"></div>
+            <div class="group-title">ТЕКСТЫ ЭКРАНОВ</div>
+            <div style="font-size: 10px; color:#aaa; margin-bottom: 5px;">Начальный экран:</div>
+            <div class="input-row"><input type="text" id="txt-s-title" value="СПАСИ МАЛЫША!" oninput="syncTexts()"></div>
+            <div class="input-row"><textarea id="txt-s-sub" oninput="syncTexts()">Разбей стену из рогатки и доберись до цели!</textarea></div>
+            <div class="input-row"><label>Кнопка:</label><input type="text" id="txt-s-btn" value="СТАРТ" oninput="syncTexts()"></div>
+
+            <div style="font-size: 10px; color:#aaa; margin: 10px 0 5px;">Экран Победы:</div>
+            <div class="input-row"><input type="text" id="txt-w-title" value="ПОБЕДА!" oninput="syncTexts()"></div>
+            <div class="input-row"><textarea id="txt-w-sub" oninput="syncTexts()">Вы успешно разобрали стену и спасли малыша обезьянки!</textarea></div>
+            <div class="input-row"><label>Кнопка:</label><input type="text" id="txt-w-btn" value="ИГРАТЬ СНОВА" oninput="syncTexts()"></div>
+
+            <div style="font-size: 10px; color:#aaa; margin: 10px 0 5px;">Экран Поражения:</div>
+            <div class="input-row"><input type="text" id="txt-l-title" value="ИГРА ОКОНЧЕНА" oninput="syncTexts()"></div>
+            <div class="input-row"><textarea id="txt-l-sub" oninput="syncTexts()">Попытки закончились! Злая обезьяна рассержена.</textarea></div>
+            <div class="input-row"><label>Кнопка:</label><input type="text" id="txt-l-btn" value="ПОПРОБОВАТЬ СНОВА" oninput="syncTexts()"></div>
+        </div>
+
+        <div id="tab-assets" class="tab-content">
+            <div class="group-title">Пресеты кирпичей</div>
+            <div class="preset-grid">
+                <div class="preset-card active" id="card-normal" onclick="applyPreset('normal')">Обычные</div>
+                <div class="preset-card" id="card-gray" onclick="applyPreset('gray')">Серые</div>
+                <div class="preset-card" id="card-ice" onclick="applyPreset('ice')">Ледяные</div>
+                <div class="preset-card" id="card-cookie" onclick="applyPreset('cookie')">Печенье</div>
+                <div class="preset-card" id="card-coral" onclick="applyPreset('coral')">Кораллы</div>
+                <div class="preset-card" id="card-night" onclick="applyPreset('night')">Ночь</div>
+            </div>
+
+            <div class="group-title">Количество бонусов на стене</div>
+            <div class="input-row"><label>❄️ Остановка времени на 10 сек:</label><input type="number" id="cnt-freeze" value="2" onchange="buildWall()"></div>
+            <div class="input-row"><label>💣 Бомба разбивает 7 кирпичей:</label><input type="number" id="cnt-bomb" value="2" onchange="buildWall()"></div>
+            <div class="input-row"><label>⏳ Добавляет 10 секунд:</label><input type="number" id="cnt-time" value="1" onchange="buildWall()"></div>
+
+            <div class="group-title">Инвентарь (Снаряды)</div>
+            <div style="color: #a0a0b5; font-size: 11px; margin-bottom: 10px;">Выберите единый сет снарядов:</div>
+            <div class="input-row">
+                <select id="ammo-set-selector" onchange="applyAmmoSet(this.value)" style="flex:1;">
+                    <option value="1">Сет 1: Яблоко, Банан, Кокос</option>
+                    <option value="2">Сет 2: Персик, Апельсин, Арбуз</option>
+                    <option value="3">Сет 3: Снежок, Льдинка, Снеговик</option>
+                    <option value="4">Сет 4: Конфета, Печенье, Шоколад</option>
+                </select>
+            </div>
+            
+            <div class="input-row" style="margin-top: 15px;">
+                <label>Снаряд 1 (1 кирпич):</label>
+                <input type="text" id="ammo-1-val" value="🍏" oninput="updateAmmoUI()">
+                <input type="number" id="ammo-1-cnt" value="10" style="width:50px;flex:none;" oninput="updateAmmoUI()">
+            </div>
+            
+            <div class="input-row">
+                <label>Снаряд 2 (3 кирпича):</label>
+                <input type="text" id="ammo-2-val" value="🍌" oninput="updateAmmoUI()">
+                <input type="number" id="ammo-2-cnt" value="5" style="width:50px;flex:none;" oninput="updateAmmoUI()">
+            </div>
+
+            <div class="input-row">
+                <label>Снаряд 3 (5 кирпичей):</label>
+                <input type="text" id="ammo-3-val" value="🥥" oninput="updateAmmoUI()">
+                <input type="number" id="ammo-3-cnt" value="3" style="width:50px;flex:none;" oninput="updateAmmoUI()">
+            </div>
+
+            <div class="divider"></div>
+            
+            <div class="group-title">Орудие (Рогатка / Катапульта)</div>
+            <div class="preset-grid" id="weapon-presets">
+                <div class="preset-card weapon-card active" style="background-image: url('https://img.genially.com/67961b32a116fb001568a75e/4548f065-0eec-42c6-9154-b6fd2ece20a5.png');" onclick="setWeapon('https://img.genially.com/67961b32a116fb001568a75e/4548f065-0eec-42c6-9154-b6fd2ece20a5.png', this)">Обычная</div>
+                <div class="preset-card weapon-card" style="background-image: url('https://img.genially.com/67961b32a116fb001568a75e/bd59cc94-e9f7-4051-99ba-e08649eeb1f6.png');" onclick="setWeapon('https://img.genially.com/67961b32a116fb001568a75e/bd59cc94-e9f7-4051-99ba-e08649eeb1f6.png', this)">Рыцарская</div>
+                <div class="preset-card weapon-card" style="background-image: url('https://img.genially.com/67961b32a116fb001568a75e/9238a950-c5b6-4bfc-95d7-045c3097f674.png');" onclick="setWeapon('https://img.genially.com/67961b32a116fb001568a75e/9238a950-c5b6-4bfc-95d7-045c3097f674.png', this)">Снежная</div>
+                <div class="preset-card weapon-card" style="background-image: url('https://img.genially.com/67961b32a116fb001568a75e/c3f2dd51-9185-4e5e-bb79-bef4e868ec22.png');" onclick="setWeapon('https://img.genially.com/67961b32a116fb001568a75e/c3f2dd51-9185-4e5e-bb79-bef4e868ec22.png', this)">Пряничная</div>
+                <div class="preset-card weapon-card" style="background-image: url('https://img.genially.com/67961b32a116fb001568a75e/5bd6739e-cca2-48ce-9708-2e7d4669ea83.png');" onclick="setWeapon('https://img.genially.com/67961b32a116fb001568a75e/5bd6739e-cca2-48ce-9708-2e7d4669ea83.png', this)">Морская</div>
+                <div class="preset-card weapon-card" style="background-image: url('https://img.genially.com/67961b32a116fb001568a75e/15c41243-818f-482d-abd7-10d68117d358.png');" onclick="setWeapon('https://img.genially.com/67961b32a116fb001568a75e/15c41243-818f-482d-abd7-10d68117d358.png', this)">Магическая</div>
+            </div>
+            
+            <div class="input-row">
+                <label>Своя ссылка:</label>
+                <input type="text" onchange="setCustomWeapon(this.value)" placeholder="http://...">
+                <label class="file-btn">ПК <input type="file" accept="image/*" onchange="handleWeaponFile(event)"></label>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="group-title" style="color: var(--neon-cyan);">ТРАЕКТОРИЯ ПРИЦЕЛИВАНИЯ</div>
+            <div class="input-row">
+                <label>Тип линии:</label>
+                <select id="traj-type">
+                    <option value="dot">Обычные точки</option>
+                    <option value="dash">Пунктирная линия</option>
+                    <option value="star">Сияющие звездочки</option>
+                </select>
+            </div>
+            <div class="input-row">
+                <label>Цвет траектории:</label>
+                <input type="color" id="traj-color" value="#00f0ff">
+            </div>
+
+            <div class="group-title" style="color: var(--neon-orange);">РЕЗИНКА И КРУЖОК</div>
+            <div class="input-row">
+                <label>Цвет кружочка:</label>
+                <input type="color" id="sling-anchor-color" value="#ffaa00" oninput="updateSlingStyle()">
+            </div>
+            <div class="input-row">
+                <label>Цвет резинки:</label>
+                <select id="rubber-mode" onchange="updateSlingStyle()">
+                    <option value="solid">Однотонная</option>
+                    <option value="rainbow">Радужная</option>
+                </select>
+            </div>
+            <div class="input-row" id="rubber-color-row">
+                <label>Однотонный цвет:</label>
+                <input type="color" id="rubber-color" value="#e67e22" oninput="updateSlingStyle()">
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="group-title">Персонажи и финальная картинка</div>
+            <div class="character-preset-grid">
+                <div class="character-preset-card" style="background-image:url('https://img.genially.com/67961b32a116fb001568a75e/98ea799e-dcbf-4e28-b0e0-0fa8d200ecc5.png')" onclick="setCharacterPreset('--img-mom-angry','https://img.genially.com/67961b32a116fb001568a75e/98ea799e-dcbf-4e28-b0e0-0fa8d200ecc5.png','char-angry-url')">Стрелок — сердитый</div>
+                <div class="character-preset-card" style="background-image:url('https://img.genially.com/67961b32a116fb001568a75e/dc68aff8-a1cf-44b6-ab8e-16e56d8e9a2d.png')" onclick="setCharacterPreset('--img-mom-happy','https://img.genially.com/67961b32a116fb001568a75e/dc68aff8-a1cf-44b6-ab8e-16e56d8e9a2d.png','char-happy-url')">Стрелок — довольный</div>
+                <div class="character-preset-card" style="background-image:url('https://img.genially.com/67961b32a116fb001568a75e/09a4d078-de3e-4083-8d3e-d681d1bcd51d.png')" onclick="setCharacterPreset('--img-baby-sad','https://img.genially.com/67961b32a116fb001568a75e/09a4d078-de3e-4083-8d3e-d681d1bcd51d.png','object-sad-url')">Объект — грустный</div>
+                <div class="character-preset-card" style="background-image:url('https://img.genially.com/67961b32a116fb001568a75e/4eafd765-25de-4fab-9eaf-bea99c04a7a8.png')" onclick="setCharacterPreset('--img-baby-happy','https://img.genially.com/67961b32a116fb001568a75e/4eafd765-25de-4fab-9eaf-bea99c04a7a8.png','object-happy-url')">Объект — радостный</div>
+                <div class="character-preset-card final-card" style="background-image:url('https://img.genially.com/67961b32a116fb001568a75e/bd003827-2f03-4fcb-a038-7eba49b6f2ce.png')" onclick="setCharacterPreset('--img-final','https://img.genially.com/67961b32a116fb001568a75e/bd003827-2f03-4fcb-a038-7eba49b6f2ce.png','final-image-url')">Финальная картинка</div>
+            </div>
+            <div class="character-setting"><div class="input-row"><label>Стрелок (сердитый):</label><input id="char-angry-url" type="text" value="https://img.genially.com/67961b32a116fb001568a75e/98ea799e-dcbf-4e28-b0e0-0fa8d200ecc5.png" oninput="setCharacterPreset('--img-mom-angry',this.value)"><label class="file-btn">Файл <input type="file" accept="image/*" onchange="handleCharacterFile(event,'--img-mom-angry','char-angry-url')"></label></div></div>
+            <div class="character-setting"><div class="input-row"><label>Стрелок (довольный):</label><input id="char-happy-url" type="text" value="https://img.genially.com/67961b32a116fb001568a75e/dc68aff8-a1cf-44b6-ab8e-16e56d8e9a2d.png" oninput="setCharacterPreset('--img-mom-happy',this.value)"><label class="file-btn">Файл <input type="file" accept="image/*" onchange="handleCharacterFile(event,'--img-mom-happy','char-happy-url')"></label></div></div>
+            <div class="character-setting"><div class="input-row"><label>Объект (грустный):</label><input id="object-sad-url" type="text" value="https://img.genially.com/67961b32a116fb001568a75e/09a4d078-de3e-4083-8d3e-d681d1bcd51d.png" oninput="setCharacterPreset('--img-baby-sad',this.value)"><label class="file-btn">Файл <input type="file" accept="image/*" onchange="handleCharacterFile(event,'--img-baby-sad','object-sad-url')"></label></div></div>
+            <div class="character-setting"><div class="input-row"><label>Объект (радостный):</label><input id="object-happy-url" type="text" value="https://img.genially.com/67961b32a116fb001568a75e/4eafd765-25de-4fab-9eaf-bea99c04a7a8.png" oninput="setCharacterPreset('--img-baby-happy',this.value)"><label class="file-btn">Файл <input type="file" accept="image/*" onchange="handleCharacterFile(event,'--img-baby-happy','object-happy-url')"></label></div></div>
+            <div class="character-setting"><div class="input-row"><label>Финальная картинка:</label><input id="final-image-url" type="text" value="https://img.genially.com/67961b32a116fb001568a75e/bd003827-2f03-4fcb-a038-7eba49b6f2ce.png" oninput="setCharacterPreset('--img-final',this.value)"><label class="file-btn">Файл <input type="file" accept="image/*" onchange="handleCharacterFile(event,'--img-final','final-image-url')"></label></div></div>
+        </div>
+
+        <div id="tab-questions" class="tab-content">
+            <div class="group-title" style="color:#00f0ff">НАСТРОЙКИ ШРИФТОВ И ЦВЕТОВ</div>
+            <div class="input-row">
+                <label>Шрифт задания:</label>
+                <select onchange="updateCssVar('--q-task-font', this.value)" class="font-select"></select>
+                <input type="checkbox" id="hide-task-title" title="Всегда скрывать строку задания" onchange="refreshVisibleQuestionTitle()"> убрать
+            </div>
+            <div class="input-row"><label>Размер задания:</label><input type="number" value="24" onchange="updateCssVar('--q-task-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет задания:</label><input type="color" value="#39ff14" onchange="updateCssVar('--q-task-color', this.value)"></div>
+            <div class="divider"></div>
+            
+            <div class="input-row"><label>Шрифт вопроса:</label><select onchange="updateCssVar('--q-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер вопроса:</label><input type="number" value="20" onchange="updateCssVar('--q-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет вопроса:</label><input type="color" value="#ffffff" onchange="updateCssVar('--q-color', this.value)"></div>
+            <div class="divider"></div>
+
+            <div class="input-row"><label>Шрифт ответов:</label><select onchange="updateCssVar('--a-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер ответов:</label><input type="number" value="16" min="10" max="48" onchange="updateCssVar('--a-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет ответов:</label><input type="color" value="#ffffff" onchange="updateCssVar('--a-color', this.value)"></div>
+            <div class="divider"></div>
+
+            <div class="group-title" style="color:#b9ff66; margin-top:10px;">НАДПИСИ ДЛЯ ЛЮБОГО ЯЗЫКА</div>
+            <div class="input-row"><label>Кнопка проверки:</label><input type="text" id="txt-q-check" value="CHECK"></div>
+            <div class="input-row"><label>Кнопка сброса:</label><input type="text" id="txt-q-reset" value="RESET"></div>
+            <div class="input-row"><label>Подсказка в поле ввода:</label><input type="text" id="txt-q-input-placeholder" value="Type your answer..."></div>
+            <div class="divider"></div>
+            
+            <div class="input-row"><label>Цвет основной плашки:</label><input type="color" value="#2a2b3d" onchange="updateCssVar('--q-plaque-bg', hexToRgbaStr(this.value, 0.95))"></div>
+            <div class="input-row"><label>Цвет плашек ответов:</label><input type="color" value="#1a1b26" onchange="updateCssVar('--a-plaque-bg', hexToRgbaStr(this.value, 0.9))"></div>
+            <div class="input-row"><label>Цвет неона/подсветки:</label><input type="color" value="#00f0ff" onchange="updateCssVar('--q-border-neon', this.value)"></div>
+            
+            <div class="input-row" style="margin-top: 15px;">
+                <label>Кол-во вопросов на стене (кирпичей):</label>
+                <input type="number" id="q-total" value="6" min="4" max="20" onchange="clampQuestionCount(); buildWall(); checkQuestionCount();">
+            </div>
+            <div class="input-row" style="margin-top:4px;">
+                <label style="flex:1 1 auto;"><input type="checkbox" id="break-wrong-answer"> Разбивать кирпич при неправильном ответе</label>
+            </div>
+
+            <div class="group-title" style="color: var(--neon-green); margin-top:20px;">СПИСОК ВОПРОСОВ</div>
+            <div id="auto-q-container" style="display:block; background:#13141c; padding:12px; border:1px solid #3a3b50; border-radius:8px; margin-bottom:15px;">
+                <p class="question-help">
+                    Один вопрос — одна строка. Универсальный формат:<br>
+                    <b style="color:#fff;">необязательное задание // содержимое вопроса</b><br>
+                    Текст до <b>//</b> появится наверху плашки и может быть на любом языке. Если отдельное задание не нужно, пишите сразу содержимое вопроса — без <b>//</b>.
+                </p>
+                <div class="question-examples" style="color:#aaa; background:rgba(0,0,0,.22); border-radius:8px;">
+                    <b style="color:#00f0ff;">Выбор ответа:</b> Choose the word: // I ___ tired. | am | is | are<br>
+                    <b style="color:#00f0ff;">Вписать слово:</b> Print the word: // ______ is the capital. (London, LONDON)<br>
+                    <b style="color:#00f0ff;">Собрать предложение:</b> Put the Words in Order: // The cat is sleeping.<br>
+                    <span style="color:#7f8199;">В выборе ответа первый вариант после | всегда считается правильным.</span>
+                </div>
+                <textarea id="auto-q-text" spellcheck="false">Choose the word: // I ___ tired. | am | is | are
+Print the word: // ______ is the capital of Great Britain. (London, LONDON)
+Put the Words in Order: // The Maya were great astronomers.</textarea>
+                <button id="process-questions-btn" onclick="parseAutoQuestions()" style="width:100%; margin-top:10px; background:var(--neon-green); border:none; border-radius:7px; cursor:pointer; font-weight:bold;">ОБРАБОТАТЬ СПИСОК И СОЗДАТЬ КАРТОЧКИ ↓</button>
+            </div>
+
+            <div class="math-panel" id="math-panel">
+                <h3 class="math-panel-title">Математические формулы (LaTeX)</h3>
+                <label class="math-toggle-row">
+                    <input type="checkbox" id="math-enabled" checked onchange="toggleMathSupport()">
+                    <span>Включить математические формулы</span>
+                </label>
+                <div class="math-help">
+                    <strong>Как вводить формулы:</strong> оборачивайте LaTeX-код в знаки доллара.<br>
+                    Примеры: <code>$x^2$</code>, <code>$\frac{1}{2}$</code>, <code>$\sqrt{x}$</code>.<br>
+                    Нажмите кнопку ниже — готовый код скопируется в буфер обмена. Затем вставьте его в строку вопроса или ответа.
+                </div>
+                <div class="latex-toolbar" aria-label="Шпаргалка формул">
+                    <button type="button" class="latex-btn" data-latex="$x^2$" onclick="copyLatex(this)">x²</button>
+                    <button type="button" class="latex-btn" data-latex="$x^n$" onclick="copyLatex(this)">xⁿ</button>
+                    <button type="button" class="latex-btn" data-latex="$x_1$" onclick="copyLatex(this)">x₁</button>
+                    <button type="button" class="latex-btn" data-latex="$\sqrt{x}$" onclick="copyLatex(this)">√x</button>
+                    <button type="button" class="latex-btn" data-latex="$\sqrt[n]{a}$" onclick="copyLatex(this)">ⁿ√a</button>
+                    <button type="button" class="latex-btn" data-latex="$\frac{a}{b}$" onclick="copyLatex(this)">a/b</button>
+                    <button type="button" class="latex-btn" data-latex="$\times$" onclick="copyLatex(this)">×</button>
+                    <button type="button" class="latex-btn" data-latex="$\div$" onclick="copyLatex(this)">÷</button>
+                    <button type="button" class="latex-btn" data-latex="$\pm$" onclick="copyLatex(this)">±</button>
+                    <button type="button" class="latex-btn" data-latex="$\ne$" onclick="copyLatex(this)">≠</button>
+                    <button type="button" class="latex-btn" data-latex="$\le$" onclick="copyLatex(this)">≤</button>
+                    <button type="button" class="latex-btn" data-latex="$\ge$" onclick="copyLatex(this)">≥</button>
+                    <button type="button" class="latex-btn" data-latex="$\infty$" onclick="copyLatex(this)">∞</button>
+                    <button type="button" class="latex-btn" data-latex="$\pi$" onclick="copyLatex(this)">π</button>
+                    <button type="button" class="latex-btn" data-latex="$\angle$" onclick="copyLatex(this)">∠</button>
+                    <button type="button" class="latex-btn" data-latex="$^\\circ$" onclick="copyLatex(this)">°</button>
+                    <button type="button" class="latex-btn" data-latex="$\triangle$" onclick="copyLatex(this)">△</button>
+                    <button type="button" class="latex-btn" data-latex="$\parallel$" onclick="copyLatex(this)">∥</button>
+                    <button type="button" class="latex-btn" data-latex="$\perp$" onclick="copyLatex(this)">⊥</button>
+                    <button type="button" class="latex-btn" data-latex="$\sum_{i=1}^{n}$" onclick="copyLatex(this)">∑</button>
+                </div>
+                <div id="latex-copy-status" class="latex-copy-status" aria-live="polite"></div>
+                <div class="math-preview-note">При включённой галочке формулы отображаются на экране предпросмотра и в игровом вопросе.</div>
+            </div>
+
+            <div id="q-warning" style="display:none; color: #ffaa00; font-size: 11px; margin-bottom: 10px; padding: 10px; background: rgba(255,170,0,0.1); border: 1px solid #ffaa00; border-radius: 4px;">
+                ⚠️ <b>Внимание:</b> Вы указали <span id="q-req-cnt">6</span> кирпичей-вопросов на стене, но создали <span id="q-act-cnt">4</span> карточки вопросов.<br>
+                <span id="q-warn-text">Недостающие вопросы будут повторяться!</span>
+            </div>
+
+            <div class="group-title" style="color:var(--neon-cyan); margin-top:18px;">КАРТОЧКИ ВОПРОСОВ И КАРТИНКИ</div>
+            <p class="question-list-note" style="color:#aaa; margin-top:-4px;">Карточки создаются кнопкой «Обработать список». Здесь можно проверить текст и добавить к каждому вопросу изображение.</p>
+            <div id="questions-list"></div>
+        </div>
+
+        <div id="tab-code" class="tab-content">
+            <div class="group-title" style="color:var(--neon-cyan);">ИТОГОВАЯ ИГРА</div>
+            <p style="font-size:14px; line-height:1.5; color:#b9bbca;">Сформируйте самостоятельный HTML-файл игры. Если математические формулы включены, в его &lt;head&gt; автоматически добавится MathJax; если выключены — библиотека не добавляется.</p>
+            <button class="code-action-btn" style="background:var(--neon-green); color:#071006;" onclick="generateStandaloneCode()">СФОРМИРОВАТЬ HTML-КОД</button>
+            <button class="code-action-btn" style="background:#00b8d4; color:#071014;" onclick="copyGeneratedCode()">КОПИРОВАТЬ КОД</button>
+            <button class="code-action-btn" style="background:#ffb02e; color:#171006;" onclick="downloadGeneratedGame()">СКАЧАТЬ HTML-ФАЙЛ</button>
+            <div id="code-status" style="min-height:22px; color:#76ff9b; font-size:13px; margin:5px 0;"></div>
+            <textarea id="generated-code" readonly placeholder="Здесь появится полный HTML-код итоговой игры..."></textarea>
+        </div>
+
+       
+
+        <div id="tab-sounds" class="tab-content">
+            <div class="group-title">Звуки ответов на вопросы</div>
+            <div class="input-row">
+                <label>Правильный ответ:</label>
+                <select id="snd-correct">
+                    <option value="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3">Mixkit (Звоночек)</option>
+                    <option value="gen1">Магия (Синтез)</option>
+                    <option value="gen2">Аккорд (Синтез)</option>
+                    <option value="url">Своя ссылка...</option>
+                </select>
+            </div>
+            <div class="input-row" id="snd-correct-url-row" style="display:none;">
+                <input type="text" id="snd-correct-url" placeholder="https://.../correct.mp3">
+                <label class="file-btn">ПК <input type="file" accept="audio/*" onchange="handleAudioUpload(this, 'snd-correct-url')"></label>
+            </div>
+
+            <div class="input-row">
+                <label>Неправильный ответ:</label>
+                <select id="snd-wrong">
+                    <option value="gen1">Глухой стук (Синтез)</option>
+                    <option value="gen2">Диссонанс (Синтез)</option>
+                    <option value="url">Своя ссылка...</option>
+                </select>
+            </div>
+            <div class="input-row" id="snd-wrong-url-row" style="display:none;">
+                <input type="text" id="snd-wrong-url" placeholder="https://.../wrong.mp3">
+                <label class="file-btn">ПК <input type="file" accept="audio/*" onchange="handleAudioUpload(this, 'snd-wrong-url')"></label>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="group-title">Игровые звуки</div>
+            <div class="input-row">
+                <label>Полет снаряда:</label>
+                <select id="snd-fly" onchange="playSynth('fly')">
+                    <option value="whip">Хлыст (сухой Вжух)</option>
+                    <option value="air">Рассекаемый воздух</option>
+                    <option value="light">Легкий бросок</option>
+                </select>
+            </div>
+            <div class="input-row">
+                <label>Удар:</label>
+                <select id="snd-hit" onchange="playSynth('hit')">
+                    <option value="dry">Сухой щелчок</option>
+                    <option value="wood">Удар по дереву</option>
+                    <option value="clap">Глухой хлопок</option>
+                </select>
+            </div>
+            
+            <div class="divider"></div>
+            <div class="group-title">Звуки финальных экранов</div>
+            
+            <div class="input-row">
+                <label>Победа:</label>
+                <select id="snd-win-sel">
+                    <option value="gen1">Фанфары 1</option>
+                    <option value="gen2">Магия успеха</option>
+                    <option value="gen3">Колокольчики</option>
+                    <option value="url">Своя ссылка...</option>
+                </select>
+            </div>
+            <div class="input-row" id="snd-win-url-row" style="display:none;">
+                <input type="text" id="snd-win-url" placeholder="https://.../win.mp3">
+                <label class="file-btn">ПК <input type="file" accept="audio/*" onchange="handleAudioUpload(this, 'snd-win-url')"></label>
+            </div>
+
+            <div class="input-row">
+                <label>Поражение:</label>
+                <select id="snd-lose-sel">
+                    <option value="gen1">Разочарование (вниз)</option>
+                    <option value="gen2">Диссонанс</option>
+                    <option value="gen3">Глухой стук</option>
+                    <option value="url">Своя ссылка...</option>
+                </select>
+            </div>
+            <div class="input-row" id="snd-lose-url-row" style="display:none;">
+                <input type="text" id="snd-lose-url" placeholder="https://.../lose.mp3">
+                <label class="file-btn">ПК <input type="file" accept="audio/*" onchange="handleAudioUpload(this, 'snd-lose-url')"></label>
+            </div>
+
+            <div class="input-row">
+                <label>Время вышло:</label>
+                <select id="snd-time-sel">
+                    <option value="gen1">Сигнал тревоги 1</option>
+                    <option value="gen2">Сигнал тревоги 2</option>
+                    <option value="gen3">Пустота (эхо)</option>
+                    <option value="url">Своя ссылка...</option>
+                </select>
+            </div>
+            <div class="input-row" id="snd-time-url-row" style="display:none;">
+                <input type="text" id="snd-time-url" placeholder="https://.../time.mp3">
+                <label class="file-btn">ПК <input type="file" accept="audio/*" onchange="handleAudioUpload(this, 'snd-time-url')"></label>
+            </div>
+
+            <div class="divider"></div>
+            <div class="group-title">Финальный салют</div>
+            <div class="input-row">
+                <label style="color:#fff;"><input type="checkbox" id="fireworks-enabled" checked> Показывать салют</label>
+            </div>
+            <div class="input-row">
+                <label style="color:#fff;"><input type="checkbox" id="fireworks-sound" checked> Мягкий звук «бух-бух»</label>
+            </div>
+            <div class="input-row">
+                <label>Громкость салюта: <span id="fireworks-volume-value">60%</span></label>
+                <input type="range" id="fireworks-volume" min="0" max="100" step="5" value="60" oninput="updateFireworksVolumeLabel()">
+            </div>
+            <div class="input-row">
+                <label>Цвет салюта:</label>
+                <select id="fireworks-mode" onchange="toggleFireworkColorRow()">
+                    <option value="rainbow">Разноцветный</option>
+                    <option value="solid">Одноцветный</option>
+                </select>
+            </div>
+            <div class="input-row" id="fireworks-color-row" style="display:none;">
+                <label>Один цвет:</label>
+                <input type="color" id="fireworks-color" value="#39ff14">
+            </div>
+        </div>
+
+        <button id="test-btn" onclick="toggleTestMode()">▶ ТЕСТИРОВАТЬ ИГРУ</button>
+        <div style="font-size: 9px; color: #666; text-align: center; margin-top: auto; padding: 10px;">© Все права принадлежат Башлыковой Оксане Михайловне</div>
+    </div>
+
+    <div id="main-area">
+        <div class="screen-tabs">
+            <div class="screen-tab active" onclick="switchScreen('scr-start')">НАЧАЛЬНЫЙ ЭКРАН</div>
+            <div class="screen-tab" onclick="switchScreen('scr-game')">ИГРОВОЕ ПОЛЕ</div>
+            <div class="screen-tab" onclick="switchScreen('scr-question')">ЭКРАН ВОПРОСОВ</div>
+            <div class="screen-tab" onclick="switchScreen('scr-win')">ЭКРАН ПОБЕДЫ</div>
+            <div class="screen-tab" onclick="switchScreen('scr-lose')">ЭКРАН ПОРАЖЕНИЯ</div>
+        </div>
+
+        <canvas id="fireworks-canvas"></canvas>
+
+        <div id="scr-start" class="screen-container active splash-screen">
+            <div class="splash-content-box">
+                <div style="width:160px; height:160px; background:var(--img-baby-sad) center/contain no-repeat; margin-bottom: 20px;"></div>
+                <div class="dyn-title" id="ren-s-title">СПАСИ МАЛЫША!</div>
+                <div class="dyn-subtext" id="ren-s-sub">Разбей стену из рогатки и доберись до цели!</div>
+                <button class="game-btn" id="ren-s-btn" onclick="startGameSession()">СТАРТ</button>
+            </div>
+        </div>
+
+        <div id="scr-game" class="screen-container editor-mode">
+            <div id="top-ui">
+                <div id="timer-ui">TIME: 120s</div>
+                <div id="inventory">
+                    <div class="ammo-slot active" id="slot-1" onclick="setAmmo(1)"><span class="ammo-icon" id="ui-em-1">🍏</span> <span id="ui-cnt-1">x10</span></div>
+                    <div class="ammo-slot" id="slot-2" onclick="setAmmo(2)"><span class="ammo-icon" id="ui-em-2">🍌</span> <span id="ui-cnt-2">x5</span></div>
+                    <div class="ammo-slot" id="slot-3" onclick="setAmmo(3)"><span class="ammo-icon" id="ui-em-3">🥥</span> <span id="ui-cnt-3">x3</span></div>
+                </div>
+                <div style="color: #ff3366;" id="ui-lives">❤️❤️</div>
+            </div>
+
+            <svg id="trajectory-svg" style="width: 100%; height: 100%; top: 0; left: 0; position: absolute;">
+                <defs>
+                    <linearGradient id="rubber-rainbow-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="280" y2="0" spreadMethod="repeat">
+                        <stop offset="0%" stop-color="#ff3155"/>
+                        <stop offset="16.6%" stop-color="#ff9f1c"/>
+                        <stop offset="33.2%" stop-color="#ffe66d"/>
+                        <stop offset="49.8%" stop-color="#39ff14"/>
+                        <stop offset="66.4%" stop-color="#00f0ff"/>
+                        <stop offset="83%" stop-color="#5b7cfa"/>
+                        <stop offset="100%" stop-color="#ff3155"/>
+                        <animateTransform attributeName="gradientTransform" type="translate" from="-280 0" to="0 0" dur="1.35s" repeatCount="indefinite"/>
+                    </linearGradient>
+                </defs>
+                <line id="rubber-left" class="rubber-line" x1="0" y1="0" x2="0" y2="0" />
+                <line id="rubber-right" class="rubber-line" x1="0" y1="0" x2="0" y2="0" />
+            </svg>
+
+            <div id="gorilla" class="editable"><div class="resize-handle"></div></div>
+            <div id="slingshot" class="editable"><div class="resize-handle"></div></div>
+            
+            <div id="sling-anchor-left" class="sling-anchor-point" style="left: 22.5%; bottom: 18.5%;"></div>
+            <div id="sling-anchor-right" class="sling-anchor-point" style="left: 24.5%; bottom: 18.5%;"></div>
+            
+            <div id="sling-anchor" class="editable"><div class="resize-handle"></div></div>
+            
+            <div id="wall-container" class="editable"><div class="resize-handle"></div></div>
+            <div id="baby" class="editable"><div class="resize-handle"></div></div>
+            <div id="projectile">🍏</div>
+            <div id="impact-particles"></div>
+            
+            <div id="q-overlay">
+                <div class="question-box" style="text-align: center;">
+                    <h2 class="q-task-title" id="scr-q-title">Answer the Question</h2>
+                    <img id="q-img-display" src="" style="max-height:150px; border-radius:10px; margin: 0 auto 15px auto; display:none;">
+                    <p class="q-text" id="scr-q-text">Question text?</p>
+                    <div class="answers-grid" id="scr-q-answers"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="scr-question" class="screen-container splash-screen">
+            <div class="question-box" id="preview-q-box" style="min-width: 450px;">
+                <h2 class="q-task-title" id="preview-q-title"></h2>
+                <p class="q-text" id="preview-q-text"></p>
+                <div class="answers-grid" id="preview-q-answers"></div>
+            </div>
+            <p style="margin-top: 20px; font-size: 12px; color: #fff; text-shadow: 0 0 5px #000;">* Вы можете кликнуть по ответам для проверки звуков и эффектов наведения.</p>
+        </div>
+
+        <div id="scr-win" class="screen-container splash-screen">
+            <div class="splash-content-box">
+                <div id="final-win-image"></div>
+                <div class="dyn-title" id="ren-w-title">ПОБЕДА!</div>
+                <div class="dyn-subtext" id="ren-w-sub">Вы успешно разобрали стену и спасли малыша обезьянки!</div>
+                <button class="game-btn" id="ren-w-btn" onclick="startGameSession()">ИГРАТЬ СНОВА</button>
+            </div>
+        </div>
+
+        <div id="scr-lose" class="screen-container splash-screen">
+            <div class="splash-content-box">
+                <div style="width:200px; height:200px; background:var(--img-mom-angry) center/contain no-repeat; margin-bottom: 20px;"></div>
+                <div class="dyn-title" id="ren-l-title">ИГРА ОКОНЧЕНА</div>
+                <div class="dyn-subtext" id="ren-l-sub">Попытки закончились! Злая обезьяна рассержена.</div>
+                <button class="game-btn" id="ren-l-btn" onclick="startGameSession()">ПОПРОБОВАТЬ СНОВА</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const URL_BASE = 'https://img.genially.com/67961b32a116fb001568a75e/';
+        
+        const presets = {
+            normal: { preview: '55440cc2-f6ce-4047-9ba3-cf31f08def50.png', normal: '30306f30-008c-408e-8dba-168bfded88e1.png', question: '88e02548-b237-4ccd-8ed6-878fe796bff3.png', life: '3a3e38ac-6406-4a88-a90d-06cc0710a4f5.png', freeze: 'a3752b56-6026-4857-8836-c3b208e971bb.png', bomb: 'ea4e6207-e5af-4490-a453-b7b69abbb980.png', time: '3ab6a3c1-baca-4d94-9493-2d7483470a3b.png' },
+            gray: { preview: '47918fcd-3586-4743-99e1-be3db07e6f35.png', normal: '89962560-d1bf-4d51-93ed-d48fbfb578a9.png', question: 'f63a08d4-d390-4270-b421-67f41ec66811.png', life: '0693b12d-9d72-4a5a-b912-5667afcb6700.png', freeze: '092f25d0-dc8e-4bc6-9fad-67fa3de536cd.png', bomb: '7853a22c-cbd6-4364-96e4-713bc660dcf8.png', time: '7f47dac8-41c7-4358-bb69-1321d62b95fc.png' },
+            ice: { preview: '5264a298-bc39-4233-948d-4f542d9539d8.png', normal: '2cadd80f-80f7-4f15-8cb6-5ea3570c905a.png', question: '120d145f-4cc9-489f-b70a-3bc78e6d100b.png', life: 'f09a0807-0888-45a9-8c48-615ffcaa29b3.png', freeze: '57e0052d-2ca6-4ae9-9be1-b0e1ccf02636.png', bomb: 'ee297bb2-875b-4e4a-90c0-e836e8be512a.png', time: '4f794881-83c4-443b-9ae7-8e8025efa59f.png' },
+            cookie: { preview: '5ad45bb9-db91-41db-9cd0-94f9fae47ed7.png', normal: '635028aa-2ae8-40de-b3f3-859dc74efb65.png', question: 'c33a5e70-619e-4da2-b68f-7132c2e0fe57.png', life: '68954939-19d7-48a5-a00b-f0b9e30c30db.png', freeze: '2e963be9-98ec-4440-963f-20f5ecb64c0b.png', bomb: '17d7c4ea-e197-4327-9069-f2da37192ac1.png', time: '8a13bd08-249a-433b-842e-af86ef4bb2ef.png' },
+            coral: { preview: 'bf4b16ee-7654-446e-ae72-ceaccd428d70.png', normal: 'a70f3b63-f426-49f7-9aae-07ab30b016e6.png', question: '4237bd63-7875-4b00-b678-a75109d6fd32.png', life: 'e636158e-213c-4db8-9a0e-c75911794a40.png', freeze: '73d0cdac-7f82-4459-9825-1e9bcd78e13f.png', bomb: '279ccbca-d1f1-4fe1-a49a-54da33da4a43.png', time: '961928e7-ca50-4f67-8e29-855a2dd8d0c2.png' },
+            night: { preview: '522709ef-7f1c-4324-bfc7-cc0ff70881a7.png', normal: 'f1da7181-48e5-4f59-8da1-c5c69f404bd4.png', question: '32138ae4-5867-4650-8098-9eea2e8aff36.png', life: 'ecb0747f-3d3c-48dd-9ada-b456b617f083.png', freeze: '3d17d62f-4c36-40a4-9a86-b363345d6703.png', bomb: '53589459-c832-4ac8-ad79-39c5d919abdb.png', time: '49b48751-60b0-4f7b-9bf1-33fcb27d8be6.png' }
+        };
+        const fonts = [
+            {v: "'Montserrat', sans-serif", n: "Montserrat"}, {v: "'Fredoka One', cursive", n: "Fredoka One"}, {v: "'Bangers', cursive", n: "Bangers"},
+            {v: "'Comic Neue', cursive", n: "Comic Neue"}, {v: "'Creepster', cursive", n: "Creepster"}, {v: "'Jolly Lodger', cursive", n: "Jolly Lodger"},
+            {v: "'Luckiest Guy', cursive", n: "Luckiest Guy"}, {v: "'Orbitron', sans-serif", n: "Orbitron"}, {v: "'Permanent Marker', cursive", n: "Permanent Marker"},
+            {v: "'Righteous', cursive", n: "Righteous"}, {v: "'Russo One', sans-serif", n: "Russo One"}
+        ];
+        
+        let isTesting = false; let currentAmmoSlot = 1; let lives = 2; let gameTime = 120; let freezeTime = 0; let activeQuestionBrick = null; let gameTimer;
+        let savedSettings = {}; // Для сброса настроек
+
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        let sharedAudioCtx = null;
+        let isEnding = false;
+        let isQuestionOpen = false;
+        let slingRestPosition = null;
+        let fireworkAnimationId = null;
+        let fireworkSpawnTimer = null;
+        let endScreenTimer = null;
+        let questionCursor = 0;
+        let currentQuestionData = null;
+        let mathJaxLoadPromise = null;
+        let latexCopyStatusTimer = null;
+        let winFallbackTimer = null;
+        let happyCharactersTimer = null;
+
+        function audioCtx() {
+            if (!sharedAudioCtx && AudioContextClass) sharedAudioCtx = new AudioContextClass();
+            return sharedAudioCtx;
+        }
+
+        function unlockAudio() {
+            try {
+                const ctx = audioCtx();
+                if (ctx && ctx.state === 'suspended') ctx.resume();
+            } catch (e) {}
+        }
+
+        document.addEventListener('pointerdown', unlockAudio, true);
+        document.addEventListener('click', unlockAudio, true);
+        document.addEventListener('touchstart', unlockAudio, { capture: true, passive: true });
+
+
+        const MATHJAX_CDN = 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js';
+
+        function formulasEnabled() {
+            return !!document.getElementById('math-enabled')?.checked;
+        }
+
+        function ensureMathJax() {
+            if (!formulasEnabled()) return Promise.resolve(null);
+            if (window.MathJax?.typesetPromise) {
+                return window.MathJax.startup?.promise
+                    ? window.MathJax.startup.promise.then(() => window.MathJax)
+                    : Promise.resolve(window.MathJax);
+            }
+            if (mathJaxLoadPromise) return mathJaxLoadPromise;
+
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true
+                },
+                startup: { typeset: false }
+            };
+
+            mathJaxLoadPromise = new Promise((resolve, reject) => {
+                let script = document.getElementById('mathjax-runtime-script');
+                if (!script) {
+                    script = document.createElement('script');
+                    script.id = 'mathjax-runtime-script';
+                    script.src = MATHJAX_CDN;
+                    script.async = true;
+                    document.head.appendChild(script);
+                }
+                script.addEventListener('load', () => {
+                    const ready = window.MathJax?.startup?.promise || Promise.resolve();
+                    ready.then(() => resolve(window.MathJax)).catch(reject);
+                }, { once:true });
+                script.addEventListener('error', () => reject(new Error('Не удалось загрузить MathJax')), { once:true });
+            }).catch(error => {
+                console.warn('MathJax loading error:', error);
+                mathJaxLoadPromise = null;
+                return null;
+            });
+            return mathJaxLoadPromise;
+        }
+
+        function typesetMath(elements) {
+            if (!formulasEnabled()) return Promise.resolve();
+            const targets = (elements || []).filter(Boolean);
+            if (!targets.length) return Promise.resolve();
+            return ensureMathJax().then(mj => {
+                if (!mj?.typesetPromise) return;
+                try { if (mj.typesetClear) mj.typesetClear(targets); } catch (e) {}
+                return mj.typesetPromise(targets);
+            }).catch(error => console.warn('MathJax typeset error:', error));
+        }
+
+        function toggleMathSupport() {
+            refreshQuestionPreview();
+            if (currentQuestionData && isQuestionOpen) renderQuestion(currentQuestionData);
+            if (formulasEnabled()) ensureMathJax().then(() => {
+                typesetMath([
+                    document.getElementById('preview-q-box'),
+                    document.querySelector('#q-overlay .question-box')
+                ]);
+            });
+        }
+
+        async function copyTextToClipboard(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                    return true;
+                }
+            } catch (e) {}
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            temp.setAttribute('readonly', '');
+            temp.style.position = 'fixed';
+            temp.style.opacity = '0';
+            document.body.appendChild(temp);
+            temp.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) {}
+            temp.remove();
+            return ok;
+        }
+
+        async function copyLatex(button) {
+            const code = button?.dataset?.latex || '';
+            const ok = await copyTextToClipboard(code);
+            const status = document.getElementById('latex-copy-status');
+            if (status) {
+                status.textContent = ok ? `Скопировано: ${code}` : `Не удалось скопировать. Код: ${code}`;
+                clearTimeout(latexCopyStatusTimer);
+                latexCopyStatusTimer = setTimeout(() => status.textContent = '', 2400);
+            }
+        }
+
+        function syncFormStateIntoClone(cloneRoot) {
+            const originals = Array.from(document.querySelectorAll('input, textarea, select'));
+            const copies = Array.from(cloneRoot.querySelectorAll('input, textarea, select'));
+            originals.forEach((source, index) => {
+                const target = copies[index];
+                if (!target) return;
+                if (source.tagName === 'TEXTAREA') {
+                    target.textContent = source.value;
+                } else if (source.tagName === 'SELECT') {
+                    Array.from(target.options).forEach((option, optionIndex) => {
+                        option.toggleAttribute('selected', optionIndex === source.selectedIndex);
+                    });
+                } else {
+                    target.setAttribute('value', source.value);
+                    if (source.type === 'checkbox' || source.type === 'radio') {
+                        target.toggleAttribute('checked', source.checked);
+                    }
+                }
+            });
+        }
+
+        function buildStandaloneGameHtml() {
+            parseAutoQuestions();
+            const clone = document.documentElement.cloneNode(true);
+            syncFormStateIntoClone(clone);
+            clone.querySelector('body')?.classList.add('game-export');
+            clone.querySelector('#generated-code') && (clone.querySelector('#generated-code').textContent = '');
+            clone.querySelector('#code-status') && (clone.querySelector('#code-status').textContent = '');
+            clone.querySelectorAll('#mathjax-runtime-script, #MathJax-script, #MathJax-config').forEach(node => node.remove());
+
+            if (formulasEnabled()) {
+                const config = document.createElement('script');
+                config.id = 'MathJax-config';
+                config.textContent = `window.MathJax={tex:{inlineMath:[['$','$'],['\\\\(','\\\\)']],displayMath:[['$$','$$'],['\\\\[','\\\\]']],processEscapes:true},startup:{typeset:false}};`;
+                const script = document.createElement('script');
+                script.id = 'MathJax-script';
+                script.setAttribute('defer', '');
+                script.src = MATHJAX_CDN;
+                clone.querySelector('head').append(config, script);
+            }
+
+            const exportStyle = document.createElement('style');
+            exportStyle.textContent = `body.game-export #editor-panel,body.game-export .screen-tabs{display:none!important}body.game-export #main-area{width:100vw!important;height:100vh!important}body.game-export .screen-container{top:0!important;height:100%!important}`;
+            clone.querySelector('head').appendChild(exportStyle);
+
+            const boot = document.createElement('script');
+            boot.textContent = `window.addEventListener('load',()=>{document.body.classList.add('game-export');try{stopTestSession({restore:false,rebuild:false})}catch(e){};try{switchScreen('scr-start')}catch(e){};document.getElementById('scr-game')?.classList.remove('editor-mode');if(document.getElementById('math-enabled')?.checked){setTimeout(()=>typesetMath([document.getElementById('preview-q-box')]),100)}});`;
+            clone.querySelector('body').appendChild(boot);
+            return '<!DOCTYPE html>\n' + clone.outerHTML;
+        }
+
+        function generateStandaloneCode() {
+            const code = buildStandaloneGameHtml();
+            const output = document.getElementById('generated-code');
+            if (output) output.value = code;
+            const status = document.getElementById('code-status');
+            if (status) status.textContent = formulasEnabled()
+                ? 'HTML сформирован. MathJax добавлен в <head>.'
+                : 'HTML сформирован без MathJax.';
+            return code;
+        }
+
+        async function copyGeneratedCode() {
+            const output = document.getElementById('generated-code');
+            const code = output?.value || generateStandaloneCode();
+            const ok = await copyTextToClipboard(code);
+            const status = document.getElementById('code-status');
+            if (status) status.textContent = ok ? 'Полный HTML-код скопирован.' : 'Не удалось скопировать автоматически.';
+        }
+
+        function downloadGeneratedGame() {
+            const code = document.getElementById('generated-code')?.value || generateStandaloneCode();
+            const blob = new Blob([code], { type:'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'wall-game.html';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+        }
+
+        function hexToRgbaStr(hex, alpha) {
+            let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        ['win', 'lose', 'time'].forEach(type => {
+            document.getElementById(`snd-${type}-sel`).addEventListener('change', (e) => {
+                document.getElementById(`snd-${type}-url-row`).style.display = e.target.value === 'url' ? 'flex' : 'none';
+                if(e.target.value !== 'url') playEndSound(type, true);
+            });
+        });
+
+        ['correct', 'wrong'].forEach(type => {
+            const el = document.getElementById(`snd-${type}`);
+            if (el) {
+                el.addEventListener('change', (e) => {
+                    document.getElementById(`snd-${type}-url-row`).style.display = e.target.value === 'url' ? 'flex' : 'none';
+                    playAnswerSound(type === 'correct');
+                });
+            }
+        });
+
+        function playExternalAudio(url, volume = 1) {
+            if (!url) return;
+            try {
+                const audio = new Audio(url);
+                audio.volume = volume;
+                const p = audio.play();
+                if (p && typeof p.catch === 'function') p.catch(() => {});
+            } catch (e) {}
+        }
+
+        function playAnswerSound(isCorrect) {
+            unlockAudio();
+            const type = isCorrect ? 'correct' : 'wrong';
+            const sel = document.getElementById(`snd-${type}`).value;
+
+            if (sel === 'url') {
+                playExternalAudio(document.getElementById(`snd-${type}-url`).value, 0.8);
+                return;
+            }
+            if (sel.startsWith('http')) {
+                playExternalAudio(sel, 0.8);
+                return;
+            }
+
+            const ctx = audioCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+
+            if (isCorrect) {
+                if (sel === 'gen1') {
+                    const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sine'; o.connect(g); g.connect(ctx.destination);
+                    o.frequency.setValueAtTime(600, now); o.frequency.exponentialRampToValueAtTime(1200, now+0.3);
+                    g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(0.35, now+0.08); g.gain.linearRampToValueAtTime(0, now+0.4);
+                    o.start(now); o.stop(now+0.4);
+                } else if (sel === 'gen2') {
+                    [523.25, 659.25, 783.99].forEach((f) => {
+                        const o=ctx.createOscillator(), g=ctx.createGain(); o.type='triangle'; o.connect(g); g.connect(ctx.destination); o.frequency.value=f;
+                        g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(0.16, now+0.05); g.gain.exponentialRampToValueAtTime(0.01, now+0.5);
+                        o.start(now); o.stop(now+0.5);
+                    });
+                }
+            } else if (sel === 'gen1') {
+                const o=ctx.createOscillator(), g=ctx.createGain(); o.type='square'; o.connect(g); g.connect(ctx.destination);
+                o.frequency.setValueAtTime(150, now); o.frequency.exponentialRampToValueAtTime(40, now+0.2);
+                g.gain.setValueAtTime(0.55, now); g.gain.exponentialRampToValueAtTime(0.01, now+0.2);
+                o.start(now); o.stop(now+0.2);
+            } else if (sel === 'gen2') {
+                [200, 215].forEach(f => {
+                    const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sawtooth'; o.connect(g); g.connect(ctx.destination);
+                    o.frequency.setValueAtTime(f, now); o.frequency.linearRampToValueAtTime(f-20, now+0.5);
+                    g.gain.setValueAtTime(0.22, now); g.gain.linearRampToValueAtTime(0, now+0.5);
+                    o.start(now); o.stop(now+0.5);
+                });
+            }
+        }
+
+        function tone(ctx, frequency, start, duration, volume = 0.18, type = 'triangle', endFrequency = null) {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = type;
+            o.connect(g); g.connect(ctx.destination);
+            o.frequency.setValueAtTime(Math.max(1, frequency), start);
+            if (endFrequency) o.frequency.exponentialRampToValueAtTime(Math.max(1, endFrequency), start + duration);
+            g.gain.setValueAtTime(0.0001, start);
+            g.gain.exponentialRampToValueAtTime(Math.max(0.001, volume), start + 0.025);
+            g.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+            o.start(start); o.stop(start + duration + 0.03);
+        }
+
+        function sfxWin() {
+            unlockAudio();
+            const ctx = audioCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime + 0.03;
+            const sel = document.getElementById('snd-win-sel')?.value || 'gen1';
+
+            // Победный джингл всегда создается Web Audio API, поэтому работает надежно в iframe.
+            if (sel === 'gen2') {
+                [392, 523.25, 659.25, 1046.5].forEach((f, i) => tone(ctx, f, now + i * 0.14, 0.55, 0.16, 'sine', f * 1.05));
+            } else if (sel === 'gen3') {
+                [784, 988, 1175, 1568].forEach((f, i) => tone(ctx, f, now + i * 0.11, 0.7, 0.11, 'sine'));
+            } else {
+                [440, 554.37, 659.25, 880].forEach((f, i) => tone(ctx, f, now + i * 0.15, 0.72, 0.18, 'triangle'));
+                [220, 277.18, 329.63].forEach(f => tone(ctx, f, now + 0.48, 0.75, 0.07, 'sine'));
+            }
+
+            // Своя ссылка остается дополнительной опцией, но не заменяет надежный Web Audio джингл.
+            if (sel === 'url') playExternalAudio(document.getElementById('snd-win-url')?.value, 0.55);
+        }
+
+        function playEndSound(type, preview = false) {
+            unlockAudio();
+            if (type === 'win') { sfxWin(); return; }
+            const sel = document.getElementById(`snd-${type}-sel`).value;
+            if (sel === 'url') {
+                playExternalAudio(document.getElementById(`snd-${type}-url`).value, 0.75);
+                return;
+            }
+            const ctx = audioCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+
+            if (type === 'lose') {
+                if (sel === 'gen2') {
+                    [220, 207].forEach(f => tone(ctx, f, now, 1.1, 0.16, 'sawtooth', Math.max(35, f - 120)));
+                } else if (sel === 'gen3') {
+                    tone(ctx, 110, now, 0.32, 0.3, 'square', 28);
+                } else {
+                    tone(ctx, 310, now, 1.0, 0.19, 'sawtooth', 55);
+                }
+            } else if (type === 'time') {
+                if (sel === 'gen2') {
+                    tone(ctx, 850, now, 0.55, 0.13, 'square', 260);
+                    tone(ctx, 700, now + 0.48, 0.55, 0.11, 'square', 220);
+                } else if (sel === 'gen3') {
+                    tone(ctx, 420, now, 1.0, 0.17, 'triangle', 105);
+                } else {
+                    [0, 0.22, 0.44].forEach((d, i) => tone(ctx, i % 2 ? 820 : 620, now + d, 0.18, 0.12, 'square'));
+                }
+            }
+        }
+
+        function playSynth(type) {
+            unlockAudio();
+            const ctx = audioCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+
+            if(type === 'fly') {
+                const sel = document.getElementById('snd-fly')?.value || 'whip';
+                if(sel === 'whip') {
+                    const bufferSize = Math.floor(ctx.sampleRate * 0.15);
+                    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                    const noiseSource = ctx.createBufferSource(); noiseSource.buffer = buffer;
+                    const filter = ctx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.setValueAtTime(400, now); filter.frequency.exponentialRampToValueAtTime(3000, now + 0.1);
+                    const gainNode = ctx.createGain(); gainNode.gain.setValueAtTime(0.0001, now); gainNode.gain.exponentialRampToValueAtTime(0.42, now + 0.04); gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+                    noiseSource.connect(filter); filter.connect(gainNode); gainNode.connect(ctx.destination); noiseSource.start(now); noiseSource.stop(now + 0.16);
+                } else if (sel === 'air') tone(ctx, 400, now, 0.15, 0.25, 'triangle', 100);
+                else tone(ctx, 300, now, 0.1, 0.17, 'sine', 200);
+            } else if(type === 'hit') {
+                const sel = document.getElementById('snd-hit')?.value || 'dry';
+                if(sel === 'dry') tone(ctx, 300, now, 0.06, 0.34, 'square', 50);
+                else if(sel === 'clap') tone(ctx, 100, now, 0.11, 0.28, 'sawtooth', 20);
+                else tone(ctx, 150, now, 0.11, 0.3, 'triangle', 40);
+            }
+        }
+
+        function previewAnswer(isCorrect) {
+            playAnswerSound(isCorrect);
+        }
+
+        function activateEditorTab(btn) {
+            if (!btn) return;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (btn.dataset.tab) {
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(btn.dataset.tab)?.classList.add('active');
+            }
+            const tabColor = getComputedStyle(btn).getPropertyValue('--tab-color').trim() || '#00f0ff';
+            document.documentElement.style.setProperty('--active-tab-color', tabColor);
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => activateEditorTab(btn));
+        });
+
+        function switchScreen(id) {
+            document.querySelectorAll('.screen-container').forEach(s => { s.classList.remove('active'); s.style.removeProperty('display'); });
+            document.querySelectorAll('.screen-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            const tab = Array.from(document.querySelectorAll('.screen-tab')).find(t => t.getAttribute('onclick').includes(id));
+            if (tab) tab.classList.add('active');
+            if (id === 'scr-game') setTimeout(updateRubberBands, 50);
+            if (id === 'scr-question') refreshQuestionPreview();
+        }
+
+        function updateCssVar(name, val) { document.documentElement.style.setProperty(name, val); }
+
+        function updateSlingStyle() {
+            const anchorColor = document.getElementById('sling-anchor-color')?.value || '#ffaa00';
+            const rubberColor = document.getElementById('rubber-color')?.value || '#e67e22';
+            const mode = document.getElementById('rubber-mode')?.value || 'solid';
+            updateCssVar('--sling-anchor-color', anchorColor);
+            updateCssVar('--rubber-color', rubberColor);
+            document.getElementById('rubber-color-row').style.display = mode === 'rainbow' ? 'none' : 'flex';
+            document.querySelectorAll('.rubber-line').forEach(line => {
+                const rainbow = mode === 'rainbow';
+                line.classList.toggle('rainbow-rubber', rainbow);
+                line.style.stroke = rainbow ? 'url(#rubber-rainbow-gradient)' : rubberColor;
+            });
+        }
+
+        function refreshVisibleQuestionTitle() {
+            if (currentQuestionData) {
+                const title = document.getElementById('scr-q-title');
+                const hiddenByEditor = document.getElementById('hide-task-title')?.checked;
+                title.textContent = currentQuestionData.task || '';
+                title.style.display = currentQuestionData.task && !hiddenByEditor ? 'block' : 'none';
+            }
+            refreshQuestionPreview();
+        }
+
+        function toggleFireworkColorRow() {
+            const solid = document.getElementById('fireworks-mode')?.value === 'solid';
+            document.getElementById('fireworks-color-row').style.display = solid ? 'flex' : 'none';
+        }
+
+        function clampQuestionCount() {
+            const el = document.getElementById('q-total');
+            el.value = Math.max(4, Math.min(20, parseInt(el.value, 10) || 4));
+        }
+
+        function setVisualBg(url, el) {
+            document.querySelectorAll('#bg-visual-presets .preset-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('bg-preset').value = url;
+            updateBackground();
+        }
+        
+        function setWeapon(url, el) {
+            document.querySelectorAll('#weapon-presets .preset-card').forEach(c => c.classList.remove('active'));
+            if(el) el.classList.add('active');
+            updateCssVar('--img-slingshot', `url('${url}')`);
+        }
+
+        function setCustomWeapon(url) {
+            if(url) setWeapon(url, null);
+        }
+
+        function setCharacterPreset(cssVar, url, inputId) {
+            if (!url) return;
+            updateCssVar(cssVar, `url('${url}')`);
+            if (inputId) { const input = document.getElementById(inputId); if (input) input.value = url; }
+        }
+
+        function handleCharacterFile(event, cssVar, inputId) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Размер изображения не должен превышать 2 МБ.');
+                event.target.value = '';
+                return;
+            }
+            const url = URL.createObjectURL(file);
+            setCharacterPreset(cssVar, url, inputId);
+        }
+
+        function handleWeaponFile(e) {
+            const file = e.target.files[0]; 
+            if (!file) return; 
+            if (file.size > 2 * 1024 * 1024) { 
+                alert("Ошибка! Размер картинки превышает 2 МБ."); 
+                e.target.value = ""; 
+                return; 
+            } 
+            const url = URL.createObjectURL(file);
+            setWeapon(url, null);
+        }
+
+        function updateBackground() {
+            const isTrans = document.getElementById('no-bg').checked;
+            const area = document.getElementById('main-area');
+            const bgOpacity = document.getElementById('bg-opacity') ? document.getElementById('bg-opacity').value : 0.7;
+            
+            if(isTrans) { 
+                area.style.background = 'transparent'; 
+            } else { 
+                const url = document.getElementById('bg-preset').value; 
+                area.style.background = `url('${url}') center/cover no-repeat`; 
+            }
+            
+            updateCssVar('--splash-overlay', `rgba(0,0,0,${bgOpacity})`);
+        }
+        
+        function syncTexts() {
+            document.getElementById('ren-s-title').innerText = document.getElementById('txt-s-title').value; document.getElementById('ren-s-sub').innerText = document.getElementById('txt-s-sub').value; document.getElementById('ren-s-btn').innerText = document.getElementById('txt-s-btn').value;
+            document.getElementById('ren-w-title').innerText = document.getElementById('txt-w-title').value; document.getElementById('ren-w-sub').innerText = document.getElementById('txt-w-sub').value; document.getElementById('ren-w-btn').innerText = document.getElementById('txt-w-btn').value;
+            document.getElementById('ren-l-title').innerText = document.getElementById('txt-l-title').value; document.getElementById('ren-l-sub').innerText = document.getElementById('txt-l-sub').value; document.getElementById('ren-l-btn').innerText = document.getElementById('txt-l-btn').value;
+        }
+
+        window.onload = () => {
+            let opts = fonts.map(f => `<option value="${f.v}" style="font-family: ${f.v}">${f.n}</option>`).join('');
+            document.querySelectorAll('.font-select').forEach(sel => sel.innerHTML = opts);
+            for (let k in presets) { const c = document.getElementById(`card-${k}`); if (c) c.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.6)), url('${URL_BASE + presets[k].preview}')`; }
+            applyPreset('normal'); syncTexts(); buildWall(); initDragDrop(); setTimeout(updateRubberBands, 200); updateBackground(); updateSlingStyle(); toggleFireworkColorRow(); updateFireworksVolumeLabel(); activateEditorTab(document.querySelector('.tab-btn.active'));
+            
+            if(document.getElementById('questions-list').children.length === 0) {
+                parseAutoQuestions({ preserveImages: false });
+            }
+            checkQuestionCount();
+            toggleMathSupport();
+        };
+
+        function applyPreset(key) {
+            document.querySelectorAll('#tab-assets .preset-card:not(.weapon-card)').forEach(c => c.classList.remove('active')); document.getElementById(`card-${key}`).classList.add('active');
+            const p = presets[key];
+            updateCssVar('--img-normal', `url('${URL_BASE + p.normal}')`); updateCssVar('--img-question', `url('${URL_BASE + p.question}')`); updateCssVar('--img-life', `url('${URL_BASE + p.life}')`); updateCssVar('--img-freeze', `url('${URL_BASE + p.freeze}')`); updateCssVar('--img-bomb', `url('${URL_BASE + p.bomb}')`); updateCssVar('--img-time', `url('${URL_BASE + p.time}')`);
+            buildWall();
+        }
+
+        function applyAmmoSet(val) {
+            let s1, s2, s3;
+            if(val == "1") { s1="🍏"; s2="🍌"; s3="🥥"; }
+            if(val == "2") { s1="🍑"; s2="🍊"; s3="🍉"; }
+            if(val == "3") { s1="❄️"; s2="🧊"; s3="⛄"; }
+            if(val == "4") { s1="🍬"; s2="🍪"; s3="🍫"; }
+            document.getElementById('ammo-1-val').value = s1;
+            document.getElementById('ammo-2-val').value = s2;
+            document.getElementById('ammo-3-val').value = s3;
+            updateAmmoUI();
+        }
+
+        function updateAmmoUI() {
+            for(let i=1; i<=3; i++) {
+                let val = document.getElementById(`ammo-${i}-val`).value; 
+                let cnt = document.getElementById(`ammo-${i}-cnt`).value; 
+                let iconEl = document.getElementById(`ui-em-${i}`);
+                if (val.startsWith('http') || val.startsWith('data:image')) { 
+                    iconEl.innerText = ''; 
+                    iconEl.style.backgroundImage = `url('${val}')`; 
+                } else { 
+                    iconEl.style.backgroundImage = 'none'; 
+                    iconEl.innerText = val; 
+                }
+                document.getElementById(`ui-cnt-${i}`).innerText = `x${cnt}`;
+            }
+            setAmmo(currentAmmoSlot);
+        }
+
+        function setAmmo(slot) {
+            currentAmmoSlot = slot;
+            document.querySelectorAll('.ammo-slot').forEach(s => s.classList.remove('active')); document.getElementById(`slot-${slot}`).classList.add('active');
+            let val = document.getElementById(`ammo-${slot}-val`).value; const proj = document.getElementById('projectile');
+            if (val.startsWith('http') || val.startsWith('data:image')) { proj.innerText = ''; proj.style.backgroundImage = `url('${val}')`; } else { proj.style.backgroundImage = 'none'; proj.innerText = val; }
+        }
+
+        function handleFileVar(e, cssVar) { const file = e.target.files[0]; if (!file) return; if (file.size > 1024 * 1024) { alert("Файл слишком большой! До 1 МБ."); return; } updateCssVar(cssVar, `url('${URL.createObjectURL(file)}')`); }
+
+        function handleQuestionImgUpload(input) {
+            const file = input.files[0];
+            if(!file) return;
+            if(file.size > 2 * 1024 * 1024) { alert("Ошибка! Размер картинки превышает 2 МБ."); input.value = ""; return; }
+            const url = URL.createObjectURL(file);
+            input.parentElement.previousElementSibling.value = url;
+        }
+
+        function handleAudioUpload(input, targetId) {
+            const file = input.files[0];
+            if(!file) return;
+            if(file.size > 5 * 1024 * 1024) { alert("Размер аудиофайла не должен превышать 5 МБ."); input.value = ""; return; }
+            const url = URL.createObjectURL(file);
+            document.getElementById(targetId).value = url;
+        }
+
+        function checkQuestionCount() {
+            let req = parseInt(document.getElementById('q-total').value) || 6;
+            let act = document.querySelectorAll('.question-card').length;
+            let warnBox = document.getElementById('q-warning');
+            
+            if (act !== req && act > 0) {
+                document.getElementById('q-req-cnt').innerText = req;
+                document.getElementById('q-act-cnt').innerText = act;
+                document.getElementById('q-warn-text').innerText = act < req ? "Недостающие вопросы будут повторяться!" : "Лишние вопросы будут выбираться случайным образом!";
+                warnBox.style.display = 'block';
+            } else {
+                warnBox.style.display = 'none';
+            }
+        }
+
+       
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+        }
+
+        function splitTaskAndBody(text) {
+            const raw = String(text || '').trim();
+            const separatorIndex = raw.indexOf('//');
+            if (separatorIndex < 0) return { task: '', body: raw };
+            return {
+                task: raw.slice(0, separatorIndex).trim(),
+                body: raw.slice(separatorIndex + 2).trim()
+            };
+        }
+
+        function detectQuestionType(text) {
+            const value = splitTaskAndBody(text).body;
+            if (value.includes('|')) return 'multiple';
+            if (/\([^()]+\)\s*$/.test(value)) return 'input';
+            return 'order';
+        }
+
+        function questionTypeName(type) {
+            return type === 'multiple' ? 'Выбор ответа' : type === 'input' ? 'Вписать слово' : 'Собери предложение';
+        }
+
+        function refreshQuestionCardType(textarea) {
+            const type = detectQuestionType(textarea.value);
+            const badge = textarea.closest('.question-card')?.querySelector('.question-type-badge');
+            if (badge) {
+                badge.dataset.type = type;
+                badge.textContent = questionTypeName(type) + ' · авто';
+            }
+        }
+
+        function addQuestionUI(type = 'multiple', text = 'Choose the word: // I ___ tired. | am | is | are', image = '') {
+            const list = document.getElementById('questions-list');
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            const actualType = detectQuestionType(text || '') || type;
+            card.innerHTML = `
+                <div class="q-card-header"><span class="question-type-badge" data-type="${actualType}">${questionTypeName(actualType)} · авто</span><span class="delete-btn" onclick="this.closest('.question-card').remove(); checkQuestionCount();">✖ Удалить</span></div>
+                <textarea class="q-text-area" oninput="refreshQuestionCardType(this); checkQuestionCount();" style="width:100%; min-height:64px; border:1px solid #3a3b50; background:#13141c; color:#fff; border-radius:4px; padding:7px; font-size:12px;">${escapeHtml(text)}</textarea>
+                <div class="card-format-hint" style="color:#7f8199; margin-top:6px;">Текст до // — задание на плашке. Формат после // определяет тип автоматически.</div>
+                <div class="media-btns" style="background:rgba(0,0,0,0.2); padding:5px; border-radius:4px; margin-top:7px;">
+                    <div class="media-title" style="color:#aaa; margin-bottom:7px;">Картинка к вопросу:</div>
+                    <div style="display:flex; gap:5px; margin-bottom:5px; align-items:center;">
+                        <input type="text" class="q-url-input" value="${escapeHtml(image)}" placeholder="URL картинки (http://...)" style="flex:1; padding:5px; background:#13141c; color:#fff; border:1px solid #3a3b50; border-radius:4px; font-size:11px;">
+                        <label class="file-btn" style="flex:none; padding:4px 8px; margin:0;">ПК <input type="file" accept="image/*" onchange="handleQuestionImgUpload(this)"></label>
+                    </div>
+                    <div class="media-warning">Картинка с компьютера — не более 2 МБ.</div>
+                </div>`;
+            list.appendChild(card);
+            checkQuestionCount();
+        }
+
+        function parseAutoQuestions(options = {}) {
+            const preserveImages = options.preserveImages !== false;
+            const text = document.getElementById('auto-q-text').value;
+            const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+            if(lines.length === 0) return false;
+            const oldImages = preserveImages
+                ? Array.from(document.querySelectorAll('#questions-list .q-url-input')).map(input => input.value.trim())
+                : [];
+            document.getElementById('questions-list').innerHTML = '';
+            lines.forEach((line, index) => addQuestionUI(detectQuestionType(line), line, oldImages[index] || ''));
+            checkQuestionCount();
+            refreshQuestionPreview();
+            return true;
+        }
+
+        function parseQuestionCard(card) {
+            const raw = card.querySelector('.q-text-area')?.value.trim() || '';
+            const image = card.querySelector('.q-url-input')?.value.trim() || '';
+            if (!raw) return null;
+            const { task, body } = splitTaskAndBody(raw);
+            const type = detectQuestionType(raw);
+            if (!body) return null;
+
+            if (type === 'multiple') {
+                const parts = body.split('|').map(p => p.trim()).filter(Boolean);
+                if (parts.length < 3) return { type, task, prompt: parts[0] || body, answers: parts.slice(1), correct: parts[1] || '', image, invalid: true };
+                return { type, task, prompt: parts[0], answers: parts.slice(1), correct: parts[1], image };
+            }
+            if (type === 'input') {
+                const match = body.match(/^(.*)\(([^()]+)\)\s*$/s);
+                const accepted = match ? match[2].split(',').map(a => a.trim()).filter(Boolean) : [];
+                return { type, task, prompt: match ? match[1].trim() : body, accepted, image, invalid: accepted.length === 0 };
+            }
+            return { type, task, prompt: '', sentence: body.replace(/\s+/g, ' ').trim(), image };
+        }
+
+        function collectQuestions() {
+            return Array.from(document.querySelectorAll('.question-card')).map(parseQuestionCard).filter(Boolean);
+        }
+
+        function buildWall() {
+            const wall = document.getElementById('wall-container'); wall.style.display = 'grid';
+            Array.from(wall.children).forEach(c => { if(!c.classList.contains('resize-handle')) c.remove(); });
+            clampQuestionCount();
+            let qCount = parseInt(document.getElementById('q-total').value) || 6;
+            let cols = qCount > 14 ? 8 : (qCount > 8 ? 7 : 6);
+            let rows = qCount > 14 ? 7 : (qCount > 8 ? 7 : 6);
+            wall.style.gridTemplateColumns = `repeat(${cols}, 1fr)`; wall.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            
+            let l = parseInt(document.getElementById('cnt-life').value) || 0; let f = parseInt(document.getElementById('cnt-freeze').value) || 0;
+            let b = parseInt(document.getElementById('cnt-bomb').value) || 0; let t = parseInt(document.getElementById('cnt-time').value) || 0;
+            
+            let totalBricks = cols * rows; 
+            let pool = new Array(totalBricks).fill(1); 
+            
+            let stepSize = Math.floor(totalBricks / qCount);
+            for(let i=0; i<qCount; i++) {
+                let start = i * stepSize;
+                let end = (i+1) * stepSize;
+                if(i === qCount - 1) end = totalBricks;
+                let randIndex = Math.floor(Math.random() * (end - start)) + start;
+                pool[randIndex] = 2; 
+            }
+
+            let emptyIndices = [];
+            for(let i=0; i<totalBricks; i++) { if(pool[i] === 1) emptyIndices.push(i); }
+            emptyIndices.sort(() => Math.random() - 0.5); 
+
+            function fillRandomly(type, count) {
+                for(let i=0; i<count; i++) { if(emptyIndices.length > 0) pool[emptyIndices.pop()] = type; }
+            }
+            fillRandomly(3, l); fillRandomly(4, f); fillRandomly(5, b); fillRandomly(6, t);
+            
+            let questionIndex = 0;
+            pool.forEach(type => {
+                const div = document.createElement('div');
+                div.className = 'brick ' + ['brick-empty','brick-normal','brick-question','brick-life','brick-freeze','brick-bomb','brick-time'][type];
+                if (type === 2) div.dataset.questionIndex = questionIndex++;
+                wall.appendChild(div);
+            });
+            lives = parseInt(document.getElementById('cnt-life').value) || 2; updateLivesUI();
+        }
+
+        function updateLivesUI() { let str = ''; for(let i=0; i<lives; i++) str += '❤️'; document.getElementById('ui-lives').innerText = str; }
+
+        let dragItem = null; let isResizing = false; let startW, startH, startX, startY, startL, startT;
+        function initDragDrop() {
+            document.querySelectorAll('.editable, .sling-anchor-point').forEach(el => {
+                el.addEventListener('mousedown', e => { if(isTesting) return; dragItem = el; startX = e.clientX; startY = e.clientY; if(e.target.classList.contains('resize-handle')) { isResizing = true; startW = el.offsetWidth; startH = el.offsetHeight; e.stopPropagation(); } else { isResizing = false; startL = el.offsetLeft; startT = el.offsetTop; } });
+            });
+            window.addEventListener('mousemove', e => { if(!dragItem || isTesting) return; let dx = e.clientX - startX; let dy = e.clientY - startY; if (isResizing) { dragItem.style.width = Math.max(30, startW + dx) + 'px'; dragItem.style.height = Math.max(30, startH + dy) + 'px'; } else { dragItem.style.left = (startL + dx) + 'px'; dragItem.style.top = (startT + dy) + 'px'; } updateRubberBands(); });
+            window.addEventListener('mouseup', () => {
+                const releasedItem = dragItem;
+                dragItem = null;
+                if (!isTesting && releasedItem && releasedItem.id === 'sling-anchor') captureSlingRestPosition();
+            });
+        }
+
+        function updateRubberBands() {
+            const a = document.getElementById('sling-anchor');
+            const pLeft = document.getElementById('sling-anchor-left');
+            const pRight = document.getElementById('sling-anchor-right');
+            const l = document.getElementById('rubber-left'); const r = document.getElementById('rubber-right');
+            
+            let ax = a.offsetLeft + a.offsetWidth/2; let ay = a.offsetTop + a.offsetHeight/2;
+            let lx = pLeft.offsetLeft + pLeft.offsetWidth/2; let ly = pLeft.offsetTop + pLeft.offsetHeight/2;
+            let rx = pRight.offsetLeft + pRight.offsetWidth/2; let ry = pRight.offsetTop + pRight.offsetHeight/2;
+            
+            l.setAttribute('x1', lx); l.setAttribute('y1', ly); l.setAttribute('x2', ax); l.setAttribute('y2', ay);
+            r.setAttribute('x1', rx); r.setAttribute('y1', ry); r.setAttribute('x2', ax); r.setAttribute('y2', ay);
+        }
+
+        function captureSlingRestPosition() {
+            const a = document.getElementById('sling-anchor');
+            if (!a) return;
+            slingRestPosition = {
+                x: a.offsetLeft + a.offsetWidth / 2,
+                y: a.offsetTop + a.offsetHeight / 2
+            };
+        }
+
+        function restoreSlingToRest() {
+            if (!slingRestPosition) captureSlingRestPosition();
+            if (!slingRestPosition) return;
+            const a = document.getElementById('sling-anchor');
+            a.style.left = (slingRestPosition.x - a.offsetWidth / 2) + 'px';
+            a.style.top = (slingRestPosition.y - a.offsetHeight / 2) + 'px';
+            updateRubberBands();
+        }
+
+        function resetSlingState() {
+            isAiming = false;
+            dragItem = null;
+            const projectile = document.getElementById('projectile');
+            if (projectile) projectile.style.display = 'none';
+            const trajectory = document.getElementById('trajectory-svg');
+            if (trajectory) trajectory.querySelectorAll('.trajectory-dot').forEach(d => d.remove());
+            restoreSlingToRest();
+        }
+
+        function cancelAim() {
+            if (!isAiming) return;
+            isAiming = false;
+            restoreSlingToRest();
+            svg.querySelectorAll('.trajectory-dot').forEach(d => d.remove());
+        }
+
+        // Защита от зависания резинки, если мышь ушла за пределы
+        window.addEventListener('mouseleave', cancelAim);
+        window.addEventListener('blur', cancelAim);
+
+        let isAiming = false; let ox, oy;
+        const anchor = document.getElementById('sling-anchor'); const proj = document.getElementById('projectile'); const svg = document.getElementById('trajectory-svg');
+        anchor.addEventListener('mousedown', e => {
+            if(!isTesting || isQuestionOpen || isEnding) return;
+            unlockAudio();
+            if (!slingRestPosition) captureSlingRestPosition();
+            isAiming = true;
+            ox = slingRestPosition.x;
+            oy = slingRestPosition.y;
+            e.stopPropagation();
+        });
+        
+        window.addEventListener('mousemove', e => {
+            if(!isAiming) return;
+            let rect = document.getElementById('scr-game').getBoundingClientRect(); let mx = e.clientX - rect.left; let my = e.clientY - rect.top;
+            let dx = mx - ox; let dy = my - oy; let dist = Math.sqrt(dx*dx + dy*dy);
+            if(dist > 250) { mx = ox + (dx/dist)*250; my = oy + (dy/dist)*250; } 
+            anchor.style.left = (mx - anchor.offsetWidth/2) + 'px'; anchor.style.top = (my - anchor.offsetHeight/2) + 'px';
+            drawPath(mx, my); updateRubberBands();
+        });
+        
+        window.addEventListener('mouseup', () => {
+            if(!isAiming) return;
+            const ax = anchor.offsetLeft + anchor.offsetWidth/2;
+            const ay = anchor.offsetTop + anchor.offsetHeight/2;
+            const vx = (ox - ax) * 0.18;
+            const vy = (oy - ay) * 0.18;
+            isAiming = false;
+            svg.querySelectorAll('.trajectory-dot').forEach(d=>d.remove());
+            restoreSlingToRest();
+            if(isTesting && !isQuestionOpen && !isEnding && (Math.abs(vx)>1 || Math.abs(vy)>1)) {
+                playSynth('fly');
+                fire(ox, oy, vx, vy);
+            }
+        });
+        
+        function drawPath(mx, my) {
+            svg.querySelectorAll('.trajectory-dot').forEach(d=>d.remove());
+            let vx = (ox - mx) * 0.18; let vy = (oy - my) * 0.18; let tx = ox; let ty = oy;
+            
+            let type = document.getElementById('traj-type').value;
+            let color = document.getElementById('traj-color').value;
+
+            if (type === 'dash') {
+                let path = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+                let points = `${ox},${oy} `;
+                for(let i=0; i<25; i++) {
+                    tx += vx; ty += vy; vy += 1.5;
+                    points += `${tx},${ty} `;
+                }
+                path.setAttribute("points", points.trim());
+                path.setAttribute("stroke", color);
+                path.setAttribute("stroke-width", "4");
+                path.setAttribute("stroke-dasharray", "10, 10");
+                path.setAttribute("stroke-linecap", "round");
+                path.setAttribute("fill", "none");
+                path.setAttribute("class", "trajectory-dot");
+                svg.appendChild(path);
+            } else {
+                for(let i=0; i<25; i++) {
+                    tx += vx; ty += vy; vy += 1.5; 
+                    if(i%3===0) { 
+                        if (type === 'star') {
+                            let d = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                            d.setAttribute("x", tx); d.setAttribute("y", ty);
+                            d.setAttribute("fill", color);
+                            d.setAttribute("font-size", "16");
+                            d.setAttribute("text-anchor", "middle");
+                            d.setAttribute("dominant-baseline", "central");
+                            d.setAttribute("class", "trajectory-dot");
+                            d.textContent = "★";
+                            d.style.textShadow = `0 0 5px ${color}`;
+                            svg.appendChild(d);
+                        } else {
+                            let d = document.createElementNS("http://www.w3.org/2000/svg", "circle"); 
+                            d.setAttribute("cx", tx); d.setAttribute("cy", ty); 
+                            d.setAttribute("r", "4"); 
+                            d.setAttribute("fill", color);
+                            d.setAttribute("class", "trajectory-dot"); 
+                            svg.appendChild(d); 
+                        }
+                    }
+                }
+            }
+        }
+
+        function fire(x, y, vx, vy) {
+            proj.style.display = 'block'; 
+            let cntInput = document.getElementById(`ammo-${currentAmmoSlot}-cnt`);
+            if(parseInt(cntInput.value) > 0) { 
+                cntInput.value = parseInt(cntInput.value) - 1; 
+                updateAmmoUI(); 
+            } else { 
+                proj.style.display = 'none'; 
+                return; 
+            } 
+            
+            function frame() {
+                if(!isTesting) { proj.style.display = 'none'; return; }
+                x += vx; y += vy; vy += 1.5; 
+                proj.style.left = x + 'px'; proj.style.top = y + 'px';
+                
+                let hit = checkCol(x, y); 
+                let out = y > document.getElementById('scr-game').clientHeight || x > document.getElementById('scr-game').clientWidth;
+                
+                if(hit || out) { 
+                    proj.style.display = 'none'; 
+                    checkLossCondition();
+                } else {
+                    requestAnimationFrame(frame);
+                }
+            }
+            requestAnimationFrame(frame);
+        }
+
+        function createImpactSparks(x, y) {
+            const layer = document.getElementById('impact-particles');
+            if (!layer) return;
+            const count = 5 + Math.floor(Math.random() * 3);
+            const base = document.getElementById('rubber-mode')?.value === 'rainbow'
+                ? ['#ff3155','#ff9f1c','#ffe66d','#39ff14','#00f0ff','#b84dff']
+                : [document.getElementById('traj-color')?.value || '#ffffff', '#ffffff', '#ffd166'];
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('span');
+                p.className = 'impact-particle';
+                p.style.left = `${x}px`; p.style.top = `${y}px`;
+                p.style.background = base[Math.floor(Math.random() * base.length)];
+                p.style.setProperty('--spark-x', `${(Math.random() - 0.5) * 90}px`);
+                p.style.setProperty('--spark-y', `${-15 - Math.random() * 65}px`);
+                p.style.setProperty('--spark-r', `${(Math.random() - 0.5) * 420}deg`);
+                p.style.width = p.style.height = `${3 + Math.random() * 4}px`;
+                layer.appendChild(p);
+                p.addEventListener('animationend', () => p.remove(), { once: true });
+                setTimeout(() => p.remove(), 560);
+            }
+        }
+
+        function breakRadius(cx, cy, countToBreak, playHitSounds = true) {
+            let wall = document.getElementById('wall-container'); let bricks = Array.from(wall.querySelectorAll('.brick:not(.brick-empty):not(.brick-question)'));
+            bricks.sort((a,b) => { let ax = wall.offsetLeft + a.offsetLeft + a.offsetWidth/2; let ay = wall.offsetTop + a.offsetTop + a.offsetHeight/2; let bx = wall.offsetLeft + b.offsetLeft + b.offsetWidth/2; let by = wall.offsetTop + b.offsetTop + b.offsetHeight/2; return Math.sqrt(Math.pow(cx-ax,2) + Math.pow(cy-ay,2)) - Math.sqrt(Math.pow(cx-bx,2) + Math.pow(cy-by,2)); });
+            for(let i=0; i<Math.min(countToBreak, bricks.length); i++) {
+                if (playHitSounds && i === 0) playSynth('hit');
+                bricks[i].className = 'brick brick-empty';
+            }
+        }
+
+        // ИСПРАВЛЕННАЯ ФУНКЦИЯ checkCol
+        function checkCol(x, y) {
+            let wall = document.getElementById('wall-container'); 
+            let wx = x - wall.offsetLeft; let wy = y - wall.offsetTop;
+            
+            // Проверка попадания в кирпичи
+            for(let b of document.querySelectorAll('.brick:not(.brick-empty)')) {
+                if(wx > b.offsetLeft && wx < b.offsetLeft + b.offsetWidth && wy > b.offsetTop && wy < b.offsetTop + b.offsetHeight) {
+                    
+                    playSynth('hit');
+                    createImpactSparks(x, y);
+                    let damage = currentAmmoSlot === 1 ? 1 : (currentAmmoSlot === 2 ? 3 : 5);
+                    
+                    if (b.classList.contains('brick-question')) {
+                        activeQuestionBrick = b;
+                        showQuestion();
+                    } else if (b.classList.contains('brick-life')) {
+                        lives++; updateLivesUI();
+                        b.className = 'brick brick-empty';
+                    } else if (b.classList.contains('brick-freeze')) {
+                        freezeTime += 10;
+                        document.getElementById('timer-ui').classList.add('frozen');
+                        b.className = 'brick brick-empty';
+                    } else if (b.classList.contains('brick-bomb')) {
+                        let bx = wall.offsetLeft + b.offsetLeft + b.offsetWidth/2;
+                        let by = wall.offsetTop + b.offsetTop + b.offsetHeight/2;
+                        b.className = 'brick brick-empty';
+                        breakRadius(bx, by, 7, false);
+                    } else if (b.classList.contains('brick-time')) {
+                        gameTime += 10; updateTimerUI();
+                        b.className = 'brick brick-empty';
+                    } else {
+                        let bx = wall.offsetLeft + b.offsetLeft + b.offsetWidth/2;
+                        let by = wall.offsetTop + b.offsetTop + b.offsetHeight/2;
+                        breakRadius(bx, by, damage, false);
+                    }
+                    if (!b.classList.contains('brick-question')) checkVictoryCondition();
+                    return true;
+                }
+            }
+            
+            // Попадание в персонажа не завершает игру. Победа возможна только после разрушения всей стены.
+            return false;
+        }
+
+        // ЛОГИКА СОХРАНЕНИЯ, СБРОСА И РЕЖИМА ИГРЫ
+        function saveInitialSettings() {
+            savedSettings = {
+                ammo1: document.getElementById('ammo-1-cnt').value,
+                ammo2: document.getElementById('ammo-2-cnt').value,
+                ammo3: document.getElementById('ammo-3-cnt').value,
+                lives: document.getElementById('cnt-life').value,
+                time: document.getElementById('ui-timer').value
+            };
+        }
+
+        function restoreInitialSettings() {
+            if(!savedSettings.ammo1) return;
+            document.getElementById('ammo-1-cnt').value = savedSettings.ammo1;
+            document.getElementById('ammo-2-cnt').value = savedSettings.ammo2;
+            document.getElementById('ammo-3-cnt').value = savedSettings.ammo3;
+            document.getElementById('cnt-life').value = savedSettings.lives;
+            document.getElementById('ui-timer').value = savedSettings.time;
+            
+            updateAmmoUI();
+            lives = parseInt(savedSettings.lives) || 2;
+            updateLivesUI();
+            gameTime = parseInt(savedSettings.time) || 120;
+            updateTimerUI();
+            setAmmo(1); // Возвращаемся к первому снаряду
+        }
+
+        function setTestButtonState(active) {
+            const btn = document.getElementById('test-btn');
+            if (!btn) return;
+            btn.innerText = active ? '■ ОСТАНОВИТЬ ТЕСТ' : '▶ ТЕСТИРОВАТЬ ИГРУ';
+            btn.classList.toggle('testing', active);
+        }
+
+        function clearQuestionOverlay() {
+            isQuestionOpen = false;
+            currentQuestionData = null;
+            activeQuestionBrick = null;
+            const overlay = document.getElementById('q-overlay');
+            if (overlay) overlay.style.display = 'none';
+            const answers = document.getElementById('scr-q-answers');
+            if (answers) {
+                answers.innerHTML = '';
+                answers.style.gridTemplateColumns = '1fr 1fr';
+            }
+        }
+
+        function prepareGameStart() {
+            unlockAudio();
+            isEnding = false;
+            isQuestionOpen = false;
+            questionCursor = 0;
+            if (endScreenTimer) { clearTimeout(endScreenTimer); endScreenTimer = null; }
+            if (winFallbackTimer) { clearTimeout(winFallbackTimer); winFallbackTimer = null; }
+            if (happyCharactersTimer) { clearTimeout(happyCharactersTimer); happyCharactersTimer = null; }
+            hideHappyCharacters();
+            stopFireworks();
+            stopGameTimer();
+            clearQuestionOverlay();
+
+            saveInitialSettings();
+            buildWall();
+            updateAmmoUI();
+            isTesting = true;
+            document.getElementById('scr-game').classList.remove('editor-mode');
+            setTestButtonState(true);
+            switchScreen('scr-game');
+
+            // После показа игрового поля фиксируем актуальную точку покоя резинки.
+            requestAnimationFrame(() => {
+                captureSlingRestPosition();
+                resetSlingState();
+                updateRubberBands();
+            });
+            startGameTimer();
+        }
+
+        function stopTestSession({ restore = true, rebuild = true } = {}) {
+            isTesting = false;
+            isEnding = false;
+            isQuestionOpen = false;
+            if (endScreenTimer) { clearTimeout(endScreenTimer); endScreenTimer = null; }
+            if (winFallbackTimer) { clearTimeout(winFallbackTimer); winFallbackTimer = null; }
+            if (happyCharactersTimer) { clearTimeout(happyCharactersTimer); happyCharactersTimer = null; }
+            hideHappyCharacters();
+            stopGameTimer();
+            stopFireworks();
+            clearQuestionOverlay();
+            resetSlingState();
+            setTestButtonState(false);
+            document.getElementById('scr-game').classList.add('editor-mode');
+            if (restore) restoreInitialSettings();
+            if (rebuild) buildWall();
+        }
+
+        function toggleTestMode() {
+            unlockAudio();
+            if (isTesting || isQuestionOpen) stopTestSession();
+            else prepareGameStart();
+        }
+
+        function startGameSession() {
+            prepareGameStart();
+        }
+
+        function showHappyCharacters() {
+            document.getElementById('gorilla')?.classList.add('victory-happy');
+            document.getElementById('baby')?.classList.add('victory-happy');
+        }
+
+        function hideHappyCharacters() {
+            document.getElementById('gorilla')?.classList.remove('victory-happy');
+            document.getElementById('baby')?.classList.remove('victory-happy');
+        }
+
+        function showWinScreenReliably() {
+            endScreenTimer = null;
+            if (winFallbackTimer) { clearTimeout(winFallbackTimer); winFallbackTimer = null; }
+            if (happyCharactersTimer) { clearTimeout(happyCharactersTimer); happyCharactersTimer = null; }
+            hideHappyCharacters();
+            const winScreen = document.getElementById('scr-win');
+            document.querySelectorAll('.screen-container').forEach(screen => screen.classList.remove('active'));
+            if (winScreen) {
+                winScreen.classList.add('active');
+                winScreen.style.display = 'flex';
+            }
+            document.querySelectorAll('.screen-tab').forEach(tab => tab.classList.remove('active'));
+            const winTab = Array.from(document.querySelectorAll('.screen-tab')).find(tab => (tab.getAttribute('onclick') || '').includes('scr-win'));
+            if (winTab) winTab.classList.add('active');
+            try { startFireworks(); } catch (e) { console.warn('Fireworks error:', e); }
+            restoreInitialSettings();
+            setTestButtonState(false);
+        }
+
+        function endGame(result) {
+            if (isEnding) return;
+            isEnding = true;
+            isTesting = false;
+            isQuestionOpen = false;
+            clearQuestionOverlay();
+            resetSlingState();
+            setTestButtonState(false);
+
+            if(result === 'win') {
+                // Сначала показываем радостных персонажей на игровом поле ровно 3 секунды.
+                // Победный джингл запускается до остановки/смены экрана — это надежнее внутри iframe.
+                try { sfxWin(); } catch (e) { console.warn('Win sound error:', e); }
+                stopGameTimer();
+                showHappyCharacters();
+                happyCharactersTimer = setTimeout(() => {
+                    happyCharactersTimer = null;
+                    showWinScreenReliably();
+                }, 3000);
+                winFallbackTimer = setTimeout(() => {
+                    if (!document.getElementById('scr-win')?.classList.contains('active')) showWinScreenReliably();
+                }, 3500);
+            } else {
+                stopGameTimer();
+                const endSoundType = result === 'time' ? 'time' : 'lose';
+                try { playEndSound(endSoundType); } catch (e) { console.warn('End sound error:', e); }
+                switchScreen('scr-lose');
+                restoreInitialSettings();
+            }
+        }
+
+        function startGameTimer() {
+            stopGameTimer();
+            gameTime = parseInt(document.getElementById('ui-timer').value) || 120;
+            freezeTime = 0;
+            updateTimerUI();
+            
+            gameTimer = setInterval(() => {
+                if(!isTesting || isQuestionOpen || isEnding) return;
+                
+                if (freezeTime > 0) {
+                    freezeTime--;
+                    if(freezeTime <= 0) {
+                        document.getElementById('timer-ui').classList.remove('frozen');
+                    }
+                    return;
+                }
+                
+                gameTime--;
+                updateTimerUI();
+                
+                if(gameTime <= 0) {
+                    endGame('time');
+                }
+            }, 1000);
+        }
+
+        function stopGameTimer() {
+            if(gameTimer) clearInterval(gameTimer);
+        }
+
+        function updateTimerUI() {
+            document.getElementById('timer-ui').innerText = `TIME: ${gameTime}s`;
+        }
+
+
+        function checkVictoryCondition() {
+            if (!isTesting || isEnding || isQuestionOpen) return false;
+            const wall = document.getElementById('wall-container');
+            if (!wall) return false;
+            const remainingBricks = wall.querySelectorAll('.brick:not(.brick-empty)').length;
+            if (remainingBricks === 0) {
+                // Единственное условие победы: на стене не осталось ни одного целого кирпича.
+                setTimeout(() => {
+                    if (!isEnding) endGame('win');
+                }, 120);
+                return true;
+            }
+            return false;
+        }
+
+        function checkLossCondition() {
+            setTimeout(() => {
+                let totalAmmo = parseInt(document.getElementById('ammo-1-cnt').value) + 
+                                parseInt(document.getElementById('ammo-2-cnt').value) + 
+                                parseInt(document.getElementById('ammo-3-cnt').value);
+                if (totalAmmo <= 0 && isTesting) {
+                    endGame('lose');
+                }
+            }, 500); // Даем полсекунды на случай, если последний снаряд летит
+        }
+
+        // ЛОГИКА ВОПРОСОВ
+        function shuffleArray(array) {
+            const result = [...array];
+            for (let i = result.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [result[i], result[j]] = [result[j], result[i]];
+            }
+            return result;
+        }
+
+        function refreshQuestionPreview() {
+            const questions = collectQuestions();
+            const q = questions[0] || { type:'multiple', task:'Choose the word:', prompt:'I ___ tired.', answers:['am','is','are'], correct:'am' };
+            const title = document.getElementById('preview-q-title');
+            const text = document.getElementById('preview-q-text');
+            const grid = document.getElementById('preview-q-answers');
+            if (!title || !text || !grid) return;
+            const hideTask = document.getElementById('hide-task-title')?.checked;
+            title.textContent = q.task || '';
+            title.style.display = q.task && !hideTask ? 'block' : 'none';
+            text.textContent = q.type === 'order' ? '' : (q.prompt || '');
+            text.style.display = q.type === 'order' || !q.prompt ? 'none' : 'block';
+            grid.innerHTML = '';
+            grid.style.gridTemplateColumns = q.type === 'multiple' ? '1fr 1fr' : '1fr';
+
+            if (q.type === 'multiple') {
+                (q.answers || []).forEach(answer => {
+                    const card = document.createElement('div');
+                    card.className = 'answer-card';
+                    card.textContent = answer;
+                    card.onclick = () => previewAnswer(answer === q.correct);
+                    grid.appendChild(card);
+                });
+            } else if (q.type === 'input') {
+                const input = document.createElement('input');
+                input.className = 'answer-input';
+                input.placeholder = document.getElementById('txt-q-input-placeholder')?.value || '';
+                const button = document.createElement('button');
+                button.className = 'answer-submit';
+                button.textContent = document.getElementById('txt-q-check')?.value.trim() || 'CHECK';
+                button.onclick = () => previewAnswer(true);
+                grid.append(input, button);
+            } else {
+                const answerLine = document.createElement('div'); answerLine.className = 'order-answer-line';
+                const bank = document.createElement('div'); bank.className = 'order-word-bank';
+                const words = (q.sentence || '').split(/\s+/).filter(Boolean);
+                [...words].reverse().forEach(word => {
+                    const el = document.createElement('button');
+                    el.className = 'order-word'; el.type = 'button'; el.textContent = word;
+                    el.onclick = () => (el.parentElement === bank ? answerLine : bank).appendChild(el);
+                    bank.appendChild(el);
+                });
+                grid.append(answerLine, bank);
+            }
+            typesetMath([document.getElementById('preview-q-box')]);
+        }
+
+        function showQuestion() {
+            unlockAudio();
+            cancelAim();
+            const questions = collectQuestions();
+            const fallback = { type:'multiple', task:'Choose the word:', prompt:'I ___ tired.', answers:['am','is','are'], correct:'am', image:'' };
+            const brickIndex = parseInt(activeQuestionBrick?.dataset.questionIndex, 10);
+            const index = Number.isFinite(brickIndex) ? brickIndex : questionCursor++;
+            currentQuestionData = questions.length ? questions[index % questions.length] : fallback;
+
+            const overlay = document.getElementById('q-overlay');
+            overlay.style.display = 'flex';
+            isQuestionOpen = true;
+            renderQuestion(currentQuestionData);
+        }
+
+        function renderQuestion(q) {
+            const grid = document.getElementById('scr-q-answers');
+            const title = document.getElementById('scr-q-title');
+            const text = document.getElementById('scr-q-text');
+            const img = document.getElementById('q-img-display');
+            grid.innerHTML = '';
+            grid.style.gridTemplateColumns = '1fr 1fr';
+
+            const hideTask = document.getElementById('hide-task-title')?.checked;
+            title.textContent = q.task || '';
+            title.style.display = q.task && !hideTask ? 'block' : 'none';
+
+            // В задании Order готовое предложение намеренно не показывается:
+            // оно используется только как скрытый правильный ответ для проверки.
+            if (q.type === 'order') {
+                text.textContent = '';
+                text.style.display = 'none';
+            } else {
+                text.textContent = q.prompt || '';
+                text.style.display = q.prompt ? 'block' : 'none';
+            }
+
+            if (q.image) { img.src = q.image; img.style.display = 'block'; }
+            else { img.removeAttribute('src'); img.style.display = 'none'; }
+
+            if (q.type === 'multiple') {
+                shuffleArray(q.answers || []).forEach(answer => {
+                    const btn = document.createElement('div');
+                    btn.className = 'answer-card';
+                    btn.innerText = answer;
+                    btn.onclick = () => answerQuestion(answer === q.correct);
+                    grid.appendChild(btn);
+                });
+                typesetMath([document.querySelector('#q-overlay .question-box')]);
+                return;
+            }
+
+            const checkLabel = document.getElementById('txt-q-check')?.value.trim() || 'CHECK';
+            const resetLabel = document.getElementById('txt-q-reset')?.value.trim() || 'RESET';
+
+            if (q.type === 'input') {
+                grid.style.gridTemplateColumns = '1fr';
+                const input = document.createElement('input');
+                input.className = 'answer-input';
+                input.placeholder = document.getElementById('txt-q-input-placeholder')?.value || '';
+                const submit = document.createElement('button');
+                submit.className = 'answer-submit';
+                submit.innerText = checkLabel;
+                const check = () => {
+                    const value = input.value.trim().toLocaleLowerCase();
+                    const accepted = (q.accepted || []).map(a => a.trim().toLocaleLowerCase());
+                    answerQuestion(accepted.includes(value));
+                };
+                submit.onclick = check;
+                input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+                grid.append(input, submit);
+                setTimeout(() => input.focus(), 50);
+                typesetMath([document.querySelector('#q-overlay .question-box')]);
+                return;
+            }
+
+            grid.style.gridTemplateColumns = '1fr';
+            const answerLine = document.createElement('div'); answerLine.className = 'order-answer-line';
+            const bank = document.createElement('div'); bank.className = 'order-word-bank';
+            const controls = document.createElement('div'); controls.style.cssText='display:flex;gap:10px;justify-content:center;margin-top:10px;';
+            const checkBtn = document.createElement('button'); checkBtn.className='order-check'; checkBtn.innerText=checkLabel;
+            const resetBtn = document.createElement('button'); resetBtn.className='order-reset'; resetBtn.innerText=resetLabel;
+            const normalizedTarget = (q.sentence || '').replace(/\s+/g,' ').trim();
+            const words = shuffleArray(normalizedTarget.split(' ').filter(Boolean));
+            const makeWord = word => {
+                const el=document.createElement('button'); el.className='order-word'; el.type='button'; el.innerText=word; el.dataset.word=word;
+                el.onclick=()=> (el.parentElement===bank ? answerLine : bank).appendChild(el);
+                return el;
+            };
+            words.forEach(w => bank.appendChild(makeWord(w)));
+            resetBtn.onclick=()=> Array.from(answerLine.children).forEach(el=>bank.appendChild(el));
+            checkBtn.onclick=()=> {
+                const made=Array.from(answerLine.children).map(el=>el.dataset.word || el.innerText).join(' ').replace(/\s+/g,' ').trim();
+                answerQuestion(made === normalizedTarget);
+            };
+            controls.append(checkBtn, resetBtn); grid.append(answerLine, bank, controls);
+            typesetMath([document.querySelector('#q-overlay .question-box')]);
+        }
+
+        function answerQuestion(isCorrect) {
+            unlockAudio();
+            playAnswerSound(isCorrect);
+            document.getElementById('q-overlay').style.display = 'none';
+            document.getElementById('scr-q-answers').style.gridTemplateColumns = '1fr 1fr';
+            isQuestionOpen = false;
+
+            if (activeQuestionBrick) {
+                if (isCorrect) {
+                    const bx = document.getElementById('wall-container').offsetLeft + activeQuestionBrick.offsetLeft + activeQuestionBrick.offsetWidth/2;
+                    const by = document.getElementById('wall-container').offsetTop + activeQuestionBrick.offsetTop + activeQuestionBrick.offsetHeight/2;
+                    activeQuestionBrick.className = 'brick brick-empty';
+                    // Без звука удара: правильный ответ звучит чисто, без примеси «глухого стука».
+                    breakRadius(bx, by, 3, false);
+                } else {
+                    if (document.getElementById('break-wrong-answer')?.checked) {
+                        activeQuestionBrick.className = 'brick brick-empty';
+                    }
+                    lives--;
+                    updateLivesUI();
+                    if (lives <= 0) endGame('lose');
+                }
+                activeQuestionBrick = null;
+            }
+            currentQuestionData = null;
+            if (!isEnding) {
+                isTesting = true;
+                checkVictoryCondition();
+            }
+        }
+
+        function updateFireworksVolumeLabel() {
+            const value = Math.max(0, Math.min(100, parseInt(document.getElementById('fireworks-volume')?.value, 10) || 0));
+            const label = document.getElementById('fireworks-volume-value');
+            if (label) label.textContent = value + '%';
+        }
+
+        function softFireworkBoom() {
+            if (!document.getElementById('fireworks-sound')?.checked) return;
+            unlockAudio();
+            const ctx = audioCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+            const volume = Math.max(0, Math.min(1, (parseInt(document.getElementById('fireworks-volume')?.value, 10) || 0) / 100));
+            if (volume <= 0) return;
+            const length = Math.floor(ctx.sampleRate * 0.28);
+            const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i=0; i<length; i++) data[i] = (Math.random()*2-1) * Math.pow(1-i/length, 2);
+            const source = ctx.createBufferSource(); source.buffer = buffer;
+            const filter = ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=220;
+            const gain = ctx.createGain(); gain.gain.setValueAtTime(0.46 * volume, now); gain.gain.exponentialRampToValueAtTime(0.0001, now+0.28);
+            source.connect(filter); filter.connect(gain); gain.connect(ctx.destination); source.start(now); source.stop(now+0.29);
+            tone(ctx, 75 + Math.random()*20, now, 0.22, 0.18 * volume, 'sine', 40);
+        }
+
+        function startFireworks() {
+            stopFireworks();
+            if (!document.getElementById('fireworks-enabled')?.checked) return;
+            const canvas = document.getElementById('fireworks-canvas');
+            const area = document.getElementById('main-area');
+            const ctx2d = canvas.getContext('2d');
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const resize = () => {
+                canvas.width = Math.max(1, Math.floor(area.clientWidth * dpr));
+                canvas.height = Math.max(1, Math.floor(area.clientHeight * dpr));
+                canvas.style.width = area.clientWidth + 'px'; canvas.style.height = area.clientHeight + 'px';
+                ctx2d.setTransform(dpr,0,0,dpr,0,0);
+            };
+            resize(); canvas.style.display='block';
+            const particles=[];
+            const rainbow=['#ff3155','#ff9f1c','#ffe66d','#39ff14','#00f0ff','#5b7cfa','#b84dff','#ff66c4'];
+            const chooseColor=()=> document.getElementById('fireworks-mode')?.value === 'solid' ? (document.getElementById('fireworks-color')?.value || '#39ff14') : rainbow[Math.floor(Math.random()*rainbow.length)];
+            const burst=()=>{
+                const x=area.clientWidth*(0.16+Math.random()*0.68), y=area.clientHeight*(0.12+Math.random()*0.46), color=chooseColor();
+                const count=34+Math.floor(Math.random()*18);
+                for(let i=0;i<count;i++){
+                    const a=(Math.PI*2*i/count)+Math.random()*0.12, speed=1.6+Math.random()*3.4;
+                    particles.push({x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life:1,decay:0.012+Math.random()*0.012,size:1.3+Math.random()*2.1,color});
+                }
+                softFireworkBoom();
+            };
+            burst();
+            fireworkSpawnTimer=setInterval(burst, 520);
+            const started=performance.now();
+            const frame=now=>{
+                ctx2d.clearRect(0,0,area.clientWidth,area.clientHeight);
+                ctx2d.globalCompositeOperation='lighter';
+                for(let i=particles.length-1;i>=0;i--){
+                    const p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.035; p.vx*=0.992; p.life-=p.decay;
+                    if(p.life<=0){particles.splice(i,1);continue;}
+                    ctx2d.globalAlpha=Math.max(0,p.life); ctx2d.fillStyle=p.color; ctx2d.fillRect(p.x,p.y,p.size,p.size);
+                }
+                ctx2d.globalAlpha=1; ctx2d.globalCompositeOperation='source-over';
+                if(now-started>6500){ if(fireworkSpawnTimer){clearInterval(fireworkSpawnTimer);fireworkSpawnTimer=null;} }
+                if(particles.length || fireworkSpawnTimer) fireworkAnimationId=requestAnimationFrame(frame); else stopFireworks();
+            };
+            fireworkAnimationId=requestAnimationFrame(frame);
+        }
+
+        function stopFireworks() {
+            if (fireworkAnimationId) cancelAnimationFrame(fireworkAnimationId);
+            if (fireworkSpawnTimer) clearInterval(fireworkSpawnTimer);
+            fireworkAnimationId=null; fireworkSpawnTimer=null;
+            const canvas=document.getElementById('fireworks-canvas');
+            if(canvas){ const c=canvas.getContext('2d'); c.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
+        }
+
+    </script>
+</body>
+</html>
