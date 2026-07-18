@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Destroy the Wall Editor By English Bootcamp</title>
+    <title>Destroy the Wall Editor v10 By English Bootcamp</title>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet"></noscript>
     
@@ -460,6 +460,19 @@
         body.game-export .screen-container { top:0 !important; width:100% !important; height:100% !important; }
         body.game-export #fireworks-canvas { top:0 !important; width:100% !important; height:100% !important; }
         body.game-export #scr-game { cursor:default; }
+        body.hosted-player #preview-viewport { visibility:visible !important; }
+        body.hosted-player #main-area {
+            width:1600px !important;
+            height:900px !important;
+            min-width:0 !important;
+            min-height:0 !important;
+            background-position:center !important;
+            background-size:cover !important;
+            background-repeat:no-repeat !important;
+            will-change:transform;
+        }
+        body.hosted-player .screen-container { top:0 !important; width:1600px !important; height:900px !important; }
+        body.hosted-player #fireworks-canvas { top:0 !important; width:1600px !important; height:900px !important; }
 
     </style>
 </head>
@@ -1091,6 +1104,100 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         let legacyLayoutNeedsMigration = false;
         let editorPreviewResizeObserver = null;
 
+        // В режиме player страница загружается как самостоятельная игра внутри Genially.
+        // Настройки передаются в hash URL, поэтому сервер/хостинг их не обрабатывает.
+        const DESTROY_WALL_PLAYER_MODE = new URLSearchParams(window.location.search).get('player') === '1';
+        const DESTROY_WALL_PLAYER_BASE_B64 = 'aHR0cHM6Ly9va3NhbmFiYXNobHlrb3ZhMTAtZW5nLmdpdGh1Yi5pby9EZXN0cm95LXRoZS1XYWxsLUVkaXRvci8=';
+
+        function bytesToBase64Url(bytes) {
+            let binary = '';
+            const chunk = 0x8000;
+            for (let i = 0; i < bytes.length; i += chunk) {
+                binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+            }
+            return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+        }
+
+        function base64UrlToBytes(value) {
+            const normalized = String(value || '').replace(/-/g, '+').replace(/_/g, '/');
+            const padded = normalized + '='.repeat((4 - normalized.length % 4) % 4);
+            const binary = atob(padded);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+            return bytes;
+        }
+
+        async function encodePlayerState(state) {
+            const source = new TextEncoder().encode(JSON.stringify(state));
+            if ('CompressionStream' in window) {
+                try {
+                    const compressed = await new Response(
+                        new Blob([source]).stream().pipeThrough(new CompressionStream('gzip'))
+                    ).arrayBuffer();
+                    return 'g.' + bytesToBase64Url(new Uint8Array(compressed));
+                } catch (error) {
+                    console.warn('Gzip compression fallback:', error);
+                }
+            }
+            return 'j.' + bytesToBase64Url(source);
+        }
+
+        async function decodePlayerState(payload) {
+            const raw = String(payload || '').replace(/^#/, '');
+            if (!raw) throw new Error('В ссылке отсутствуют настройки игры.');
+            const separator = raw.indexOf('.');
+            const mode = separator > -1 ? raw.slice(0, separator) : 'j';
+            const data = separator > -1 ? raw.slice(separator + 1) : raw;
+            const bytes = base64UrlToBytes(data);
+            let decodedBytes = bytes;
+            if (mode === 'g') {
+                if (!('DecompressionStream' in window)) {
+                    throw new Error('Этот браузер не поддерживает распаковку настроек игры.');
+                }
+                decodedBytes = new Uint8Array(await new Response(
+                    new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))
+                ).arrayBuffer());
+            }
+            const state = JSON.parse(new TextDecoder().decode(decodedBytes));
+            if (!state || state.app !== 'Destroy the Wall Editor' || !state.controls) {
+                throw new Error('Настройки игры повреждены или имеют неверный формат.');
+            }
+            return state;
+        }
+
+        function getPublicPlayerBaseUrl() {
+            try { return atob(DESTROY_WALL_PLAYER_BASE_B64); }
+            catch (error) { return window.location.origin + window.location.pathname; }
+        }
+
+        function showPlayerBootError(error) {
+            document.body.classList.add('game-export');
+            document.body.innerHTML = '';
+            const panel = document.createElement('div');
+            panel.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:28px;background:#07101c;color:#fff;font-family:Arial,sans-serif;text-align:center;';
+            panel.innerHTML = '<div style="max-width:620px;padding:28px;border:2px solid #ff3155;border-radius:18px;background:rgba(10,12,22,.94);box-shadow:0 0 28px rgba(255,49,85,.45)"><div style="font-size:26px;font-weight:800;color:#ff667f;margin-bottom:12px">Игра не загрузилась</div><div style="font-size:16px;line-height:1.5;color:#e8eaf4">' + String(error?.message || error || 'Не удалось прочитать настройки игры.') + '</div><div style="margin-top:14px;font-size:13px;color:#9fa7bd">Сгенерируйте iframe-код заново в обновлённой версии редактора.</div></div>';
+            document.body.appendChild(panel);
+        }
+
+        function fitHostedPlayer() {
+            const main = document.getElementById('main-area');
+            if (!main) return;
+            const designWidth = 1600;
+            const designHeight = 900;
+            const viewportWidth = Math.max(1, window.innerWidth || document.documentElement.clientWidth || designWidth);
+            const viewportHeight = Math.max(1, window.innerHeight || document.documentElement.clientHeight || designHeight);
+            const scale = Math.min(viewportWidth / designWidth, viewportHeight / designHeight);
+            main.style.width = designWidth + 'px';
+            main.style.height = designHeight + 'px';
+            main.style.transform = 'translate(-50%, -50%) scale(' + (Number.isFinite(scale) && scale > 0 ? scale : 1) + ')';
+            const bg = document.getElementById('no-bg')?.checked ? '' : (document.getElementById('bg-preset')?.value || '');
+            document.body.style.backgroundColor = '#05070d';
+            document.body.style.backgroundImage = bg ? 'url("' + bg.replace(/"/g, '\\"') + '")' : 'none';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundRepeat = 'no-repeat';
+        }
+
         function markProjectDirty() {
             if (!restoringProject && !document.body.classList.contains('game-export')) projectDirty = true;
         }
@@ -1678,42 +1785,44 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             return '<!DOCTYPE html>\n' + clone.outerHTML;
         }
 
-        function stringToBase64Utf8(value) {
-            const bytes = new TextEncoder().encode(value);
-            let binary = '';
-            const chunk = 0x8000;
-            for (let i = 0; i < bytes.length; i += chunk) {
-                binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
-            }
-            return btoa(binary);
-        }
-
-        function buildProtectedIframeCode(gameHtml, backgroundUrl = getExportBackgroundUrl()) {
-            const payload = stringToBase64Utf8(gameHtml);
-            const bgPayload = stringToBase64Utf8(backgroundUrl || '');
+        function buildLightPlayerIframeCode(payload, backgroundUrl = getExportBackgroundUrl()) {
             const boxId = 'destroy-wall-game-' + Date.now().toString(36);
-            // srcdoc стабильнее Blob URL внутри Genially и не вызывает повторную белую загрузку.
-            return `<div id="${boxId}" style="position:relative;width:100%;height:100%;min-height:100%;overflow:hidden;background:#05070d;"></div>\n<script>(function(){var p='${payload}',g='${bgPayload}',dec=function(v){var b=Uint8Array.from(atob(v),function(c){return c.charCodeAt(0)});return new TextDecoder().decode(b)},h=dec(p),u=dec(g),box=document.getElementById('${boxId}'),loader=document.createElement('div'),f=document.createElement('iframe');if(u){box.style.backgroundImage='url("'+u.replace(/"/g,'\\"')+'")';box.style.backgroundPosition='center';box.style.backgroundSize='cover';box.style.backgroundRepeat='no-repeat'}loader.style.cssText='position:absolute;inset:0;background:inherit;z-index:1;pointer-events:none';box.appendChild(loader);f.title='Destroy the Wall';f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.setAttribute('scrolling','no');f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;display:block;overflow:hidden;background:transparent;z-index:2';f.addEventListener('load',function(){requestAnimationFrame(function(){loader.remove()})},{once:true});f.srcdoc=h;box.appendChild(f)})();<\/script>`;
+            const hostEncoded = DESTROY_WALL_PLAYER_BASE_B64;
+            const safePayload = String(payload || '').replace(/'/g, '');
+            const safeBackground = String(backgroundUrl || '').replace(/['"\\]/g, '');
+            // В Genially вставляется только небольшой контейнер и внешний iframe.
+            // Большой HTML игры больше не помещается в srcdoc и не перегружает редактор Genially.
+            return `<div id="${boxId}" style="position:relative;width:100%;height:100%;min-height:180px;overflow:hidden;background:#05070d ${safeBackground ? `url('${safeBackground}') center/cover no-repeat` : ''};"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#dffcff;font:700 15px Arial,sans-serif;background:rgba(5,7,13,.68);z-index:1">Загрузка игры…</div></div>\n<script>(function(){var b=document.getElementById('${boxId}'),h=atob('${hostEncoded}'),p='${safePayload}',f=document.createElement('iframe');f.title='Destroy the Wall';f.src=h+(h.indexOf('?')>-1?'&':'?')+'player=1#'+p;f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.setAttribute('scrolling','no');f.setAttribute('referrerpolicy','no-referrer');f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:transparent;z-index:2';f.onload=function(){var l=b.firstElementChild;if(l)l.remove()};b.appendChild(f)})();<\/script>`;
         }
 
-        function generateStandaloneCode() {
+        async function generateStandaloneCode() {
+            parseAutoQuestions();
+            const state = serializeProjectState();
+            state.activeScreen = 'scr-start';
+            state.activeEditorTab = 'tab-screens';
+            const payload = await encodePlayerState(state);
+            const iframeCode = buildLightPlayerIframeCode(payload, getExportBackgroundUrl());
             const html = buildStandaloneGameHtml();
-            const iframeCode = buildProtectedIframeCode(html, getExportBackgroundUrl());
             const htmlOutput = document.getElementById('generated-html-code');
             const iframeOutput = document.getElementById('generated-iframe-code');
             if (htmlOutput) htmlOutput.value = html;
             if (iframeOutput) iframeOutput.value = iframeCode;
             const status = document.getElementById('code-status');
-            if (status) status.textContent = formulasEnabled()
-                ? 'Коды сформированы. MathJax включён в итоговую игру.'
-                : 'Коды сформированы без MathJax.';
+            const payloadKb = Math.round(payload.length / 1024);
+            if (status) {
+                if (payload.length > 800000) {
+                    status.textContent = '⚠️ Код сформирован, но настройки занимают ' + payloadKb + ' КБ. Замените загруженные с компьютера картинки/звуки на интернет-ссылки, иначе Genially может работать медленно.';
+                } else {
+                    status.textContent = '✅ Лёгкий iframe-код сформирован (' + payloadKb + ' КБ).' + (formulasEnabled() ? ' MathJax включён.' : '');
+                }
+            }
             markProjectDirty();
             return html;
         }
 
         async function copyCodeOutput(id, successText) {
             const field = document.getElementById(id);
-            if (!field?.value) generateStandaloneCode();
+            if (!field?.value) await generateStandaloneCode();
             const value = document.getElementById(id)?.value || '';
             const ok = await copyTextToClipboard(value);
             const status = document.getElementById('code-status');
@@ -1724,9 +1833,10 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             return copyCodeOutput('generated-html-code', 'HTML-код скопирован');
         }
 
-        function downloadGeneratedGame() {
+        async function downloadGeneratedGame() {
             const field = document.getElementById('generated-html-code');
-            const code = field?.value || generateStandaloneCode();
+            if (!field?.value) await generateStandaloneCode();
+            const code = document.getElementById('generated-html-code')?.value || '';
             const blob = new Blob([code], { type:'text/html;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -2080,18 +2190,49 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             }, 200);
             if (!isExportedGame) startAutosave();
         }
-        // Скрипт расположен в конце body, поэтому интерфейс уже создан.
-        // Запускаем редактор сразу и не ждём внешние шрифты/картинки.
-        if (document.body) initializeDestroyWallEditor();
-        else document.addEventListener('DOMContentLoaded', initializeDestroyWallEditor, { once: true });
+        async function bootstrapDestroyWallApplication() {
+            if (DESTROY_WALL_PLAYER_MODE) {
+                try {
+                    document.body.classList.remove('preview-fixed');
+                    document.body.classList.add('game-export', 'hosted-player');
+                    const state = await decodePlayerState(window.location.hash);
+                    initializeDestroyWallEditor();
+                    restoreProjectState(state);
+                    try { stopGameTimer(); stopFireworks(); clearQuestionOverlay(); } catch (error) {}
+                    isTesting = false;
+                    isEnding = false;
+                    isQuestionOpen = false;
+                    slingRestPosition = null;
+                    document.getElementById('scr-game')?.classList.remove('editor-mode');
+                    switchScreen('scr-start');
+                    fitHostedPlayer();
+                    requestAnimationFrame(() => {
+                        fitHostedPlayer();
+                        setTimeout(() => { fitHostedPlayer(); updateRubberBands(); }, 100);
+                    });
+                    window.addEventListener('resize', fitHostedPlayer, { passive:true });
+                    window.addEventListener('orientationchange', () => setTimeout(fitHostedPlayer, 80), { passive:true });
+                } catch (error) {
+                    console.error('Player boot error:', error);
+                    showPlayerBootError(error);
+                }
+                return;
+            }
+            initializeDestroyWallEditor();
+        }
+
+        // Скрипт расположен в конце body, поэтому DOM уже создан.
+        if (document.body) bootstrapDestroyWallApplication();
+        else document.addEventListener('DOMContentLoaded', bootstrapDestroyWallApplication, { once:true });
         window.addEventListener('load', () => {
-            if (!destroyWallEditorInitialized) initializeDestroyWallEditor();
-            if (document.body.classList.contains('game-export')) {
+            if (DESTROY_WALL_PLAYER_MODE) fitHostedPlayer();
+            else if (document.body.classList.contains('game-export')) {
                 if (typeof window.fitDestroyWallGame === 'function') window.fitDestroyWallGame();
             } else {
+                if (!destroyWallEditorInitialized) initializeDestroyWallEditor();
                 fitEditorPreview();
             }
-        }, { once: true });
+        }, { once:true });
 
         function applyPreset(key) {
             document.querySelectorAll('#tab-assets .preset-card:not(.weapon-card)').forEach(c => c.classList.remove('active')); document.getElementById(`card-${key}`).classList.add('active');
