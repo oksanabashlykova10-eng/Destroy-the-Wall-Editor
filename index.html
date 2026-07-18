@@ -1340,28 +1340,103 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             });
         }
 
+        const EXPORT_GAME_WIDTH = 1600;
+        const EXPORT_GAME_HEIGHT = 900;
+
         function getExportDesignSize() {
+            // Итоговая игра всегда строится на настоящем холсте 16:9.
+            // Это исключает чёрные поля при вставке в презентацию 16:9.
+            return { width: EXPORT_GAME_WIDTH, height: EXPORT_GAME_HEIGHT };
+        }
+
+        function measureCurrentGameLayout() {
+            const game = document.getElementById('scr-game');
             const main = document.getElementById('main-area');
-            const tabs = document.querySelector('.screen-tabs');
-            const mainRect = main?.getBoundingClientRect();
-            const tabsHeight = tabs?.getBoundingClientRect().height || 45;
-            return {
-                width: Math.max(640, Math.round(mainRect?.width || 1280)),
-                height: Math.max(360, Math.round((mainRect?.height || 765) - tabsHeight))
+            if (!game || !main) return null;
+
+            const previous = {
+                display: game.style.display,
+                visibility: game.style.visibility,
+                pointerEvents: game.style.pointerEvents,
+                active: game.classList.contains('active')
             };
+
+            // Экран может быть скрыт, когда пользователь генерирует код.
+            // Временно показываем его невидимо, чтобы получить точные координаты.
+            game.style.display = 'flex';
+            game.style.visibility = 'hidden';
+            game.style.pointerEvents = 'none';
+            game.classList.add('active');
+
+            const width = game.clientWidth || main.clientWidth || 1280;
+            const height = game.clientHeight || Math.max(360, main.clientHeight - 45) || 720;
+            const items = {};
+            document.querySelectorAll('#scr-game .editable[id], #scr-game .sling-anchor-point[id]').forEach(el => {
+                items[el.id] = {
+                    left: el.offsetLeft,
+                    top: el.offsetTop,
+                    width: el.offsetWidth,
+                    height: el.offsetHeight
+                };
+            });
+
+            game.style.display = previous.display;
+            game.style.visibility = previous.visibility;
+            game.style.pointerEvents = previous.pointerEvents;
+            game.classList.toggle('active', previous.active);
+            return { width, height, items };
+        }
+
+        function applyMeasuredLayoutToClone(clone, measured, targetSize) {
+            if (!measured || measured.width <= 0 || measured.height <= 0) return;
+            // Сохраняем композицию редактора без деформации и помещаем её
+            // в центр широкоформатного холста. Свободные края заполняются фоном.
+            const scale = Math.min(targetSize.width / measured.width, targetSize.height / measured.height);
+            const offsetX = (targetSize.width - measured.width * scale) / 2;
+            const offsetY = (targetSize.height - measured.height * scale) / 2;
+
+            Object.entries(measured.items).forEach(([id, box]) => {
+                const el = clone.querySelector('#' + CSS.escape(id));
+                if (!el) return;
+                el.style.left = `${offsetX + box.left * scale}px`;
+                el.style.top = `${offsetY + box.top * scale}px`;
+                el.style.width = `${Math.max(1, box.width * scale)}px`;
+                el.style.height = `${Math.max(1, box.height * scale)}px`;
+                el.style.right = 'auto';
+                el.style.bottom = 'auto';
+            });
+        }
+
+        function getExportBackgroundUrl() {
+            if (document.getElementById('no-bg')?.checked) return '';
+            return document.getElementById('bg-preset')?.value || '';
         }
 
         function buildStandaloneGameHtml() {
             parseAutoQuestions();
             const designSize = getExportDesignSize();
+            const measuredLayout = measureCurrentGameLayout();
+            const backgroundUrl = getExportBackgroundUrl();
             const clone = document.documentElement.cloneNode(true);
             syncFormStateIntoClone(clone);
+            applyMeasuredLayoutToClone(clone, measuredLayout, designSize);
+
             const cloneBody = clone.querySelector('body');
+            const cloneMain = clone.querySelector('#main-area');
             cloneBody?.classList.add('game-export');
             if (cloneBody) {
                 cloneBody.dataset.exportDesignWidth = String(designSize.width);
                 cloneBody.dataset.exportDesignHeight = String(designSize.height);
+                cloneBody.dataset.exportBackgroundUrl = backgroundUrl;
             }
+            if (cloneMain) {
+                cloneMain.style.width = `${designSize.width}px`;
+                cloneMain.style.height = `${designSize.height}px`;
+                cloneMain.style.background = backgroundUrl
+                    ? `url('${backgroundUrl}') center / cover no-repeat`
+                    : 'transparent';
+            }
+
             ['generated-iframe-code','generated-html-code','code-status','save-status','save-status-bottom'].forEach(id => {
                 const node = clone.querySelector('#' + id);
                 if (node) {
@@ -1369,7 +1444,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                     node.textContent = '';
                 }
             });
-            clone.querySelectorAll('#mathjax-runtime-script, #MathJax-script, #MathJax-config').forEach(node => node.remove());
+            clone.querySelectorAll('#mathjax-runtime-script, #MathJax-script, #MathJax-config, #export-runtime-style, #export-runtime-boot').forEach(node => node.remove());
 
             if (formulasEnabled()) {
                 const config = document.createElement('script');
@@ -1382,12 +1457,65 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                 clone.querySelector('head').append(config, script);
             }
 
+            const safeBackground = backgroundUrl.replace(/(["'\\])/g, '\\$1');
             const exportStyle = document.createElement('style');
-            exportStyle.textContent = `html,body{width:100%;height:100%;margin:0;overflow:hidden}body.game-export{display:block!important;position:relative!important;background:#05070d center/cover no-repeat!important}body.game-export #editor-panel,body.game-export .screen-tabs{display:none!important}body.game-export #main-area{position:absolute!important;left:50%!important;top:50%!important;width:${designSize.width}px!important;height:${designSize.height}px!important;flex:none!important;transform-origin:center center!important;overflow:hidden!important}body.game-export .screen-container{top:0!important;height:100%!important}`;
+            exportStyle.id = 'export-runtime-style';
+            exportStyle.textContent = `
+                html,body{width:100%;height:100%;margin:0!important;padding:0!important;overflow:hidden!important;background-color:#05070d!important}
+                body.game-export{display:block!important;position:relative!important;background:${backgroundUrl ? `#05070d url("${safeBackground}") center/cover no-repeat` : '#05070d'}!important}
+                body.game-export #editor-panel,body.game-export .screen-tabs{display:none!important}
+                body.game-export #main-area{position:absolute!important;left:50%!important;top:50%!important;width:${designSize.width}px!important;height:${designSize.height}px!important;min-width:0!important;min-height:0!important;flex:none!important;transform-origin:center center!important;overflow:hidden!important;background:${backgroundUrl ? `url("${safeBackground}") center/cover no-repeat` : 'transparent'}!important;will-change:transform}
+                body.game-export .screen-container{top:0!important;left:0!important;width:100%!important;height:100%!important}
+                body.game-export #scr-game{cursor:default}
+            `;
             clone.querySelector('head').appendChild(exportStyle);
 
             const boot = document.createElement('script');
-            boot.textContent = `(function(){function fitDestroyWallGame(){var body=document.body,main=document.getElementById('main-area');if(!main)return;var dw=Number(body.dataset.exportDesignWidth)||${designSize.width},dh=Number(body.dataset.exportDesignHeight)||${designSize.height};var scale=Math.min(window.innerWidth/dw,window.innerHeight/dh);if(!Number.isFinite(scale)||scale<=0)scale=1;window.__destroyWallExportScale=scale;main.style.width=dw+'px';main.style.height=dh+'px';main.style.transform='translate(-50%,-50%) scale('+scale+')';var computed=getComputedStyle(main);body.style.backgroundImage=computed.backgroundImage;body.style.backgroundPosition='center';body.style.backgroundSize='cover';body.style.backgroundRepeat='no-repeat'}window.fitDestroyWallGame=fitDestroyWallGame;window.addEventListener('resize',fitDestroyWallGame);window.addEventListener('load',function(){document.body.classList.add('game-export');try{stopTestSession({restore:false,rebuild:false})}catch(e){}try{switchScreen('scr-start')}catch(e){}document.getElementById('scr-game')?.classList.remove('editor-mode');fitDestroyWallGame();setTimeout(fitDestroyWallGame,120);if(document.getElementById('math-enabled')?.checked){setTimeout(function(){typesetMath([document.getElementById('preview-q-box')])},100)}})})();`;
+            boot.id = 'export-runtime-boot';
+            boot.textContent = `(function(){
+                var initialized=false;
+                function fitDestroyWallGame(){
+                    var body=document.body,main=document.getElementById('main-area');
+                    if(!body||!main)return;
+                    var dw=Number(body.dataset.exportDesignWidth)||${designSize.width};
+                    var dh=Number(body.dataset.exportDesignHeight)||${designSize.height};
+                    var vw=Math.max(1,window.innerWidth||document.documentElement.clientWidth||dw);
+                    var vh=Math.max(1,window.innerHeight||document.documentElement.clientHeight||dh);
+                    // cover убирает поля даже при небольшом несовпадении пропорций контейнера.
+                    var scale=Math.max(vw/dw,vh/dh);
+                    if(!Number.isFinite(scale)||scale<=0)scale=1;
+                    window.__destroyWallExportScale=scale;
+                    main.style.width=dw+'px';
+                    main.style.height=dh+'px';
+                    main.style.transform='translate(-50%,-50%) scale('+scale+')';
+                    var bg=body.dataset.exportBackgroundUrl||'';
+                    body.style.backgroundColor='#05070d';
+                    body.style.backgroundImage=bg?'url("'+bg.replace(/"/g,'\\"')+'")':'none';
+                    body.style.backgroundPosition='center';
+                    body.style.backgroundSize='cover';
+                    body.style.backgroundRepeat='no-repeat';
+                }
+                function initDestroyWallExport(){
+                    if(initialized){fitDestroyWallGame();return;}
+                    initialized=true;
+                    document.body.classList.add('game-export');
+                    try{isTesting=false;isEnding=false;isQuestionOpen=false;}catch(e){}
+                    try{stopGameTimer();stopFireworks();clearQuestionOverlay();slingRestPosition=null;}catch(e){}
+                    try{switchScreen('scr-start');}catch(e){
+                        document.querySelectorAll('.screen-container').forEach(function(s){s.classList.remove('active')});
+                        document.getElementById('scr-start')?.classList.add('active');
+                    }
+                    document.getElementById('scr-game')?.classList.remove('editor-mode');
+                    fitDestroyWallGame();
+                    requestAnimationFrame(function(){fitDestroyWallGame();setTimeout(fitDestroyWallGame,80)});
+                }
+                window.fitDestroyWallGame=fitDestroyWallGame;
+                window.addEventListener('resize',fitDestroyWallGame,{passive:true});
+                window.addEventListener('orientationchange',function(){setTimeout(fitDestroyWallGame,80)},{passive:true});
+                if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initDestroyWallExport,{once:true});
+                else initDestroyWallExport();
+                window.addEventListener('load',function(){initDestroyWallExport();fitDestroyWallGame();setTimeout(fitDestroyWallGame,120)},{once:true});
+            })();`;
             clone.querySelector('body').appendChild(boot);
             return '<!DOCTYPE html>\n' + clone.outerHTML;
         }
@@ -1402,16 +1530,17 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             return btoa(binary);
         }
 
-        function buildProtectedIframeCode(gameHtml) {
+        function buildProtectedIframeCode(gameHtml, backgroundUrl = getExportBackgroundUrl()) {
             const payload = stringToBase64Utf8(gameHtml);
+            const bgPayload = stringToBase64Utf8(backgroundUrl || '');
             const boxId = 'destroy-wall-game-' + Date.now().toString(36);
-            // Самостоятельный srcdoc/Blob-вариант: адрес хостинга редактора в код не выводится.
-            return `<div id="${boxId}" style="position:relative;width:100%;height:100%;overflow:hidden;background:#05070d;"></div>\n<script>(function(){var p='${payload}',b=Uint8Array.from(atob(p),function(c){return c.charCodeAt(0)}),h=new TextDecoder().decode(b),f=document.createElement('iframe'),box=document.getElementById('${boxId}');f.title='Destroy the Wall';f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.setAttribute('scrolling','no');f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;display:block;overflow:hidden;background:#05070d';f.src=URL.createObjectURL(new Blob([h],{type:'text/html;charset=utf-8'}));box.appendChild(f)})();<\/script>`;
+            // srcdoc стабильнее Blob URL внутри Genially и не вызывает повторную белую загрузку.
+            return `<div id="${boxId}" style="position:relative;width:100%;height:100%;min-height:100%;overflow:hidden;background:#05070d;"></div>\n<script>(function(){var p='${payload}',g='${bgPayload}',dec=function(v){var b=Uint8Array.from(atob(v),function(c){return c.charCodeAt(0)});return new TextDecoder().decode(b)},h=dec(p),u=dec(g),box=document.getElementById('${boxId}'),loader=document.createElement('div'),f=document.createElement('iframe');if(u){box.style.backgroundImage='url("'+u.replace(/"/g,'\\"')+'")';box.style.backgroundPosition='center';box.style.backgroundSize='cover';box.style.backgroundRepeat='no-repeat'}loader.style.cssText='position:absolute;inset:0;background:inherit;z-index:1;pointer-events:none';box.appendChild(loader);f.title='Destroy the Wall';f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.setAttribute('scrolling','no');f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;display:block;overflow:hidden;background:transparent;z-index:2';f.addEventListener('load',function(){requestAnimationFrame(function(){loader.remove()})},{once:true});f.srcdoc=h;box.appendChild(f)})();<\/script>`;
         }
 
         function generateStandaloneCode() {
             const html = buildStandaloneGameHtml();
-            const iframeCode = buildProtectedIframeCode(html);
+            const iframeCode = buildProtectedIframeCode(html, getExportBackgroundUrl());
             const htmlOutput = document.getElementById('generated-html-code');
             const iframeOutput = document.getElementById('generated-iframe-code');
             if (htmlOutput) htmlOutput.value = html;
