@@ -1,18 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <script>
-        // Помечаем облегчённый режим игрока до отрисовки DOM, чтобы редактор не мелькал внутри Genially.
-        try {
-            if (new URLSearchParams(location.search).get('player') === '1') {
-                document.documentElement.classList.add('hosted-player-mode');
-            }
-        } catch (e) {}
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destroy the Wall Editor By English Bootcamp</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet"></noscript>
     
     <style>
         :root {
@@ -172,7 +165,67 @@
         #test-btn { padding: 20px; background: #1ba33c; color: #fff; text-transform: uppercase; font-weight: 800; border: none; cursor: pointer; letter-spacing: 1px; font-size: 15px; transition: 0.3s; }
         #test-btn.testing { background: #dc3545; }
 
+        #preview-viewport {
+            flex: 1;
+            display: flex;
+            min-width: 0;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            visibility: hidden;
+            background:
+                radial-gradient(circle at 50% 45%, rgba(0,240,255,.06), transparent 46%),
+                linear-gradient(135deg, #080910, #10121b);
+        }
+        #preview-viewport.preview-ready { visibility: visible; }
+        #preview-scale-badge {
+            position: absolute;
+            right: 14px;
+            bottom: 12px;
+            z-index: 500;
+            padding: 7px 11px;
+            border: 1px solid rgba(0,240,255,.55);
+            border-radius: 18px;
+            background: rgba(7,9,16,.82);
+            color: #dffcff;
+            font: 700 11px/1.2 'Montserrat', sans-serif;
+            letter-spacing: .25px;
+            box-shadow: 0 0 12px rgba(0,240,255,.22);
+            pointer-events: none;
+            white-space: nowrap;
+        }
         #main-area { flex: 1; display: flex; flex-direction: column; background-color: #0d0e15; position: relative; font-family: var(--game-font); transition: background 0.3s; }
+        body.preview-fixed #main-area {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 1600px;
+            height: 945px;
+            min-width: 1600px;
+            min-height: 945px;
+            flex: none;
+            transform-origin: center center;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.13), 0 18px 45px rgba(0,0,0,.48);
+            overflow: hidden;
+        }
+        body.preview-fixed .screen-tabs {
+            width: 1600px;
+            height: 45px;
+            min-height: 45px;
+            flex: 0 0 45px;
+        }
+        body.preview-fixed .screen-container {
+            top: 45px;
+            width: 1600px;
+            height: 900px;
+        }
+        body.preview-fixed #fireworks-canvas {
+            top: 45px;
+            right: auto;
+            bottom: auto;
+            width: 1600px;
+            height: 900px;
+        }
         
         .screen-tabs { display: flex; background: #0c0d14; border-bottom: 2px solid #2a2b3d; padding: 0 10px; z-index: 100;}
         .screen-tab { padding: 15px 20px; font-size: 11px; text-transform: uppercase; font-weight: 800; color: #6a6b8c; cursor: pointer; border-bottom: 2px solid transparent; font-family: 'Montserrat', sans-serif; letter-spacing: 0.5px;}
@@ -389,49 +442,24 @@
         .copy-mini-btn:hover { filter:brightness(1.08); box-shadow:0 0 11px rgba(47,193,95,.42); }
         .code-privacy-note { margin:5px 0 12px; color:#9da0b3; font-size:11px; line-height:1.4; }
         body.game-export #editor-panel,
-        body.game-export .screen-tabs { display:none !important; }
+        body.game-export .screen-tabs,
+        body.game-export #preview-scale-badge { display:none !important; }
         html:has(body.game-export), body.game-export { width:100% !important; height:100% !important; overflow:hidden !important; }
         body.game-export { display:block !important; position:relative !important; background:#05070d center/cover no-repeat !important; }
-        body.game-export #main-area { position:absolute !important; left:50% !important; top:50% !important; flex:none !important; transform-origin:center center !important; overflow:hidden !important; }
-        body.game-export .screen-container { top:0 !important; height:100% !important; }
-        body.game-export #scr-game { cursor:default; }
-
-        /* ===== ОБЛЕГЧЁННЫЙ ИГРОК ДЛЯ GENIALLY ===== */
-        html.hosted-player-mode,
-        html.hosted-player-mode body {
-            width:100% !important;
-            height:100% !important;
-            margin:0 !important;
-            padding:0 !important;
-            overflow:hidden !important;
-            background:#05070d !important;
-        }
-        html.hosted-player-mode body {
-            display:block !important;
-            visibility:hidden;
-        }
-        html.hosted-player-mode.player-ready body { visibility:visible; }
-        html.hosted-player-mode #editor-panel,
-        html.hosted-player-mode .screen-tabs { display:none !important; }
-        html.hosted-player-mode #main-area {
+        body.game-export #preview-viewport {
             position:absolute !important;
-            left:50% !important;
-            top:50% !important;
-            width:1600px !important;
-            height:900px !important;
-            min-width:0 !important;
-            min-height:0 !important;
-            flex:none !important;
-            transform-origin:center center !important;
-            overflow:hidden !important;
-            will-change:transform;
-        }
-        html.hosted-player-mode .screen-container {
-            top:0 !important;
-            left:0 !important;
+            inset:0 !important;
             width:100% !important;
             height:100% !important;
+            min-width:0 !important;
+            visibility:visible !important;
+            overflow:hidden !important;
+            background:transparent !important;
         }
+        body.game-export #main-area { position:absolute !important; left:50% !important; top:50% !important; flex:none !important; transform-origin:center center !important; overflow:hidden !important; box-shadow:none !important; }
+        body.game-export .screen-container { top:0 !important; width:100% !important; height:100% !important; }
+        body.game-export #fireworks-canvas { top:0 !important; width:100% !important; height:100% !important; }
+        body.game-export #scr-game { cursor:default; }
 
     </style>
 </head>
@@ -916,7 +944,9 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         <div style="font-size: 9px; color: #666; text-align: center; margin-top: auto; padding: 8px 10px 10px;">© Все права принадлежат Башлыковой Оксане Михайловне</div>
     </div>
 
-    <div id="main-area">
+    <div id="preview-viewport">
+        <div id="preview-scale-badge">Макет Genially 16:9 · 1600×900</div>
+        <div id="main-area">
         <div class="screen-tabs">
             <div class="screen-tab active" onclick="switchScreen('scr-start')">НАЧАЛЬНЫЙ ЭКРАН</div>
             <div class="screen-tab" onclick="switchScreen('scr-game')">ИГРОВОЕ ПОЛЕ</div>
@@ -1013,6 +1043,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                 <button class="game-btn" id="ren-l-btn" onclick="startGameSession()">ПОПРОБОВАТЬ СНОВА</button>
             </div>
         </div>
+        </div>
     </div>
 
     <script>
@@ -1052,155 +1083,13 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         let happyCharactersTimer = null;
 
         const PROJECT_STORAGE_KEY = 'destroyTheWallEditorProjectV5';
-        const PROJECT_VERSION = 5;
+        const PROJECT_VERSION = 6;
         let projectDirty = true;
         let autosaveTimer = null;
         let saveStatusTimer = null;
         let restoringProject = false;
-
-        // Страница редактора одновременно служит лёгким проигрывателем для Genially.
-        // В iframe загружается только эта страница, а настройки игры приходят через postMessage.
-        const HOSTED_PLAYER_MODE = (() => {
-            try { return new URLSearchParams(location.search).get('player') === '1'; }
-            catch (e) { return false; }
-        })();
-        const HOSTED_PLAYER_URL = 'https://oksanabashlykova10-eng.github.io/Destroy-the-Wall-Editor/?player=1';
-        let hostedPlayerDomReady = false;
-        let pendingHostedPlayerState = null;
-        let hostedPlayerStarted = false;
-
-        function encodeBase64UrlUtf8(value) {
-            const bytes = new TextEncoder().encode(String(value ?? ''));
-            let binary = '';
-            const chunk = 0x8000;
-            for (let i = 0; i < bytes.length; i += chunk) {
-                binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
-            }
-            return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
-        }
-
-        function decodeBase64UrlUtf8(value) {
-            let normalized = String(value || '').replace(/-/g, '+').replace(/_/g, '/');
-            while (normalized.length % 4) normalized += '=';
-            const binary = atob(normalized);
-            const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
-            return new TextDecoder().decode(bytes);
-        }
-
-        function getHostedPlayerBackground(state) {
-            const controls = state?.controls || {};
-            const noBackground = !!controls['id:no-bg'];
-            return noBackground ? '' : String(controls['id:bg-preset'] || '');
-        }
-
-        function fitHostedPlayerGame() {
-            if (!HOSTED_PLAYER_MODE) return;
-            const main = document.getElementById('main-area');
-            if (!main) return;
-            const designWidth = EXPORT_GAME_WIDTH || 1600;
-            const designHeight = EXPORT_GAME_HEIGHT || 900;
-            const viewportWidth = Math.max(1, window.innerWidth || document.documentElement.clientWidth || designWidth);
-            const viewportHeight = Math.max(1, window.innerHeight || document.documentElement.clientHeight || designHeight);
-            // contain сохраняет всё игровое поле. Свободная область заполнена тем же фоном, поэтому чёрных полос нет.
-            let scale = Math.min(viewportWidth / designWidth, viewportHeight / designHeight);
-            if (!Number.isFinite(scale) || scale <= 0) scale = 1;
-            window.__destroyWallExportScale = scale;
-            main.style.width = designWidth + 'px';
-            main.style.height = designHeight + 'px';
-            main.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
-        }
-
-        function showHostedPlayerError(message) {
-            document.documentElement.classList.add('player-ready');
-            document.body.classList.add('game-export');
-            document.body.style.visibility = 'visible';
-            document.body.innerHTML = '';
-            const box = document.createElement('div');
-            box.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:30px;background:#05070d;color:#fff;font:600 18px/1.45 Montserrat,sans-serif;text-align:center';
-            box.textContent = message || 'Не удалось загрузить игру.';
-            document.body.appendChild(box);
-        }
-
-        function launchHostedPlayer(state) {
-            if (!HOSTED_PLAYER_MODE || hostedPlayerStarted || !state) return;
-            hostedPlayerStarted = true;
-            document.body.classList.add('game-export', 'hosted-player');
-            const backgroundUrl = getHostedPlayerBackground(state);
-            document.body.dataset.exportDesignWidth = String(EXPORT_GAME_WIDTH);
-            document.body.dataset.exportDesignHeight = String(EXPORT_GAME_HEIGHT);
-            document.body.dataset.exportBackgroundUrl = backgroundUrl;
-            document.body.style.backgroundColor = '#05070d';
-            document.body.style.backgroundImage = backgroundUrl ? `url("${backgroundUrl.replace(/"/g, '\\"')}")` : 'none';
-            document.body.style.backgroundPosition = 'center';
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundRepeat = 'no-repeat';
-
-            const restored = restoreProjectState(state);
-            if (!restored) {
-                showHostedPlayerError('Не удалось прочитать настройки игры. Сгенерируйте код ещё раз.');
-                return;
-            }
-
-            const main = document.getElementById('main-area');
-            if (main) {
-                main.style.width = EXPORT_GAME_WIDTH + 'px';
-                main.style.height = EXPORT_GAME_HEIGHT + 'px';
-                main.style.background = backgroundUrl ? `url('${backgroundUrl.replace(/'/g, "\\'")}') center / cover no-repeat` : 'transparent';
-            }
-            try {
-                isTesting = false;
-                isEnding = false;
-                isQuestionOpen = false;
-                stopGameTimer();
-                stopFireworks();
-                clearQuestionOverlay();
-                slingRestPosition = null;
-                switchScreen('scr-start');
-                document.getElementById('scr-game')?.classList.remove('editor-mode');
-            } catch (e) {
-                console.error('Hosted player initialization error:', e);
-            }
-
-            fitHostedPlayerGame();
-            requestAnimationFrame(() => {
-                fitHostedPlayerGame();
-                updateRubberBands();
-                document.documentElement.classList.add('player-ready');
-                document.body.style.visibility = 'visible';
-                try {
-                    if (window.parent !== window) window.parent.postMessage({ type: 'DESTROY_WALL_STARTED' }, '*');
-                } catch (e) {}
-                setTimeout(() => {
-                    fitHostedPlayerGame();
-                    updateRubberBands();
-                }, 120);
-            });
-        }
-
-        function acceptHostedPlayerPayload(payload) {
-            if (!HOSTED_PLAYER_MODE || !payload) return;
-            try {
-                const state = JSON.parse(decodeBase64UrlUtf8(payload));
-                if (!state || state.app !== 'Destroy the Wall Editor' || !state.controls) throw new Error('Invalid state');
-                if (hostedPlayerDomReady) launchHostedPlayer(state);
-                else pendingHostedPlayerState = state;
-            } catch (error) {
-                console.error('Player payload error:', error);
-                if (hostedPlayerDomReady) showHostedPlayerError('Код игры повреждён. Сгенерируйте iframe-код заново.');
-            }
-        }
-
-        window.addEventListener('message', event => {
-            if (!HOSTED_PLAYER_MODE) return;
-            const data = event.data;
-            if (!data || data.type !== 'DESTROY_WALL_LOAD' || typeof data.payload !== 'string') return;
-            acceptHostedPlayerPayload(data.payload);
-        });
-
-        function notifyHostedPlayerReady() {
-            if (!HOSTED_PLAYER_MODE || window.parent === window) return;
-            try { window.parent.postMessage({ type: 'DESTROY_WALL_READY' }, '*'); } catch (e) {}
-        }
+        let legacyLayoutNeedsMigration = false;
+        let editorPreviewResizeObserver = null;
 
         function markProjectDirty() {
             if (!restoringProject && !document.body.classList.contains('game-export')) projectDirty = true;
@@ -1231,6 +1120,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                 app: 'Destroy the Wall Editor',
                 version: PROJECT_VERSION,
                 savedAt: new Date().toISOString(),
+                design: { width: 1600, height: 900 },
                 controls,
                 questions,
                 rootStyle: document.documentElement.getAttribute('style') || '',
@@ -1276,6 +1166,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
 
         function restoreProjectState(state) {
             if (!state || state.app !== 'Destroy the Wall Editor' || !state.controls) return false;
+            legacyLayoutNeedsMigration = (Number(state.version) || 0) < PROJECT_VERSION;
             restoringProject = true;
             try {
                 assignAutosaveKeys();
@@ -1529,6 +1420,81 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             });
         }
 
+        const EDITOR_GAME_WIDTH = 1600;
+        const EDITOR_GAME_HEIGHT = 900;
+        const EDITOR_TABS_HEIGHT = 45;
+        const EDITOR_PREVIEW_HEIGHT = EDITOR_GAME_HEIGHT + EDITOR_TABS_HEIGHT;
+
+        function fitEditorPreview() {
+            if (document.body.classList.contains('game-export')) return 1;
+            const viewport = document.getElementById('preview-viewport');
+            const main = document.getElementById('main-area');
+            if (!viewport || !main) return 1;
+            const padding = 22;
+            const availableWidth = Math.max(1, viewport.clientWidth - padding * 2);
+            const availableHeight = Math.max(1, viewport.clientHeight - padding * 2);
+            const scale = Math.max(0.05, Math.min(availableWidth / EDITOR_GAME_WIDTH, availableHeight / EDITOR_PREVIEW_HEIGHT));
+            window.__destroyWallEditorScale = scale;
+            main.style.width = EDITOR_GAME_WIDTH + 'px';
+            main.style.height = EDITOR_PREVIEW_HEIGHT + 'px';
+            main.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+            const badge = document.getElementById('preview-scale-badge');
+            if (badge) badge.textContent = 'Макет Genially 16:9 · 1600×900 · масштаб ' + Math.round(scale * 100) + '%';
+            return scale;
+        }
+
+        function migrateLegacyLayoutToGenially(snapshot) {
+            if (!snapshot || snapshot.width <= 0 || snapshot.height <= 0) return;
+            const scaleX = EDITOR_GAME_WIDTH / snapshot.width;
+            const scaleY = EDITOR_GAME_HEIGHT / snapshot.height;
+            const sizeScale = Math.min(scaleX, scaleY);
+            Object.entries(snapshot.items || {}).forEach(([id, box]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const centerX = ((box.left + box.width / 2) / snapshot.width) * EDITOR_GAME_WIDTH;
+                const centerY = ((box.top + box.height / 2) / snapshot.height) * EDITOR_GAME_HEIGHT;
+                const width = Math.max(1, box.width * sizeScale);
+                const height = Math.max(1, box.height * sizeScale);
+                el.style.left = (centerX - width / 2) + 'px';
+                el.style.top = (centerY - height / 2) + 'px';
+                el.style.width = width + 'px';
+                el.style.height = height + 'px';
+                el.style.right = 'auto';
+                el.style.bottom = 'auto';
+            });
+            legacyLayoutNeedsMigration = false;
+            projectDirty = true;
+        }
+
+        function initializeEditorPreview(legacySnapshot = null) {
+            if (document.body.classList.contains('game-export')) return;
+            document.body.classList.add('preview-fixed');
+            if (legacySnapshot) migrateLegacyLayoutToGenially(legacySnapshot);
+            fitEditorPreview();
+            const viewport = document.getElementById('preview-viewport');
+            viewport?.classList.add('preview-ready');
+            if (editorPreviewResizeObserver) editorPreviewResizeObserver.disconnect();
+            if ('ResizeObserver' in window && viewport) {
+                editorPreviewResizeObserver = new ResizeObserver(() => fitEditorPreview());
+                editorPreviewResizeObserver.observe(viewport);
+            }
+            window.addEventListener('resize', fitEditorPreview, { passive: true });
+            requestAnimationFrame(() => {
+                fitEditorPreview();
+                updateRubberBands();
+            });
+        }
+
+        function getEditorInteractionScale() {
+            const game = document.getElementById('scr-game');
+            if (!game) return { x: 1, y: 1 };
+            const rect = game.getBoundingClientRect();
+            return {
+                x: rect.width > 0 ? rect.width / Math.max(1, game.offsetWidth) : 1,
+                y: rect.height > 0 ? rect.height / Math.max(1, game.offsetHeight) : 1
+            };
+        }
+
         const EXPORT_GAME_WIDTH = 1600;
         const EXPORT_GAME_HEIGHT = 900;
 
@@ -1604,15 +1570,15 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         function buildStandaloneGameHtml() {
             parseAutoQuestions();
             const designSize = getExportDesignSize();
-            const measuredLayout = measureCurrentGameLayout();
             const backgroundUrl = getExportBackgroundUrl();
             const clone = document.documentElement.cloneNode(true);
             syncFormStateIntoClone(clone);
-            applyMeasuredLayoutToClone(clone, measuredLayout, designSize);
 
             const cloneBody = clone.querySelector('body');
             const cloneMain = clone.querySelector('#main-area');
+            cloneBody?.classList.remove('preview-fixed');
             cloneBody?.classList.add('game-export');
+            clone.querySelector('#preview-viewport')?.classList.remove('preview-ready');
             if (cloneBody) {
                 cloneBody.dataset.exportDesignWidth = String(designSize.width);
                 cloneBody.dataset.exportDesignHeight = String(designSize.height);
@@ -1621,6 +1587,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             if (cloneMain) {
                 cloneMain.style.width = `${designSize.width}px`;
                 cloneMain.style.height = `${designSize.height}px`;
+                cloneMain.style.transform = '';
                 cloneMain.style.background = backgroundUrl
                     ? `url('${backgroundUrl}') center / cover no-repeat`
                     : 'transparent';
@@ -1652,9 +1619,11 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             exportStyle.textContent = `
                 html,body{width:100%;height:100%;margin:0!important;padding:0!important;overflow:hidden!important;background-color:#05070d!important}
                 body.game-export{display:block!important;position:relative!important;background:${backgroundUrl ? `#05070d url("${safeBackground}") center/cover no-repeat` : '#05070d'}!important}
-                body.game-export #editor-panel,body.game-export .screen-tabs{display:none!important}
+                body.game-export #editor-panel,body.game-export .screen-tabs,body.game-export #preview-scale-badge{display:none!important}
+                body.game-export #preview-viewport{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;visibility:visible!important;overflow:hidden!important;background:transparent!important}
                 body.game-export #main-area{position:absolute!important;left:50%!important;top:50%!important;width:${designSize.width}px!important;height:${designSize.height}px!important;min-width:0!important;min-height:0!important;flex:none!important;transform-origin:center center!important;overflow:hidden!important;background:${backgroundUrl ? `url("${safeBackground}") center/cover no-repeat` : 'transparent'}!important;will-change:transform}
                 body.game-export .screen-container{top:0!important;left:0!important;width:100%!important;height:100%!important}
+                body.game-export #fireworks-canvas{top:0!important;left:0!important;width:100%!important;height:100%!important}
                 body.game-export #scr-game{cursor:default}
             `;
             clone.querySelector('head').appendChild(exportStyle);
@@ -1670,8 +1639,8 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                     var dh=Number(body.dataset.exportDesignHeight)||${designSize.height};
                     var vw=Math.max(1,window.innerWidth||document.documentElement.clientWidth||dw);
                     var vh=Math.max(1,window.innerHeight||document.documentElement.clientHeight||dh);
-                    // cover убирает поля даже при небольшом несовпадении пропорций контейнера.
-                    var scale=Math.max(vw/dw,vh/dh);
+                    // contain сохраняет весь авторский холст 16:9 без смещения и обрезки.
+                    var scale=Math.min(vw/dw,vh/dh);
                     if(!Number.isFinite(scale)||scale<=0)scale=1;
                     window.__destroyWallExportScale=scale;
                     main.style.width=dw+'px';
@@ -1719,25 +1688,25 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             return btoa(binary);
         }
 
-        function buildProtectedIframeCode(projectState = serializeProjectState()) {
-            const payload = encodeBase64UrlUtf8(JSON.stringify(projectState));
+        function buildProtectedIframeCode(gameHtml, backgroundUrl = getExportBackgroundUrl()) {
+            const payload = stringToBase64Utf8(gameHtml);
+            const bgPayload = stringToBase64Utf8(backgroundUrl || '');
             const boxId = 'destroy-wall-game-' + Date.now().toString(36);
-            // URL хранится в Base64, поэтому название хостинга не отображается в выдаваемом коде.
-            const encodedPlayerUrl = btoa(HOSTED_PLAYER_URL);
-            return `<div id="${boxId}" style="position:relative;width:100%;height:100%;min-height:0;overflow:hidden;background:#05070d;"><div data-dtw-loader style="position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:#05070d;color:#8df7ff;font:700 14px Arial,sans-serif;letter-spacing:.4px;text-shadow:0 0 10px #00f0ff">Загрузка игры…</div></div>\n<script>(function(){var b=document.getElementById('${boxId}'),l=b.querySelector('[data-dtw-loader]'),f=document.createElement('iframe'),p='${payload}',u=atob('${encodedPlayerUrl}'),started=false,send=function(){if(!f.contentWindow)return;try{f.contentWindow.postMessage({type:'DESTROY_WALL_LOAD',payload:p},'*')}catch(e){}};f.title='Destroy the Wall';f.src=u;f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.setAttribute('scrolling','no');f.setAttribute('referrerpolicy','no-referrer');f.style.cssText='position:absolute;inset:0;z-index:1;width:100%;height:100%;border:0;display:block;overflow:hidden;background:#05070d';window.addEventListener('message',function(e){if(e.source!==f.contentWindow||!e.data)return;if(e.data.type==='DESTROY_WALL_READY')send();if(e.data.type==='DESTROY_WALL_STARTED'){started=true;if(l)l.remove()}});f.addEventListener('load',function(){send();setTimeout(send,150);setTimeout(send,600)});b.appendChild(f);setTimeout(send,1200);setTimeout(function(){if(!started&&l)l.textContent='Игра загружается дольше обычного…'},7000)})();<\/script>`;
+            // srcdoc стабильнее Blob URL внутри Genially и не вызывает повторную белую загрузку.
+            return `<div id="${boxId}" style="position:relative;width:100%;height:100%;min-height:100%;overflow:hidden;background:#05070d;"></div>\n<script>(function(){var p='${payload}',g='${bgPayload}',dec=function(v){var b=Uint8Array.from(atob(v),function(c){return c.charCodeAt(0)});return new TextDecoder().decode(b)},h=dec(p),u=dec(g),box=document.getElementById('${boxId}'),loader=document.createElement('div'),f=document.createElement('iframe');if(u){box.style.backgroundImage='url("'+u.replace(/"/g,'\\"')+'")';box.style.backgroundPosition='center';box.style.backgroundSize='cover';box.style.backgroundRepeat='no-repeat'}loader.style.cssText='position:absolute;inset:0;background:inherit;z-index:1;pointer-events:none';box.appendChild(loader);f.title='Destroy the Wall';f.setAttribute('allow','autoplay; fullscreen');f.setAttribute('allowfullscreen','');f.setAttribute('scrolling','no');f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;display:block;overflow:hidden;background:transparent;z-index:2';f.addEventListener('load',function(){requestAnimationFrame(function(){loader.remove()})},{once:true});f.srcdoc=h;box.appendChild(f)})();<\/script>`;
         }
 
         function generateStandaloneCode() {
             const html = buildStandaloneGameHtml();
-            const iframeCode = buildProtectedIframeCode(serializeProjectState());
+            const iframeCode = buildProtectedIframeCode(html, getExportBackgroundUrl());
             const htmlOutput = document.getElementById('generated-html-code');
             const iframeOutput = document.getElementById('generated-iframe-code');
             if (htmlOutput) htmlOutput.value = html;
             if (iframeOutput) iframeOutput.value = iframeCode;
             const status = document.getElementById('code-status');
             if (status) status.textContent = formulasEnabled()
-                ? 'Коды сформированы. Облегчённый iframe готов; MathJax включён.'
-                : 'Коды сформированы. Облегчённый iframe готов без MathJax.';
+                ? 'Коды сформированы. MathJax включён в итоговую игру.'
+                : 'Коды сформированы без MathJax.';
             markProjectDirty();
             return html;
         }
@@ -2074,31 +2043,10 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             document.getElementById('ren-l-title').innerText = document.getElementById('txt-l-title').value; document.getElementById('ren-l-sub').innerText = document.getElementById('txt-l-sub').value; document.getElementById('ren-l-btn').innerText = document.getElementById('txt-l-btn').value;
         }
 
-        window.onload = () => {
-            if (HOSTED_PLAYER_MODE) {
-                document.body.classList.add('game-export', 'hosted-player');
-                let opts = fonts.map(f => `<option value="${f.v}" style="font-family: ${f.v}">${f.n}</option>`).join('');
-                document.querySelectorAll('.font-select').forEach(sel => sel.innerHTML = opts);
-                for (let k in presets) {
-                    const c = document.getElementById(`card-${k}`);
-                    if (c) c.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.6)), url('${URL_BASE + presets[k].preview}')`;
-                }
-                hostedPlayerDomReady = true;
-                window.addEventListener('resize', fitHostedPlayerGame, { passive:true });
-                window.addEventListener('orientationchange', () => setTimeout(fitHostedPlayerGame, 100), { passive:true });
-                notifyHostedPlayerReady();
-                if (pendingHostedPlayerState) {
-                    const state = pendingHostedPlayerState;
-                    pendingHostedPlayerState = null;
-                    launchHostedPlayer(state);
-                } else {
-                    // Повторяем сигнал готовности: некоторые контейнеры Genially добавляют обработчик с небольшой задержкой.
-                    setTimeout(notifyHostedPlayerReady, 120);
-                    setTimeout(notifyHostedPlayerReady, 500);
-                }
-                return;
-            }
-
+        let destroyWallEditorInitialized = false;
+        function initializeDestroyWallEditor() {
+            if (destroyWallEditorInitialized) return;
+            destroyWallEditorInitialized = true;
             const isExportedGame = document.body.classList.contains('game-export');
             let opts = fonts.map(f => `<option value="${f.v}" style="font-family: ${f.v}">${f.n}</option>`).join('');
             document.querySelectorAll('.font-select').forEach(sel => sel.innerHTML = opts);
@@ -2119,14 +2067,31 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             if (!restored && document.getElementById('questions-list').children.length === 0) {
                 parseAutoQuestions({ preserveImages: false });
             }
+            const legacySnapshot = (!isExportedGame && restored && legacyLayoutNeedsMigration)
+                ? measureCurrentGameLayout()
+                : null;
+            if (!isExportedGame) initializeEditorPreview(legacySnapshot);
             checkQuestionCount();
             toggleMathSupport();
             setTimeout(() => {
                 updateRubberBands();
                 if (isExportedGame && typeof window.fitDestroyWallGame === 'function') window.fitDestroyWallGame();
+                else fitEditorPreview();
             }, 200);
             if (!isExportedGame) startAutosave();
-        };
+        }
+        // Скрипт расположен в конце body, поэтому интерфейс уже создан.
+        // Запускаем редактор сразу и не ждём внешние шрифты/картинки.
+        if (document.body) initializeDestroyWallEditor();
+        else document.addEventListener('DOMContentLoaded', initializeDestroyWallEditor, { once: true });
+        window.addEventListener('load', () => {
+            if (!destroyWallEditorInitialized) initializeDestroyWallEditor();
+            if (document.body.classList.contains('game-export')) {
+                if (typeof window.fitDestroyWallGame === 'function') window.fitDestroyWallGame();
+            } else {
+                fitEditorPreview();
+            }
+        }, { once: true });
 
         function applyPreset(key) {
             document.querySelectorAll('#tab-assets .preset-card:not(.weapon-card)').forEach(c => c.classList.remove('active')); document.getElementById(`card-${key}`).classList.add('active');
@@ -2359,7 +2324,20 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             document.querySelectorAll('.editable, .sling-anchor-point').forEach(el => {
                 el.addEventListener('mousedown', e => { if(isTesting) return; dragItem = el; startX = e.clientX; startY = e.clientY; if(e.target.classList.contains('resize-handle')) { isResizing = true; startW = el.offsetWidth; startH = el.offsetHeight; e.stopPropagation(); } else { isResizing = false; startL = el.offsetLeft; startT = el.offsetTop; } });
             });
-            window.addEventListener('mousemove', e => { if(!dragItem || isTesting) return; let dx = e.clientX - startX; let dy = e.clientY - startY; if (isResizing) { dragItem.style.width = Math.max(30, startW + dx) + 'px'; dragItem.style.height = Math.max(30, startH + dy) + 'px'; } else { dragItem.style.left = (startL + dx) + 'px'; dragItem.style.top = (startT + dy) + 'px'; } updateRubberBands(); });
+            window.addEventListener('mousemove', e => {
+                if(!dragItem || isTesting) return;
+                const interactionScale = getEditorInteractionScale();
+                const dx = (e.clientX - startX) / Math.max(0.0001, interactionScale.x);
+                const dy = (e.clientY - startY) / Math.max(0.0001, interactionScale.y);
+                if (isResizing) {
+                    dragItem.style.width = Math.max(30, startW + dx) + 'px';
+                    dragItem.style.height = Math.max(30, startH + dy) + 'px';
+                } else {
+                    dragItem.style.left = (startL + dx) + 'px';
+                    dragItem.style.top = (startT + dy) + 'px';
+                }
+                updateRubberBands();
+            });
             window.addEventListener('mouseup', () => {
                 const releasedItem = dragItem;
                 dragItem = null;
@@ -3078,7 +3056,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             stopFireworks();
             if (!document.getElementById('fireworks-enabled')?.checked) return;
             const canvas = document.getElementById('fireworks-canvas');
-            const area = document.getElementById('main-area');
+            const area = document.getElementById('scr-win') || document.getElementById('main-area');
             const ctx2d = canvas.getContext('2d');
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
             const resize = () => {
