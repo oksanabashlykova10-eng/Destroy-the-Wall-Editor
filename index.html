@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Destroy the Wall Editor v11 By English Bootcamp</title>
+    <title>Destroy the Wall Editor v12 By English Bootcamp</title>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet"></noscript>
     
@@ -61,6 +61,17 @@
             --l-sub-neon: none;
             --l-btn-color: #cc0000;
             --l-btn-neon: #ff3333;
+
+            --time-title-font: 'Fredoka One', cursive;
+            --time-title-size: 48px;
+            --time-title-color: #ffaa00;
+            --time-title-neon: 0 0 20px rgba(255,170,0,0.72);
+            --time-sub-font: 'Montserrat', sans-serif;
+            --time-sub-size: 16px;
+            --time-sub-color: #ffffff;
+            --time-sub-neon: none;
+            --time-btn-color: #cc0000;
+            --time-btn-neon: #ffaa00;
             
             --timer-font: 'Montserrat', sans-serif;
             --timer-color: #39ff14;
@@ -233,7 +244,7 @@
         }
         
         .screen-tabs { display:flex; align-items:stretch; background:#0c0d14; border-bottom:2px solid #2a2b3d; padding:0 10px; z-index:100; }
-        .screen-tab { flex:1 1 20%; display:flex; align-items:center; justify-content:center; min-width:0; padding:10px 8px; font-size:20px; line-height:1.1; text-transform:uppercase; font-weight:800; color:#6a6b8c; cursor:pointer; border-bottom:3px solid transparent; font-family:'Montserrat',sans-serif; letter-spacing:.75px; white-space:nowrap; }
+        .screen-tab { flex:1 1 16.666%; display:flex; align-items:center; justify-content:center; min-width:0; padding:10px 8px; font-size:20px; line-height:1.1; text-transform:uppercase; font-weight:800; color:#6a6b8c; cursor:pointer; border-bottom:3px solid transparent; font-family:'Montserrat',sans-serif; letter-spacing:.75px; white-space:nowrap; }
         .screen-tab.active { color:#fff; border-bottom-color:var(--neon-orange); text-shadow:0 0 7px rgba(255,255,255,.28); }
 
         .screen-container { width: 100%; height: calc(100% - 45px); position: absolute; top: 45px; left: 0; display: none; align-items: center; justify-content: center; flex-direction: column; text-align: center; color: #fff; overflow: hidden; background: transparent; }
@@ -256,6 +267,11 @@
         #scr-lose .dyn-subtext { font-family: var(--l-sub-font); font-size: var(--l-sub-size); color: var(--l-sub-color); text-shadow: var(--l-sub-neon); max-width: 600px; line-height: 1.4; }
         #scr-lose .game-btn { background: var(--l-btn-color); }
         #scr-lose .game-btn:hover { border-color: var(--l-btn-neon); box-shadow: 0 0 20px var(--l-btn-neon); transform: scale(1.05); }
+
+        #scr-time .dyn-title { font-family: var(--time-title-font); font-size: var(--time-title-size); color: var(--time-title-color); text-shadow: var(--time-title-neon); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        #scr-time .dyn-subtext { font-family: var(--time-sub-font); font-size: var(--time-sub-size); color: var(--time-sub-color); text-shadow: var(--time-sub-neon); max-width: 600px; line-height: 1.4; }
+        #scr-time .game-btn { background: var(--time-btn-color); }
+        #scr-time .game-btn:hover { border-color: var(--time-btn-neon); box-shadow: 0 0 20px var(--time-btn-neon); transform: scale(1.05); }
 
         .game-btn { margin-top: 25px; padding: 15px 40px; border-radius: 30px; border: 2px solid transparent; color: #fff; font-family: var(--game-font); font-size: 20px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
 
@@ -549,16 +565,39 @@
             <div class="group-title" style="color:#39ff14">II. ЭКРАН ПОБЕДЫ</div>
             <div class="input-row"><label>Шрифт заголовка:</label><select onchange="updateCssVar('--w-title-font', this.value)" class="font-select"></select></div>
             <div class="input-row"><label>Размер заголовка:</label><input type="number" value="48" onchange="updateCssVar('--w-title-size', this.value + 'px')"></div>
-            <div class="input-row"><label>Цвет заголовка:</label><input type="color" value="#39ff14" onchange="updateCssVar('--w-title-color', this.value)"></div>
-            <div class="input-row"><label>Неон:</label><input type="checkbox" checked onchange="updateCssVar('--w-title-neon', this.checked ? '0 0 20px rgba(57,255,20,0.6)' : 'none')"></div>
+            <div class="input-row"><label>Цвет заголовка:</label><input type="color" value="#39ff14" onchange="setScreenTitleColor('w', this.value)"></div>
+            <div class="input-row"><label>Неон:</label><input type="checkbox" data-screen-neon="w" checked onchange="toggleScreenTitleNeon('w', this.checked)"></div>
+            <div class="input-row"><label>Шрифт подзаголовка:</label><select id="w-sub-font-control" onchange="updateCssVar('--w-sub-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер подзаголовка:</label><input id="w-sub-size-control" type="number" value="16" onchange="updateCssVar('--w-sub-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет подзаголовка:</label><input id="w-sub-color-control" type="color" value="#ffffff" onchange="updateCssVar('--w-sub-color', this.value)"></div>
             <div class="input-row"><label>Цвет плашки:</label><input type="color" value="#cc0000" onchange="updateCssVar('--w-btn-color', this.value)"></div>
+            <div class="input-row"><label>Неон плашки:</label><input id="w-btn-neon-control" type="color" value="#39ff14" onchange="updateCssVar('--w-btn-neon', this.value)"></div>
 
             <div class="divider"></div>
 
             <div class="group-title" style="color:#ff3333">III. ЭКРАН ПОРАЖЕНИЯ</div>
             <div class="input-row"><label>Шрифт заголовка:</label><select onchange="updateCssVar('--l-title-font', this.value)" class="font-select"></select></div>
-            <div class="input-row"><label>Цвет заголовка:</label><input type="color" value="#ff3333" onchange="updateCssVar('--l-title-color', this.value)"></div>
+            <div class="input-row"><label>Размер заголовка:</label><input id="l-title-size-control" type="number" value="48" onchange="updateCssVar('--l-title-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет заголовка:</label><input type="color" value="#ff3333" onchange="setScreenTitleColor('l', this.value)"></div>
+            <div class="input-row"><label>Неон:</label><input id="l-title-neon-control" type="checkbox" data-screen-neon="l" checked onchange="toggleScreenTitleNeon('l', this.checked)"></div>
+            <div class="input-row"><label>Шрифт подзаголовка:</label><select id="l-sub-font-control" onchange="updateCssVar('--l-sub-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер подзаголовка:</label><input id="l-sub-size-control" type="number" value="16" onchange="updateCssVar('--l-sub-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет подзаголовка:</label><input id="l-sub-color-control" type="color" value="#ffffff" onchange="updateCssVar('--l-sub-color', this.value)"></div>
             <div class="input-row"><label>Цвет плашки:</label><input type="color" value="#cc0000" onchange="updateCssVar('--l-btn-color', this.value)"></div>
+            <div class="input-row"><label>Неон плашки:</label><input id="l-btn-neon-control" type="color" value="#ff3333" onchange="updateCssVar('--l-btn-neon', this.value)"></div>
+
+            <div class="divider"></div>
+
+            <div class="group-title" style="color:#ffaa00">IV. ЭКРАН «ВРЕМЯ ВЫШЛО»</div>
+            <div class="input-row"><label>Шрифт заголовка:</label><select id="time-title-font-control" onchange="updateCssVar('--time-title-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер заголовка:</label><input id="time-title-size-control" type="number" value="48" onchange="updateCssVar('--time-title-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет заголовка:</label><input id="time-title-color-control" type="color" value="#ffaa00" onchange="setScreenTitleColor('time', this.value)"></div>
+            <div class="input-row"><label>Неон:</label><input id="time-title-neon-control" type="checkbox" data-screen-neon="time" checked onchange="toggleScreenTitleNeon('time', this.checked)"></div>
+            <div class="input-row"><label>Шрифт подзаголовка:</label><select id="time-sub-font-control" onchange="updateCssVar('--time-sub-font', this.value)" class="font-select"></select></div>
+            <div class="input-row"><label>Размер подзаголовка:</label><input id="time-sub-size-control" type="number" value="16" onchange="updateCssVar('--time-sub-size', this.value + 'px')"></div>
+            <div class="input-row"><label>Цвет подзаголовка:</label><input id="time-sub-color-control" type="color" value="#ffffff" onchange="updateCssVar('--time-sub-color', this.value)"></div>
+            <div class="input-row"><label>Цвет плашки:</label><input id="time-btn-color-control" type="color" value="#cc0000" onchange="updateCssVar('--time-btn-color', this.value)"></div>
+            <div class="input-row"><label>Неон плашки:</label><input id="time-btn-neon-control" type="color" value="#ffaa00" onchange="updateCssVar('--time-btn-neon', this.value)"></div>
 
             <div class="divider"></div>
 
@@ -587,6 +626,11 @@
             <div class="input-row"><input type="text" id="txt-l-title" value="ИГРА ОКОНЧЕНА" oninput="syncTexts()"></div>
             <div class="input-row"><textarea id="txt-l-sub" oninput="syncTexts()">Попытки закончились! Злая обезьяна рассержена.</textarea></div>
             <div class="input-row"><label>Кнопка:</label><input type="text" id="txt-l-btn" value="ПОПРОБОВАТЬ СНОВА" oninput="syncTexts()"></div>
+
+            <div style="font-size: 10px; color:#aaa; margin: 10px 0 5px;">Экран «Время вышло»:</div>
+            <div class="input-row"><input type="text" id="txt-time-title" value="ВРЕМЯ ВЫШЛО!" oninput="syncTexts()"></div>
+            <div class="input-row"><textarea id="txt-time-sub" oninput="syncTexts()">Время закончилось. Попробуйте пройти игру ещё раз!</textarea></div>
+            <div class="input-row"><label>Кнопка:</label><input type="text" id="txt-time-btn" value="ПОПРОБОВАТЬ СНОВА" oninput="syncTexts()"></div>
         </div>
 
         <div id="tab-assets" class="tab-content">
@@ -938,7 +982,15 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                 <label style="color:#fff;"><input type="checkbox" id="fireworks-enabled" checked> Показывать салют</label>
             </div>
             <div class="input-row">
-                <label style="color:#fff;"><input type="checkbox" id="fireworks-sound" checked> Мягкий звук «бух-бух»</label>
+                <label style="color:#fff;"><input type="checkbox" id="fireworks-sound" checked> Включить звук салюта</label>
+            </div>
+            <div class="input-row">
+                <label>Вариант звука:</label>
+                <select id="fireworks-sound-type" onchange="softFireworkBoom()">
+                    <option value="soft">Мягкий салют («бух-бух»)</option>
+                    <option value="celebration">Яркий праздничный хлопок</option>
+                    <option value="magic">Волшебный салют с искрами</option>
+                </select>
             </div>
             <div class="input-row">
                 <label>Громкость салюта: <span id="fireworks-volume-value">60%</span></label>
@@ -971,6 +1023,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             <div class="screen-tab" onclick="switchScreen('scr-question')">ЭКРАН ВОПРОСОВ</div>
             <div class="screen-tab" onclick="switchScreen('scr-win')">ЭКРАН ПОБЕДЫ</div>
             <div class="screen-tab" onclick="switchScreen('scr-lose')">ЭКРАН ПОРАЖЕНИЯ</div>
+            <div class="screen-tab" onclick="switchScreen('scr-time')">ВРЕМЯ ВЫШЛО</div>
         </div>
 
         <canvas id="fireworks-canvas"></canvas>
@@ -1061,6 +1114,15 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                 <button class="game-btn" id="ren-l-btn" onclick="startGameSession()">ПОПРОБОВАТЬ СНОВА</button>
             </div>
         </div>
+
+        <div id="scr-time" class="screen-container splash-screen">
+            <div class="splash-content-box">
+                <div style="width:190px; height:190px; background:var(--img-time) center/contain no-repeat; margin-bottom:20px; filter:drop-shadow(0 0 14px rgba(255,170,0,.65));"></div>
+                <div class="dyn-title" id="ren-time-title">ВРЕМЯ ВЫШЛО!</div>
+                <div class="dyn-subtext" id="ren-time-sub">Время закончилось. Попробуйте пройти игру ещё раз!</div>
+                <button class="game-btn" id="ren-time-btn" onclick="startGameSession()">ПОПРОБОВАТЬ СНОВА</button>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -1102,7 +1164,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         let happyCharactersTimer = null;
 
         const PROJECT_STORAGE_KEY = 'destroyTheWallEditorProjectV5';
-        const PROJECT_VERSION = 6;
+        const PROJECT_VERSION = 7;
         let projectDirty = true;
         let autosaveTimer = null;
         let saveStatusTimer = null;
@@ -2098,6 +2160,21 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
 
         function updateCssVar(name, val) { document.documentElement.style.setProperty(name, val); }
 
+        function screenTitleColor(prefix) {
+            return getComputedStyle(document.documentElement).getPropertyValue(`--${prefix}-title-color`).trim() || '#ffffff';
+        }
+
+        function setScreenTitleColor(prefix, value) {
+            updateCssVar(`--${prefix}-title-color`, value);
+            const toggle = document.querySelector(`[data-screen-neon="${prefix}"]`);
+            if (toggle?.checked) toggleScreenTitleNeon(prefix, true);
+        }
+
+        function toggleScreenTitleNeon(prefix, enabled) {
+            const color = screenTitleColor(prefix);
+            updateCssVar(`--${prefix}-title-neon`, enabled ? `0 0 12px ${color}, 0 0 28px ${color}` : 'none');
+        }
+
         function updateSlingStyle() {
             const anchorColor = document.getElementById('sling-anchor-color')?.value || '#ffaa00';
             const rubberColor = document.getElementById('rubber-color')?.value || '#e67e22';
@@ -2198,6 +2275,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             document.getElementById('ren-s-title').innerText = document.getElementById('txt-s-title').value; document.getElementById('ren-s-sub').innerText = document.getElementById('txt-s-sub').value; document.getElementById('ren-s-btn').innerText = document.getElementById('txt-s-btn').value;
             document.getElementById('ren-w-title').innerText = document.getElementById('txt-w-title').value; document.getElementById('ren-w-sub').innerText = document.getElementById('txt-w-sub').value; document.getElementById('ren-w-btn').innerText = document.getElementById('txt-w-btn').value;
             document.getElementById('ren-l-title').innerText = document.getElementById('txt-l-title').value; document.getElementById('ren-l-sub').innerText = document.getElementById('txt-l-sub').value; document.getElementById('ren-l-btn').innerText = document.getElementById('txt-l-btn').value;
+            document.getElementById('ren-time-title').innerText = document.getElementById('txt-time-title').value; document.getElementById('ren-time-sub').innerText = document.getElementById('txt-time-sub').value; document.getElementById('ren-time-btn').innerText = document.getElementById('txt-time-btn').value;
         }
 
         let destroyWallEditorInitialized = false;
@@ -2942,7 +3020,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
                 stopGameTimer();
                 const endSoundType = result === 'time' ? 'time' : 'lose';
                 try { playEndSound(endSoundType); } catch (e) { console.warn('End sound error:', e); }
-                switchScreen('scr-lose');
+                switchScreen(result === 'time' ? 'scr-time' : 'scr-lose');
                 restoreInitialSettings();
             }
         }
@@ -3209,7 +3287,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             const now = ctx.currentTime;
             const volume = Math.max(0, Math.min(1, (parseInt(document.getElementById('fireworks-volume')?.value, 10) || 0) / 100));
             if (volume <= 0) return;
-            // Базовое усиление x3 по сравнению с предыдущей версией. Компрессор сохраняет звук мягким даже на 100%.
+            const soundType = document.getElementById('fireworks-sound-type')?.value || 'soft';
             const loudness = volume * 3;
             const compressor = ctx.createDynamicsCompressor();
             compressor.threshold.setValueAtTime(-18, now);
@@ -3219,25 +3297,70 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             compressor.release.setValueAtTime(0.22, now);
             compressor.connect(audioOutput(ctx));
 
-            const length = Math.floor(ctx.sampleRate * 0.34);
-            const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i=0; i<length; i++) data[i] = (Math.random()*2-1) * Math.pow(1-i/length, 1.75);
-            const source = ctx.createBufferSource(); source.buffer = buffer;
-            const filter = ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=290;
-            const gain = ctx.createGain();
-            gain.gain.setValueAtTime(Math.min(1.38, 0.46 * loudness), now);
-            gain.gain.exponentialRampToValueAtTime(0.0001, now+0.34);
-            source.connect(filter); filter.connect(gain); gain.connect(compressor); source.start(now); source.stop(now+0.35);
+            const makeNoiseBurst = (duration, filterType, frequency, gainValue, decayPower = 1.75) => {
+                const length = Math.floor(ctx.sampleRate * duration);
+                const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decayPower);
+                const source = ctx.createBufferSource();
+                const filter = ctx.createBiquadFilter();
+                const gain = ctx.createGain();
+                source.buffer = buffer;
+                filter.type = filterType;
+                filter.frequency.value = frequency;
+                if (filterType === 'bandpass') filter.Q.value = 0.8;
+                gain.gain.setValueAtTime(Math.min(1.45, gainValue * loudness), now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+                source.connect(filter); filter.connect(gain); gain.connect(compressor);
+                source.start(now); source.stop(now + duration + 0.02);
+            };
 
-            const low = ctx.createOscillator();
-            const lowGain = ctx.createGain();
-            low.type = 'sine';
-            low.frequency.setValueAtTime(92 + Math.random()*18, now);
-            low.frequency.exponentialRampToValueAtTime(38, now+0.3);
-            lowGain.gain.setValueAtTime(Math.min(0.72, 0.18 * loudness), now);
-            lowGain.gain.exponentialRampToValueAtTime(0.0001, now+0.31);
-            low.connect(lowGain); lowGain.connect(compressor); low.start(now); low.stop(now+0.32);
+            const makeLowBoom = (startFrequency, endFrequency, duration, gainValue) => {
+                const low = ctx.createOscillator();
+                const lowGain = ctx.createGain();
+                low.type = 'sine';
+                low.frequency.setValueAtTime(startFrequency, now);
+                low.frequency.exponentialRampToValueAtTime(endFrequency, now + duration);
+                lowGain.gain.setValueAtTime(Math.min(0.85, gainValue * loudness), now);
+                lowGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+                low.connect(lowGain); lowGain.connect(compressor);
+                low.start(now); low.stop(now + duration + 0.02);
+            };
+
+            if (soundType === 'celebration') {
+                // Более короткий и яркий праздничный хлопок.
+                makeNoiseBurst(0.22, 'bandpass', 680, 0.58, 2.15);
+                makeLowBoom(145 + Math.random() * 20, 48, 0.24, 0.23);
+                [520, 780].forEach((frequency, index) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    const startAt = now + 0.025 + index * 0.025;
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(frequency, startAt);
+                    gain.gain.setValueAtTime(Math.min(0.28, 0.07 * loudness), startAt);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.12);
+                    osc.connect(gain); gain.connect(compressor); osc.start(startAt); osc.stop(startAt + 0.13);
+                });
+            } else if (soundType === 'magic') {
+                // Мягкий удар и высокий искристый шлейф.
+                makeNoiseBurst(0.32, 'lowpass', 360, 0.42, 1.7);
+                makeLowBoom(105 + Math.random() * 15, 40, 0.31, 0.16);
+                [880, 1174.66, 1567.98, 2093].forEach((frequency, index) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    const startAt = now + 0.05 + index * 0.045;
+                    osc.type = index % 2 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(frequency, startAt);
+                    gain.gain.setValueAtTime(0.0001, startAt);
+                    gain.gain.linearRampToValueAtTime(Math.min(0.24, 0.055 * loudness), startAt + 0.018);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.24);
+                    osc.connect(gain); gain.connect(compressor); osc.start(startAt); osc.stop(startAt + 0.25);
+                });
+            } else {
+                // Исходный мягкий глубокий салют.
+                makeNoiseBurst(0.34, 'lowpass', 290, 0.46, 1.75);
+                makeLowBoom(92 + Math.random() * 18, 38, 0.31, 0.18);
+            }
         }
 
         function startFireworks() {
