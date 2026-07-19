@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Destroy the Wall Editor v10 By English Bootcamp</title>
+    <title>Destroy the Wall Editor v11 By English Bootcamp</title>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka+One&family=Jolly+Lodger&family=Luckiest+Guy&family=Orbitron:wght@700&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet"></noscript>
     
@@ -104,8 +104,8 @@
         * { box-sizing: border-box; }
         body, html { margin: 0; padding: 0; width: 100vw; height: 100vh; background-color: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow: hidden; display: flex; }
         
-        #editor-panel { width: 520px; height: 100vh; background: var(--panel-bg); display: flex; flex-direction: column; z-index: 50; border-right: 1px solid #2a2b3d; box-shadow: 2px 0 15px rgba(0,0,0,0.5); }
-        .header { position:relative; min-height:88px; text-align:center; padding:18px 82px 14px 86px; border-bottom:1px solid #2a2b3d; line-height:1.08; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+        #editor-panel { width:clamp(360px,25vw,440px); min-width:360px; max-width:440px; flex:0 0 clamp(360px,25vw,440px); height:100vh; background:var(--panel-bg); display:flex; flex-direction:column; z-index:50; border-right:1px solid #2a2b3d; box-shadow:2px 0 15px rgba(0,0,0,.5); }
+        .header { position:relative; min-height:88px; text-align:center; padding:18px 12px 14px 84px; border-bottom:1px solid #2a2b3d; line-height:1.08; display:flex; flex-direction:column; align-items:center; justify-content:center; }
         .editor-logo { position:absolute; left:15px; top:50%; width:60px; height:60px; object-fit:contain; transform:translateY(-50%); filter:drop-shadow(0 0 5px #00f0ff) drop-shadow(0 0 13px rgba(0,240,255,.92)); transition:filter .25s ease, transform .25s ease; }
         .editor-logo:hover { transform:translateY(-50%) scale(1.06); filter:drop-shadow(0 0 7px #00f0ff) drop-shadow(0 0 20px rgba(0,240,255,1)); }
         .editor-title-main { display:block; font-size:21px; font-weight:800; letter-spacing:.3px; }
@@ -113,6 +113,11 @@
         .editor-title-accent, .editor-brand-accent { color:var(--active-tab-color); text-shadow:0 0 7px var(--active-tab-color), 0 0 18px var(--active-tab-color); transition:color .25s ease,text-shadow .25s ease; }
         .editor-title-by { display:block; margin-top:5px; color:#d5d6e3; font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; }
         .editor-title-by.editor-title-white { color:#fff; text-shadow:0 0 7px rgba(255,255,255,.85), 0 0 16px rgba(255,255,255,.38); }
+
+        @media (max-width:1180px) {
+            #editor-panel { width:360px; min-width:360px; max-width:360px; flex-basis:360px; }
+            .header { padding-right:10px; }
+        }
 
         .tabs-header { display:flex; flex-wrap:wrap; background:#151623; border-bottom:2px solid #2a2b3d; font-size:11px; text-transform:uppercase; font-weight:700; }
         .tab-btn { --tab-color:var(--neon-cyan); flex:1 1 30%; padding:12px 5px; text-align:center; cursor:pointer; color:#7d7f99; transition:.22s ease; border-bottom:2px solid transparent; }
@@ -227,9 +232,9 @@
             height: 900px;
         }
         
-        .screen-tabs { display: flex; background: #0c0d14; border-bottom: 2px solid #2a2b3d; padding: 0 10px; z-index: 100;}
-        .screen-tab { padding: 15px 20px; font-size: 11px; text-transform: uppercase; font-weight: 800; color: #6a6b8c; cursor: pointer; border-bottom: 2px solid transparent; font-family: 'Montserrat', sans-serif; letter-spacing: 0.5px;}
-        .screen-tab.active { color: #fff; border-bottom: 2px solid var(--neon-orange); }
+        .screen-tabs { display:flex; align-items:stretch; background:#0c0d14; border-bottom:2px solid #2a2b3d; padding:0 10px; z-index:100; }
+        .screen-tab { flex:1 1 20%; display:flex; align-items:center; justify-content:center; min-width:0; padding:10px 8px; font-size:20px; line-height:1.1; text-transform:uppercase; font-weight:800; color:#6a6b8c; cursor:pointer; border-bottom:3px solid transparent; font-family:'Montserrat',sans-serif; letter-spacing:.75px; white-space:nowrap; }
+        .screen-tab.active { color:#fff; border-bottom-color:var(--neon-orange); text-shadow:0 0 7px rgba(255,255,255,.28); }
 
         .screen-container { width: 100%; height: calc(100% - 45px); position: absolute; top: 45px; left: 0; display: none; align-items: center; justify-content: center; flex-direction: column; text-align: center; color: #fff; overflow: hidden; background: transparent; }
         .screen-container.active { display: flex; }
@@ -1081,6 +1086,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         let savedSettings = {}; // Для сброса настроек
 
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        const GLOBAL_SOUND_BOOST = 2;
         let sharedAudioCtx = null;
         let isEnding = false;
         let isQuestionOpen = false;
@@ -1393,6 +1399,26 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
         function audioCtx() {
             if (!sharedAudioCtx && AudioContextClass) sharedAudioCtx = new AudioContextClass();
             return sharedAudioCtx;
+        }
+
+        // Общий выход всех синтезированных эффектов. Усиление x2 действует
+        // на ответы, полёт, удары, финальные сигналы и звук салюта.
+        function audioOutput(ctx) {
+            if (!ctx) return null;
+            if (!ctx.__destroyWallAudioOutput) {
+                const master = ctx.createGain();
+                const limiter = ctx.createDynamicsCompressor();
+                master.gain.setValueAtTime(GLOBAL_SOUND_BOOST, ctx.currentTime);
+                limiter.threshold.setValueAtTime(-5, ctx.currentTime);
+                limiter.knee.setValueAtTime(10, ctx.currentTime);
+                limiter.ratio.setValueAtTime(2.4, ctx.currentTime);
+                limiter.attack.setValueAtTime(0.002, ctx.currentTime);
+                limiter.release.setValueAtTime(0.14, ctx.currentTime);
+                master.connect(limiter);
+                limiter.connect(ctx.destination);
+                ctx.__destroyWallAudioOutput = master;
+            }
+            return ctx.__destroyWallAudioOutput;
         }
 
         function unlockAudio() {
@@ -1874,7 +1900,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             if (!url) return;
             try {
                 const audio = new Audio(url);
-                audio.volume = volume;
+                audio.volume = Math.max(0, Math.min(1, Number(volume || 0) * GLOBAL_SOUND_BOOST));
                 const p = audio.play();
                 if (p && typeof p.catch === 'function') p.catch(() => {});
             } catch (e) {}
@@ -1900,25 +1926,25 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
 
             if (isCorrect) {
                 if (sel === 'gen1') {
-                    const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sine'; o.connect(g); g.connect(ctx.destination);
+                    const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sine'; o.connect(g); g.connect(audioOutput(ctx));
                     o.frequency.setValueAtTime(600, now); o.frequency.exponentialRampToValueAtTime(1200, now+0.3);
                     g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(0.35, now+0.08); g.gain.linearRampToValueAtTime(0, now+0.4);
                     o.start(now); o.stop(now+0.4);
                 } else if (sel === 'gen2') {
                     [523.25, 659.25, 783.99].forEach((f) => {
-                        const o=ctx.createOscillator(), g=ctx.createGain(); o.type='triangle'; o.connect(g); g.connect(ctx.destination); o.frequency.value=f;
+                        const o=ctx.createOscillator(), g=ctx.createGain(); o.type='triangle'; o.connect(g); g.connect(audioOutput(ctx)); o.frequency.value=f;
                         g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(0.16, now+0.05); g.gain.exponentialRampToValueAtTime(0.01, now+0.5);
                         o.start(now); o.stop(now+0.5);
                     });
                 }
             } else if (sel === 'gen1') {
-                const o=ctx.createOscillator(), g=ctx.createGain(); o.type='square'; o.connect(g); g.connect(ctx.destination);
+                const o=ctx.createOscillator(), g=ctx.createGain(); o.type='square'; o.connect(g); g.connect(audioOutput(ctx));
                 o.frequency.setValueAtTime(150, now); o.frequency.exponentialRampToValueAtTime(40, now+0.2);
                 g.gain.setValueAtTime(0.55, now); g.gain.exponentialRampToValueAtTime(0.01, now+0.2);
                 o.start(now); o.stop(now+0.2);
             } else if (sel === 'gen2') {
                 [200, 215].forEach(f => {
-                    const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sawtooth'; o.connect(g); g.connect(ctx.destination);
+                    const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sawtooth'; o.connect(g); g.connect(audioOutput(ctx));
                     o.frequency.setValueAtTime(f, now); o.frequency.linearRampToValueAtTime(f-20, now+0.5);
                     g.gain.setValueAtTime(0.22, now); g.gain.linearRampToValueAtTime(0, now+0.5);
                     o.start(now); o.stop(now+0.5);
@@ -1930,7 +1956,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             const o = ctx.createOscillator();
             const g = ctx.createGain();
             o.type = type;
-            o.connect(g); g.connect(ctx.destination);
+            o.connect(g); g.connect(audioOutput(ctx));
             o.frequency.setValueAtTime(Math.max(1, frequency), start);
             if (endFrequency) o.frequency.exponentialRampToValueAtTime(Math.max(1, endFrequency), start + duration);
             g.gain.setValueAtTime(0.0001, start);
@@ -2001,14 +2027,35 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             if(type === 'fly') {
                 const sel = document.getElementById('snd-fly')?.value || 'whip';
                 if(sel === 'whip') {
-                    const bufferSize = Math.floor(ctx.sampleRate * 0.15);
+                    // Более длинный сухой удар хлыста: резкий щелчок + короткий воздушный хвост.
+                    const duration = 0.29;
+                    const bufferSize = Math.floor(ctx.sampleRate * duration);
                     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
                     const data = buffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-                    const noiseSource = ctx.createBufferSource(); noiseSource.buffer = buffer;
-                    const filter = ctx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.setValueAtTime(400, now); filter.frequency.exponentialRampToValueAtTime(3000, now + 0.1);
-                    const gainNode = ctx.createGain(); gainNode.gain.setValueAtTime(0.0001, now); gainNode.gain.exponentialRampToValueAtTime(0.42, now + 0.04); gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
-                    noiseSource.connect(filter); filter.connect(gainNode); gainNode.connect(ctx.destination); noiseSource.start(now); noiseSource.stop(now + 0.16);
+                    for (let i = 0; i < bufferSize; i++) {
+                        const t = i / Math.max(1, bufferSize - 1);
+                        const decay = Math.pow(1 - t, 1.35);
+                        data[i] = (Math.random() * 2 - 1) * decay;
+                    }
+                    const noiseSource = ctx.createBufferSource();
+                    noiseSource.buffer = buffer;
+                    const filter = ctx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.Q.setValueAtTime(0.85, now);
+                    filter.frequency.setValueAtTime(380, now);
+                    filter.frequency.exponentialRampToValueAtTime(4300, now + 0.12);
+                    filter.frequency.exponentialRampToValueAtTime(1500, now + duration);
+                    const gainNode = ctx.createGain();
+                    gainNode.gain.setValueAtTime(0.0001, now);
+                    gainNode.gain.exponentialRampToValueAtTime(0.62, now + 0.022);
+                    gainNode.gain.exponentialRampToValueAtTime(0.16, now + 0.095);
+                    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+                    noiseSource.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.connect(audioOutput(ctx));
+                    noiseSource.start(now);
+                    noiseSource.stop(now + duration + 0.015);
+                    tone(ctx, 235, now + 0.012, 0.085, 0.16, 'square', 48);
                 } else if (sel === 'air') tone(ctx, 400, now, 0.15, 0.25, 'triangle', 100);
                 else tone(ctx, 300, now, 0.1, 0.17, 'sine', 200);
             } else if(type === 'hit') {
@@ -3170,7 +3217,7 @@ Put the Words in Order: // The Maya were great astronomers.</textarea>
             compressor.ratio.setValueAtTime(5, now);
             compressor.attack.setValueAtTime(0.003, now);
             compressor.release.setValueAtTime(0.22, now);
-            compressor.connect(ctx.destination);
+            compressor.connect(audioOutput(ctx));
 
             const length = Math.floor(ctx.sampleRate * 0.34);
             const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
